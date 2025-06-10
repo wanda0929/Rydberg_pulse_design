@@ -1,5 +1,5 @@
 using Test
-using eigenval
+using Eigenval
 using LinearAlgebra
 using Plots
 

@@ -3,7 +3,7 @@
 
 A Julia package for eigenvalue computations and analysis.
 """
-module eigenval
+module Eigenval
 
 using LinearAlgebra
 
