@@ -3,6 +3,7 @@
 #import "@preview/touying:0.6.1": *
 #import themes.stargazer: *
 
+
 #let hkustgz-theme(
   aspect-ratio: "16-9",
   lang: "en",
