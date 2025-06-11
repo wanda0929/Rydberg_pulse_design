@@ -27,7 +27,21 @@
 
 // Extract methods
 #show strong: alert
+== Target
+- Fast syndrome measurement in an array of Rb and Cs atoms. 
 
+- Method: entangling one Cs ancella with Rb qubits with $"CNOT"_k$.
+
+- Measurement process: Fast, high-fidelity, lossless.
+== Model
+
+#figure(
+  image("measurementparity.png",width: 55%)
+)
+- Mapping of ancella to measurement qubits.
+#figure(
+  image("map.png",width: 55%)
+)
 
 
 
