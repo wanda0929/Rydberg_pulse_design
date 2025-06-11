@@ -23,36 +23,56 @@
 
 #title-slide()
 
-#outline-slide()
+//#outline-slide()
 
 // Extract methods
 #show strong: alert
 
-== Solving combinatorial optimization problems:
-- QAOA: Finding the approximate solutions to CO problems.
-General N-spin problem Hamiltonian:
-$ hat(H)_P = sum_i J_i hat(sigma)_z^((i)) + sum_(i<j) sigma_z^((i))sigma_z^((j)) + sum_(i<j<k)J_("ijk") hat(sigma)_z^((i))sigma_z^((j))sigma_z^((k)) + ... $
-including local fields and long-ranged higehr-order interactions.
+== What is the main work?
+- Implementing a four-qubit parity-controlled gate in a two-dimensional neutral-atom array.
+#figure(
+    image("parityencoding.png", width: 38%),
+  )
 
-- Limitations of QAOA in Rydberg atom arrays:
--- binary nature of Rydberg interactions.
+== Why is it important?
+- Problem: Long-range interactions in optimization problems($hat(H)_P$ for example).
+#figure(
+    image("hami1.png", width: 55%),
+  )
+//$ hat(H)_P = sum_i J_i hat(sigma)_z^((i)) + sum_(i<j) sigma_z^((i))sigma_z^((j)) + sum_(i<j<k)J_("ijk") hat(sigma)_z^((i))sigma_z^((j))sigma_z^((k)) + ... $
+//== Solving combinatorial optimization problems:
+//- QAOA: Finding the approximate solutions to CO problems.
+//General N-spin problem Hamiltonian:
+//$ hat(H)_P = sum_i J_i hat(sigma)_z^((i)) + sum_(i<j) sigma_z^((i))sigma_z^((j)) + sum_(i<j<k)J_("ijk") hat(sigma)_z^((i))sigma_z^((j))sigma_z^((k)) + ... $
+//including local fields and long-ranged higehr-order interactions.
 
--- polynomially decaying interaction strengths.
+//- Limitations of QAOA in Rydberg atom arrays:
+//-- binary nature of Rydberg interactions.
 
--- Scalable implementation for very specific problems.
-== Parity encoding:
-- Difficulty in optimization problem: Long-range interactions in optimization problems.($hat(H)_P$ for example)
-- Solution: introduction of ancella qubits, for example, $tau_("ij") = sigma_i^z sigma_j^z$. 
-- Constraints: Larger Hilbert space for ancella qubits, stabilizer constraints are required.
+//-- polynomially decaying interaction strengths.
+
+//-- Scalable implementation for very specific problems.
+//== Parity encoding:
+//- Difficulty in optimization problem: Long-range interactions in optimization problems.($hat(H)_P$ for example)
+- Solution: introduction of ancella physical spin according to Lechner–Hauke–Zoller(LHZ) architecture@Lechner2015, for example, $sigma_z^((i)) = sigma_z^((mu)) sigma_z^((v))$. 
+
+$ |arrow.t arrow.t angle.r, |arrow.b arrow.b angle.r -> |+angle.r $
+$ |arrow.t arrow.b angle.r, |arrow.b arrow.t angle.r -> |-angle.r $
+
+- Advantages:interaction energy of a pair of logical spins $->$ local field acting on a single physical spin.
+- Constraint terms: Larger Hilbert space K for ancella qubits(only concerning neighbor spins), stabilizer constraints are required.
 
 -- Three qubits: corresponding to triangular closed loop.
 
 -- Four qubits: corresponding to square closed loop.
 
-- parity Hamiltonian:
-$ H_("parity") = sum_("all interaction terms")J_"ij" dot tau_"ij"^z + "singular terms" + "restraints" $
-
-== Parity encoding and QAOA@
+- Optimization problem in LHZ architecture:
+#figure(
+    image("hami2.png", width: 55%),
+  )
+//$ H_("parity") = sum_("all interaction terms")J_"ij" dot tau_"ij"^z + "singular terms" + "restraints" $
+//- Most nontrivial part: many-body phase gate.
+== Why is it important
 - Requirements for QAOA: problem dependent single-qubit gates, problem independent multi-qubit phase gates acting on three or four qubits.
 #figure(
     image("parityencoding.png", width: 38%),
@@ -62,12 +82,12 @@ $ |Psi(bold(alpha), bold(beta), bold(gamma)) angle.r = product_(j=1)^p e^(-i alp
 
 - Essential: Implementation of most nontrivial part, many-body phase gate $e^(-i gamma H_C)$
 
-== Construction of the parity-controlled gate
-- Four-qubit phase gate: 
+== How to construct the gate@PhysRevLett.128.120503
+- Target four-qubit parity phase gate: 
 $ U_"plaquette" (gamma)|z_("odd")angle.r = e^(i gamma)|z_"odd" angle.r $
 $ U_"plaquette" (gamma)|z_("even")angle.r = e^(- i gamma)|z_"even" angle.r $
 
-- Hamiltonian foor 2x2 plaquette:
+- Hamiltonian for 2x2 plaquette:
 $ hat(H)_("2x2") = sum_i [-Delta(t)|r_i angle.r angle.l r_i| + Omega(t)/2 |r_i angle.r angle.l arrow.b i| + H.c.] + sum_(i<j)V_("ij")|r_i r_j angle.r angle.l r_i r_j| $
 
 == Construction of the parity-controlled gate
@@ -77,7 +97,7 @@ $ hat(H)_("2x2") = sum_i [-Delta(t)|r_i angle.r angle.l r_i| + Omega(t)/2 |r_i a
   )
 - dashedlines($Omega = 0$), solid lines($Omega > 0$) with anti-crossings. 
 
-== Design of adiabatic pulse
+== How to engineer the pulse?
 - Target: adiabatically connecting the initial state and many-body eigenstates(determined by initial detuning value).
 
 
@@ -88,9 +108,12 @@ $ (0,Delta_"start")->(Omega_A,Delta_A)->"pause"->(Omega_B, Delta_B)->"pause"->(0
 - Adjusting the pause duration $t_"A,B"$ for realizing arbitrary phase $gamma$ instead of reoptimizing the whole trajectory.
 - The $(Omega_A,Delta_A), (Omega_B, Delta_B)$ can be optimized globally in the beginning.
 - Advantage: After the global optimization, executing QAOA with changing holding times.
-== Determinning the path of pulse
+== Optimizing ramp parameters
 - Based on quantum adiabatic branchistochrones.@PhysRevLett.103.080502
 
+#figure(
+    image("adiabaticoptimize.png", width: 55%),
+  )
 
 == QAOA simulations
 
@@ -233,6 +256,8 @@ $H(t) = (1-s) H_0 + s * H_T$ for $s = t/T, t in [0,T]$.
     image("improve.png", width: 65%),
 )
 ]
+
+
 
 
 
