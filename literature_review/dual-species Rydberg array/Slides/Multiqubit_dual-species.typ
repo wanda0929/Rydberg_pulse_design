@@ -43,6 +43,10 @@
   image("map.png",width: 55%)
 )
 
+== Two-level system
+#figure(
+  image("pulse1.png",width: 55%)
+)
 
 
 == Reference
