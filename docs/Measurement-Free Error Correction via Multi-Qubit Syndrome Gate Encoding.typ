@@ -41,7 +41,7 @@ The whole process can be divided into two steps. Frome the figure shown above, w
 
 
 = Literature Review
-1. Construction of multi-qubit $"CNOT"_k$ gate through EIT:@PhysRevA.96.052320
+1. Construction of multi-qubit $"CNOT"_k$ gate through EIT:@PhysRevA.96.052320, through optimization of the pulse@kazemi2025multiqubitparitygatesrydberg, through adiabatic pulse design@PhysRevLett.128.120503; Parity gate construction through specially designed interaction strength@guo2025paritycontrolledgatetwodimensionalneutralatom
 
 2. Measurement-free fault-tolerant quantum error correction:@Heu_en_2024
 

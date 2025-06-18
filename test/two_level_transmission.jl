@@ -30,7 +30,7 @@ using Plots
         @test p isa Plots.Plot
     end
 
-    #@testset "twolevel_hamiltonian" begin
+    #@testset "twolevel_hamiltonian_sin" begin
         Ω = 0.2 * 2π
         τ = 2*pi/Ω
         t_total = 2*pi/Ω
@@ -38,18 +38,47 @@ using Plots
         populations = Float64[]
         
         # Test basic Hamiltonian creation
-        H = twolevelhami(Ω, τ, 0.0)
+        H0 = twolevelhami(Ω, τ, 0.0)
         @test H isa Function
         
         # Test evolution with different detunings
-        for δ in -2*pi:0.5:2*pi    
+        for δ in -2*pi:0.01:2*pi    
             H = twolevelhami(Ω, τ, δ)
             reg = zero_state(1)
             pop = evolve_intwolevel(reg, H, t_total)
             push!(populations, pop[end])
         end
+        δ0 = -2*pi:0.01:2*pi
+        p = Plots.plot(δ0, populations, 
+            label="Population",
+            title="Population",
+            xlabel="Time",
+            ylabel="Population",
+            linewidth=2)
+        display(p)
+        @test p isa Plots.Plot
+    #end
+
+    #@testset "twolevel_hamiltonian_square" begin
+        Ω = 0.2 * 2π
+        τ = 2*pi/Ω
+        t_total = 2*pi/Ω
+        times = 0:0.01:t_total  
+        populations = Float64[]
         
-        p = Plots.plot(times, populations, 
+        # Test basic Hamiltonian creation
+        H0 = twolevelhami_square(Ω, τ, 0.0)
+        @test H isa Function
+        
+        # Test evolution with different detunings
+        for δ in -2*pi:0.01:2*pi    
+            H = twolevelhami_square(Ω, τ, δ)
+            reg = zero_state(1)
+            pop = evolve_intwolevel(reg, H, t_total)
+            push!(populations, pop[end])
+        end
+        δ0 = -2*pi:0.01:2*pi
+        p = Plots.plot(δ0, populations, 
             label="Population",
             title="Population",
             xlabel="Time",
