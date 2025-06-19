@@ -1,0 +1,24 @@
+name = "OptimalParity"
+uuid = "46d23325-e126-4214-a4b3-0a96df25175f"
+authors = ["wanda0929 <hwang924@connect.hkust-gz.edu.cn> and contributors"]
+version = "1.0.0-DEV"
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+RydbergPulse = "8e30c046-55fb-45d0-b9a3-7d9125e1d9de"
+Yao = "5872b779-8223-5990-8dd0-5abbb0748c8c"
+
+[compat]
+LinearAlgebra = "1.11.0"
+Plots = "1.40.14"
+Random = "1.11.0"
+Yao = "0.9.1"
+julia = "1.6.7"
+
+[extras]
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test", "Random"]
