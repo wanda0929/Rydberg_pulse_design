@@ -8,5 +8,5 @@ using RydbergPulse
 
 include("pulseopt.jl")
 
-export create_multi_qubit_pauli_z, zgate
+export create_multi_qubit_pauli_z, z_gate
 end
