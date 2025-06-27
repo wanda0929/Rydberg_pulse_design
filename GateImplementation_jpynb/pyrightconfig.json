@@ -1,0 +1,8 @@
+{
+  "venvPath": "/Users/wanda/Library/Python/3.9",
+  "venv": "lib/python/site-packages",
+  "extraPaths": [
+    "/Users/wanda/Library/Python/3.9/lib/python/site-packages",
+    "/Users/wanda/Library/Python/3.9/lib/python/site-packages/qutip"
+  ]
+} 

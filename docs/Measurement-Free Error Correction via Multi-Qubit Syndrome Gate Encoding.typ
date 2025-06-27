@@ -24,7 +24,7 @@
 1. In order to eliminate the time required for quantum error correction process, we intend to develop a parity-controlled multiqubit gate to perform one-step syndrome mapping from data qubits to ancilla qubit. In this work, we intend to design a $"CNOT"_4$ gate based on the electromagnetically induced transparency(EIT) technique and Rydberg blockade effect. 
 2. After the syndrome mapping, there is a change in the ancilla qubit state. We will apply another pulse sequence to manipulate a $C_2$NOT gate to fix the error qubit. Thus, we do not need to perform measurement on the ancilla qubit, and the error correction process can be completed in one step.
 
-== Model(Overview)
+= Model(Overview)
 
 We intend to perform the measurement-free error correction process on surface code with dual-species Rydberg atoms. The model is shown below. There are two species of atoms. The data qubits are Cs atoms, and the ancilla qubits are Rb atoms. The Cs atoms are trapped in a 2D optical lattice, and the Rb atoms locates in the center of each plaquette.
 
@@ -52,11 +52,12 @@ In the syndrome mapping process, we need to perform a $C_4$NOT parity gate which
 )
 The scheme of multiqubit $"CNOT"_4$ gate proposed in ref.@PhysRevLett.128.120503. The energy level and coupling diagram are:
 #figure(
-  image("energy_level.png", width: 64%),
-)
-The classical pulse sequence based on the EIT technique is shown below:
+  image("energy_level.png", width: 60%),
+  caption:[In the model, the control atom is Cs atom and the target atoms are Rb atoms. The energy levels of Cs atom are $|0 angle.r_c = |6S_(1\/2), F=4 angle.r$, $|1 angle.r_c = |6S_(1\/2), F=3 angle.r$, $|r angle.r_c = |81S_(1\/2), m_j = -1\/2 angle.r$. The energy level of target atoms are $|R angle.r_t = |77S_(1\/2), m_j = 1\/2 angle.r$, $|P angle.r_t = |6P_(3\/2)angle.r$, $|A angle.r_t = |5S_(1\/2), F=1 angle.r$, and $|B angle.r_t = |5S_(1\/2), F=2 angle.r$. The coupling process is shown in figure. In the coupling process, $Omega_p = Omega_"max" sin^2(pi/T_p (t-T_c))$, $Omega_"max"=Omega_r = 2pi times 50 "MHz"$; $Omega_c = 2.5Omega_"max" = 2pi times 125"MHz"$; and the detuning $Delta = 2pi times 1200 "MHz"$ The interaction strength between atoms is denoted by $V_"dd"$ and $V_"vdws"$. We assume that the distance betwwn control and target atoms is $d = 5 "um"$.],
+)<glacier>
+The classical pulse sequence based on the EIT technique is shown below@photonics10111280:
 #figure(
-  image("sequence.png", width: 42%),
+  image("sequence.png", width: 40%),
 )
 The gate operation can be understood as follows: 
 
@@ -78,6 +79,13 @@ In this $C_2"NOT"$ gate model, we assume a unbalanced interaction strength simil
 (i) The control qubits are initially in the ground state $|0 angle_c$. The first $pi$-pulse (i) can couple it to the Rydberg state $|c angle.r_c$ and the target qubit is unchanged due to the strong dipole-dipole interactions. 
 
 (ii) The control qubits are initially in state $|1 angle.r_c$. The first $pi$-pulse (i) cannot couple the control qubits. Thus, the target qubit can be switched between state $|0 angle_t$ and $|1 angle_t$ through pulse sequence (ii) to (iv). 
+== Dual species architecture
+
+The interaction hamiltonian between control qubit and target qubits is given by: 
+
+$ h_"ct" = C_3(1-3cos^2 theta_"CT")|r angle.r angle.l r| times.circle |R angle.r angle.l R| $
+
+where $C_3 =2pi times 10 "GHz" dot mu m^3$, for target atoms in Rydberg state $|R angle.r$, $C_6 = 2pi times 2036"GHZ" dot mu m^6$
 
 = Literature Review
 1. Construction of multi-qubit $"CNOT"_k$ gate through EIT:@PhysRevA.96.052320, through optimization of the pulse@kazemi2025multiqubitparitygatesrydberg, through adiabatic pulse design@PhysRevLett.128.120503@photonics10111280 and experimental realization:@PhysRevA.102.042607@PhysRevLett.129.200501; Parity gate construction through specially designed interaction strength@guo2025paritycontrolledgatetwodimensionalneutralatom.

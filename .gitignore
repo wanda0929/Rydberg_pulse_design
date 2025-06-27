@@ -11,6 +11,7 @@ docs/site/
 
 # System Files
 .DS_Store
+*/.DS_Store
 .vscode/
 *.swp
 *~

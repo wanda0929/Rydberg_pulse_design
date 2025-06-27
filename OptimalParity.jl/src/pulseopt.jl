@@ -120,6 +120,4 @@ function create_simple_three_level_evolution(n_atoms::Int, theta::Float64)
     # 简化版本：直接返回单位矩阵的演化
     return exp(-im * theta * Matrix(I, 3^n_atoms, 3^n_atoms))
 end
-
-
-
+end
