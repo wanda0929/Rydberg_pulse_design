@@ -79,6 +79,16 @@ In this $C_2"NOT"$ gate model, we assume a unbalanced interaction strength simil
 (i) The control qubits are initially in the ground state $|0 angle_c$. The first $pi$-pulse (i) can couple it to the Rydberg state $|c angle.r_c$ and the target qubit is unchanged due to the strong dipole-dipole interactions. 
 
 (ii) The control qubits are initially in state $|1 angle.r_c$. The first $pi$-pulse (i) cannot couple the control qubits. Thus, the target qubit can be switched between state $|0 angle_t$ and $|1 angle_t$ through pulse sequence (ii) to (iv). 
+
+== Pulse sequence
+
+The pulse sequence is shown below:
+#figure(
+  image("pulsesequence.png", width: 95%),
+  caption:[The whole sequence of measurement-free error correction process. If one of the data qubits is errored, we can perform two rounds of syndrome mapping and error correction process to achieve the measurement-free correction no matter the occured error is bit-flip(X-error) or phase-flip(Z-error). In the first round, the effective $C_4"NOT"$ gate(for control qubits and one target qubit) is performed by a $"CNOT"_4$ gate and two Hadamard gates(the area surrounded by gray dashed square). Then, we perform a $C_2"NOT"$ gate(two control qubits and one target qubit shown as red dashed rigion) to flip the errored qubit if the error type is X-error. Finally, we perform a $pi$-pulse to reset the ancilla qubit to the ground state. In the second round, the implementation of effective $C_4 Z$ gate is shown in the second gray dashed square, which is to map the syndrome information to the ancilla qubit. Then we perform a effective $C_2"Z"$ gate (the methond is shown in red-dashed square) to correct the errored qubit if the error type is Z-error. The ancilla qubit is also required reset after the error correction process.],
+)
+
+
 == Dual species architecture
 
 The interaction hamiltonian between control qubit and target qubits is given by: 
