@@ -165,7 +165,7 @@ The pulse sequence is shown below:
   pulse(6 * dx, y3, s[$d_2$], purple.lighten(50%))
 
   // Reset A1
-  pulse(7 * dx, y3, s[$R_2$], gray)
+  pulse(7 * dx, y3, s[$R_2$], gray.lighten(50%))
 
 
   // Draw lines
