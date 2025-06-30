@@ -1,4 +1,5 @@
 #import "@preview/clean-math-paper:0.2.0": *
+#import "@preview/cetz:0.2.2": canvas, draw, tree, vector, plot, decorations
 
 #let date = datetime.today().display("[month repr:long] [day], [year]")
 #show: template.with(
@@ -88,6 +89,99 @@ The pulse sequence is shown below:
   caption:[The whole sequence of measurement-free error correction process. If one of the data qubits is errored, we can perform two rounds of syndrome mapping and error correction process to achieve the measurement-free correction no matter the occured error is bit-flip(X-error) or phase-flip(Z-error). In the first round, the effective $C_4"NOT"$ gate(for control qubits and one target qubit) is performed by a $"CNOT"_4$ gate and two Hadamard gates(the area surrounded by gray dashed square). Then, we perform a $C_2"NOT"$ gate(two control qubits and one target qubit shown as red dashed rigion) to flip the errored qubit if the error type is X-error. Finally, we perform a $pi$-pulse to reset the ancilla qubit to the ground state. In the second round, the implementation of effective $C_4 Z$ gate is shown in the second gray dashed square, which is to map the syndrome information to the ancilla qubit. Then we perform a effective $C_2"Z"$ gate (the methond is shown in red-dashed square) to correct the errored qubit if the error type is Z-error. The ancilla qubit is also required reset after the error correction process.],
 )
 
+#figure(canvas({
+  import draw: *
+  let y1 = 0.0
+  let y2 = -1.0
+  let y3 = -2.0
+
+  let xlabel = 0.0
+  let width = 0.45
+  let height = 0.8
+  let dx = 1.0
+  let W = 7
+
+  let s(it) = text(9pt)[#it]
+  let pulse(x, y, label, color) = {
+    rect((x - width/2, y), (x + width/2, y + height), fill: color, stroke: none)
+    content((x, y + height/2), label)
+  }
+  content((0.0, y1), [D])
+  content((0.0, y2), [A1])
+  content((0.0, y3), [A2])
+
+  rect((1.6 * dx, y1 + height + 0.2), (3.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((2.5 * dx, y3 - 0.5), s[$"CZ"_4$ gate])
+
+  rect((4.6 * dx, y1 + height + 0.2), (6.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((5.5 * dx, y3 - 0.5), s[$C_2"NOT"$ gate])
+
+  // Hadamard gates
+  pulse(dx, y2, s[$h_1$], red)
+
+  // EIT pulse
+  pulse(2 * dx, y1, s[$h_D$], yellow)
+  pulse(2 * dx, y2, s[$b_1$], orange)
+  pulse(2.5 * dx, y1, s[$c_D$], blue)
+  pulse(3 * dx, y2, s[$b_1$], orange)
+  pulse(3 * dx, y1, s[$h_D$], yellow)
+
+  // Hadamard gates
+  pulse(4 * dx, y2, s[$h_1$], red)
+
+  // C2X pulse
+  pulse(5 * dx, y2, s[$d_1$], purple)
+  pulse(5.5 * dx, y1, s[$e_D$], green)
+  pulse(6 * dx, y2, s[$d_1$], purple)
+
+  // Reset A1
+  pulse(7 * dx, y2, s[$R_1$], gray)
+
+  set-origin((W, 0))
+  line((0.5, y1 + height + 0.3), (0.5, y3 - 0.3), stroke: (dash: "dashed"))
+
+  rect((1.6 * dx, y1 + height + 0.2), (3.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((2.5 * dx, y3 - 0.5), s[$"CNOT"_4$ gate])
+
+  rect((4.6 * dx, y1 + height + 0.2), (6.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((5.5 * dx, y3 - 0.5), s[$C_2"Z"$ gate])
+
+  // Hadamard gates
+  pulse(dx, y3, s[$h_2$], red.lighten(50%))
+
+  // EIT pulse
+  pulse(2 * dx, y3, s[$b_2$], orange.lighten(50%))
+  pulse(2.5 * dx, y1, s[$h_D$], blue)
+  pulse(3 * dx, y3, s[$b_2$], orange.lighten(50%))
+
+  // Hadamard gates
+  pulse(4 * dx, y3, s[$h_2$], red.lighten(50%))
+
+  // C2Z pulse
+  pulse(5 * dx, y1, s[$h_D$], yellow)
+  pulse(5 * dx, y3, s[$d_2$], purple.lighten(50%))
+  pulse(6 * dx, y1, s[$h_D$], yellow)
+  pulse(5.5 * dx, y1, s[$e_D$], green)
+  pulse(6 * dx, y3, s[$d_2$], purple.lighten(50%))
+
+  // Reset A1
+  pulse(7 * dx, y3, s[$R_2$], gray)
+
+
+  // Draw lines
+  line((dx/2 - W, y1), (7.5 * dx, y1), stroke: black)
+  line((dx/2 - W, y2), (7.5 * dx, y2), stroke: black)
+  line((dx/2 - W, y3), (7.5 * dx, y3), stroke: black)
+
+}))
+
+Effect of different pulses
+- Pulse $h_D$/$h_1$/$h_2$: act on D/A1/A2, Hadamard gate
+- Pulse $b_1$/$b_2$: act on A1/A2, state transition $|1 angle.r arrow.l.r |r angle.r$
+- Pulse $c_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, state transition $|0 angle.r arrow.l.r |1 angle.r$, otherwise, do nothing. Note: it is a composite pulse, also known as the EIT pulse.
+- Pulse $d_1$/$d_2$: act on A1/A2, state transition $|0 angle.r arrow.l.r |r angle.r$
+- Pulse $e_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, do nothing, otherwise, state transition $|0 angle.r arrow.l.r |1 angle.r$
+- Pulse $R_1$/$R_2$: act on A1/A2, state transition $|? angle.r arrow.r |0 angle.r$ (reset)
 
 == Dual species architecture
 
