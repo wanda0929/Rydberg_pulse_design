@@ -1,5 +1,5 @@
 #import "@preview/clean-math-paper:0.2.0": *
-#import "@preview/cetz:0.2.2": canvas, draw, tree, vector, plot, decorations
+#import "@preview/cetz:0.3.2": canvas, draw, tree, vector, decorations
 
 #let date = datetime.today().display("[month repr:long] [day], [year]")
 #show: template.with(
@@ -151,7 +151,7 @@ The pulse sequence is shown below:
 
   // EIT pulse
   pulse(2 * dx, y3, s[$b_2$], orange.lighten(50%))
-  pulse(2.5 * dx, y1, s[$h_D$], blue)
+  pulse(2.5 * dx, y1, s[$c_D$], blue)
   pulse(3 * dx, y3, s[$b_2$], orange.lighten(50%))
 
   // Hadamard gates
