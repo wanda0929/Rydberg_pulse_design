@@ -49,48 +49,40 @@ $
 |1_A 1_A 1_T angle.r -> |1_A 1_A 1_T angle.r
 $
 
-In this way, the smallest unit of the error-correction model when an Z-error occurs on the data qubit 5 includes two ancilla qubits $b,c$ and data qubits $2,3,4,5,6,7,8$. Under the rules shown above, the syndrome 
+In this way, the smallest unit of the error-correction model when an Z-error occurs on the data qubit 5 includes two ancilla qubits $b,c$ and data qubits $2,3,4,5,6,7,8$. Under the rules shown above, the syndrome can be mapped to the ancilla qubit $b$ and $c$ through the effective multi-qubit gate.
 
 #figure(
   image("circuiteq.png", width: 95%),
 )
 
-After the syndrome mapping process, we will apply another time sequence to perform a $C_2$NOT gate to correct the error qubit. The ancilla qubit acts as a control qubit(red dots), and the errored data qubit is the target qubit(black dot 5). The model is shown below:
-#figure(
-  image("model2.png", width: 55%),
-)
+After the syndrome mapping process, we will apply another time sequence to perform a $C_2$NOT gate to correct the error qubit. The ancilla qubit acts as a control qubit(red dots b, c), and the errored data qubit is the target qubit(blue dot 5). When the ancilla qubits are in flipped state, the target data qubit can be corrected to the original state. 
+
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
-- Why dual-species Rydberg atoms?
+- Why using different atom species?
 
-  Based on the multi-qubit $"CNOT"_k$ gate implementation@photonics10111280, the fidelity is limited by the undesirable interaction between data qubits. Thus, choosing dual-species Rydberg atoms can overcoming these limits by using strong heteronuclear dipole–dipole interactions via Förster resonances for control and target atoms, while the target atoms are coupled by a weaker van der Waals interaction.
+  Based on the multi-qubit $"CNOT"_k$ gate implementation@photonics10111280, the fidelity is limited by the undesirable interaction between data qubits. Thus, choosing multi-species Rydberg atoms can overcoming these limits by using strong heteronuclear dipole-dipole interactions via Förster resonances for control and target atoms, while the target atoms are coupled by a weaker van der Waals interaction.
 
-  Also, the dual-species Rydberg array can avoid the crosstalk between data qubits and ancilla qubits.
+  Also, the multi-species Rydberg array can avoid the crosstalk between data qubits and ancilla qubits.
 
-== multi-qubit $"CNOT"_4$ gate
+== Parity $"C"_2"NOT"_7$ gate
 
-In the syndrome mapping process, we need to perform a $C_4$NOT parity gate which can be converted to a $"CNOT"_4$ gate through some single-qubit operation. 
+In the syndrome mapping process, the minimum unit is shown below:
 #figure(
-  image("circuit.png", width: 55%),
+  image("paritygate.png", width: 35%),
 )
-The scheme of multiqubit $"CNOT"_4$ gate proposed in ref.@PhysRevLett.128.120503. The energy level and coupling diagram are:
+The desired gate performance is :
 #figure(
-  image("energy_level.png", width: 60%),
-  caption:[In the model, the control atom is Cs atom and the target atoms are Rb atoms. The energy levels of Cs atom are $|0 angle.r_c = |6S_(1\/2), F=4 angle.r$, $|1 angle.r_c = |6S_(1\/2), F=3 angle.r$, $|r angle.r_c = |81S_(1\/2), m_j = -1\/2 angle.r$. The energy level of target atoms are $|R angle.r_t = |77S_(1\/2), m_j = 1\/2 angle.r$, $|P angle.r_t = |6P_(3\/2)angle.r$, $|A angle.r_t = |5S_(1\/2), F=1 angle.r$, and $|B angle.r_t = |5S_(1\/2), F=2 angle.r$. The coupling process is shown in figure. In the coupling process, $Omega_p = Omega_"max" sin^2(pi/T_p (t-T_c))$, $Omega_"max"=Omega_r = 2pi times 50 "MHz"$; $Omega_c = 2.5Omega_"max" = 2pi times 125"MHz"$; and the detuning $Delta = 2pi times 1200 "MHz"$ The interaction strength between atoms is denoted by $V_"dd"$ and $V_"vdws"$. We assume that the distance betwwn control and target atoms is $d = 5 "um"$.],
-)<glacier>
-The classical pulse sequence based on the EIT technique is shown below@photonics10111280:
-#figure(
-  image("sequence.png", width: 40%),
-)
-The gate operation can be understood as follows: 
+  table(
+    columns: 9,
+    [b], [c], [D2], [D3], [D4], [D5], [D6], [D7],[D8],
+    [0], [0], [$0->0$], [$0->0$], [$0->0$], [$0->0$], [$0->0$], [$0->0$],[$0->0$],
+    [0], [1], [$0->0$],  [$0->0$],  [$0->1$],  [$0->1$],  [$0->0$],  [$0->1$],[$0->1$],
+    [1], [0], [$0->1$], [$0->1$], [$0->0$], [$0->1$], [$0->1$], [$0->0$],[$0->0$],
+    [1], [1],[$0->1$], [$0->1$], [$0->1$], [$0->0$], [$0->1$], [$0->1$],[$0->1$]
+  )
+) 
 
-(i) If the control atom is initially in the ground state $|0 angle.r$, the first $pi$-pulse does not change its quantum state. The Raman transfer between states $|A angle.r$ and $|B angle.r$ is inhibited due to the interaction with intensive resonant coupling radiation with Rabi-frequency $Omega_c$. 
-
-(ii) If the control atom is initially in state $|1 angle.r$, it will be coupled to Rydberg state with $Omega_r$. The Rydberg energy level of target atoms will be shifted by the interaction with control atom, and the coupling pulse will be off-resonant. The Raman population transfer between state $|A angle.r$ and $|B angle.r$ is allowed.
-
-#figure(
-  image("transfer.png", width: 60%),
-)
 
 == Multi-qubit $C_2"NOT"$ gate construction
 In this section, we intend to design a multi-qubit $C_2"NOT"$ gate to correct the error qubit. The two ancilla qubits acts as a control qubit, and the errored data qubit is the target qubit. The model is shown below:
@@ -104,13 +96,7 @@ In this $C_2"NOT"$ gate model, we assume a unbalanced interaction strength simil
 (ii) The control qubits are initially in state $|1 angle.r_c$. The first $pi$-pulse (i) cannot couple the control qubits. Thus, the target qubit can be switched between state $|0 angle_t$ and $|1 angle_t$ through pulse sequence (ii) to (iv). 
 
 == Pulse sequence
-
 The pulse sequence is shown below:
-#figure(
-  image("pulsesequence.png", width: 95%),
-  caption:[The whole sequence of measurement-free error correction process. If one of the data qubits is errored, we can perform two rounds of syndrome mapping and error correction process to achieve the measurement-free correction no matter the occured error is bit-flip(X-error) or phase-flip(Z-error). In the first round, the effective $C_4"NOT"$ gate(for control qubits and one target qubit) is performed by a $"CNOT"_4$ gate and two Hadamard gates(the area surrounded by gray dashed square). Then, we perform a $C_2"NOT"$ gate(two control qubits and one target qubit shown as red dashed rigion) to flip the errored qubit if the error type is X-error. Finally, we perform a $pi$-pulse to reset the ancilla qubit to the ground state. In the second round, the implementation of effective $C_4 Z$ gate is shown in the second gray dashed square, which is to map the syndrome information to the ancilla qubit. Then we perform a effective $C_2"Z"$ gate (the methond is shown in red-dashed square) to correct the errored qubit if the error type is Z-error. The ancilla qubit is also required reset after the error correction process.],
-)
-
 #figure(canvas({
   import draw: *
   let y1 = 0.0
@@ -136,7 +122,8 @@ The pulse sequence is shown below:
   content((2.5 * dx, y3 - 0.5), s[$"CZ"_4$ gate])
 
   rect((4.6 * dx, y1 + height + 0.2), (6.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-  content((5.5 * dx, y3 - 0.5), s[$C_2"NOT"$ gate])
+  content((5.5 * dx, y3 - 0.5), s[$C_2"NOT"$ gate]
+  )
 
   // Hadamard gates
   pulse(dx, y2, s[$h_1$], red)
