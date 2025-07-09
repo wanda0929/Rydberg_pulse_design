@@ -24,37 +24,16 @@
 = Motivation
 1. In order to eliminate the time required for quantum error correction process, we intend to develop a parity-controlled multiqubit gate to perform one-step syndrome mapping from data qubits to ancilla qubit. 
 
-2. After the syndrome mapping, there is a change in the ancilla qubit state if there is an error in data qubits. We will apply another pulse sequence to manipulate a $C_2$NOT gate to fix the error qubit. Thus, we do not need to perform measurement on the ancilla qubit, and the error correction process can be completed in one step.
+2. After the syndrome mapping, there is a change in the ancilla qubit state. We will apply another pulse sequence to manipulate a $C_2$NOT gate to fix the error qubit. Thus, we do not need to perform measurement on the ancilla qubit, and the error correction process can be completed in one step.
 
 = Model(Overview)
 
-The figure shown below is the measurement-free error correction model in toric code space. There are totally three species of atoms with green and red dots represent ancilla qubits and the blue dots represents the data qubits. 
+We intend to perform the measurement-free error correction process on surface code with dual-species Rydberg atoms. The model is shown below. There are two species of atoms. The data qubits are Cs atoms, and the ancilla qubits are Rb atoms. The Cs atoms are trapped in a 2D optical lattice, and the Rb atoms locates in the center of each plaquette.
+
+The interaction strength satisfies $V_"dd">>V_"vdws"$, where interactions between atoms of the same species are negligible, which largely reduces the error caused by undesirable interactions between data qubits. The $"CNOT"_k$ gate can map the syndrome information in one round without the requirement of moving atoms. 
 #figure(
-  image("threespecies.png", width: 40%),
+  image("model.png", width: 51%),
 )
-In the model shown above, we intend to perform an effective $C_4"NOT"$ parity gate. If an Z error occurs in the data qubit, the neighboring red dots will flip. If an X error occurs in the data qubit the neighboring green dots will flip. Then, we intend to perform a $C_2"NOT"$ gate where the ancilla qubits acts as control qubits, and the errored data qubit is the target qubit. The $C_2"NOT"$ gate will correct the errored qubit without measuring process. 
-
-In this multi-qubit platform, we intend a strong dipole-dipole interaction between different atom species and weak van der Waals interaction between atoms of the same species. ($V_"dd">>V_"vdws"$), where interactions between atoms of the same species are negligible. It largely reduces the error caused by undesirable interactions between data qubits and crosstalk between data qubits and ancilla qubits.
-
-In the gate implementation, we assume that an Z error happenes in the middle data qubit 5. The syndrome mapping process through two parallel $C_4"NOT"$ gate will be implemented by a parity $C_2"NOT"_7$ gate in which, a single control-qubit-flip will result in a state-flip if nearby data qubits while two control-qubit-flips will result in a non-flip of the neighboring data qubit. If we take ancilla b,c and data qubit 5 as an example, the state mapping process can be understood as follows:
-
-$ 
-|0_A 0_A 0_T angle.r -> |0_A 0_A 0_T angle.r\
-|0_A 0_A 1_T angle.r -> |0_A 0_A 1_T angle.r\
-|0_A 1_A 0_T angle.r -> |0_A 1_A 1_T angle.r\
-|0_A 1_A 1_T angle.r -> |0_A 1_A 0_T angle.r\
-|1_A 0_A 0_T angle.r -> |1_A 0_A 1_T angle.r\
-|1_A 0_A 1_T angle.r -> |1_A 0_A 0_T angle.r\
-|1_A 1_A 0_T angle.r -> |1_A 1_A 0_T angle.r\
-|1_A 1_A 1_T angle.r -> |1_A 1_A 1_T angle.r
-$
-
-In this way, the smallest unit of the error-correction model when an Z-error occurs on the data qubit 5 includes two ancilla qubits $b,c$ and data qubits $2,3,4,5,6,7,8$. Under the rules shown above, the syndrome 
-
-#figure(
-  image("circuiteq.png", width: 95%),
-)
-
 After the syndrome mapping process, we will apply another time sequence to perform a $C_2$NOT gate to correct the error qubit. The ancilla qubit acts as a control qubit(red dots), and the errored data qubit is the target qubit(black dot 5). The model is shown below:
 #figure(
   image("model2.png", width: 55%),
