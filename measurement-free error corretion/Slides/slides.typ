@@ -46,8 +46,8 @@
 #figure(
   image("threespecies.png", width: 49%),
 )
-== Effective parity-check process
-- We intend to perform #red-text[effective parity-check process] (with the ancilla qubit acts as control qubit and the neighboring data qubit acts as target qubit)
+== Syndrome extraction can be done with parity-check process
+- We intend to perform #red-text[parity-check process] (with the ancilla qubit acts as target qubit and the neighboring data qubit acts as control qubit)
 
 -- no error $->$ all qubits keep invariant after the effective pulse sequence.
 
@@ -57,7 +57,7 @@
 #figure(
   image("flip.png", width: 50%),
 )
-== Problem in parity-check process
+== Parity check process is hard to design with global pulse sequence
 - The one-step parity check process is not easy to implement:
 -- We intend that only when #red-text[the number of errored data qubits is odd, the neighboring ancilla qubit A1 will flip.]
 
@@ -67,25 +67,22 @@
 
 -- Parity check under interaction-conpensation scheme(anti-blockade effect).
 
-== Effective substitution@PhysRevA.96.052320
+== Parity check can be implemented equivalently on gate level @PhysRevA.96.052320
 - In one plaquette, we can use hardmard gates to #red-text[exchange the control and target qubits.] 
 
 - The effective parity check can be implemented with #red-text[ancilla qubit as control qubit and data qubit as target qubit.]
 
 #figure(
-  image("effect.png", width: 46%),
+  image("effect.png", width: 42%),
 )
 
-== Problem in effective substitution
-- The #red-text[entanglement] after applying the Hadamard gate is not easy to control.
+== Global pulse implements different circuit
 
-- For example, we assume the Z-errored qubit. For larger system, there is an overlapped data qubit 5:
+- Overlapped data qubits:
 #figure(
-  image("overlap.png", width: 77%),
+  image("overlapped.png", width: 80%),
 )
-- The multi-qubit effective CNOT gate should be changed to parity gate(when both ancilla in state $|1 angle.r$, the target data qubit will be unchanged).
-- We intend to #red-text[implement the step-by-step operation through one global pulse.]
-
+- For global pulse sequence, we need to change the gate scheme mentioned above $=>$ #red-text[implement the operation shown in left-hand circuit through one global pulse.]
 
 == Effective parity-check process
 - pulse sequence to #red-text[verify] the effectiveness of the designed pulse sequence:
