@@ -1,6 +1,13 @@
 #import "@preview/touying:0.6.1": *
 #import "lib.typ": *
 
+// 定义字体颜色
+#let primary-color = rgb("#1f77b4")  // 蓝色
+#let error-color = rgb("#d62728")  // 红色
+// 定义颜色辅助函数
+#let blue-text(content) = text(fill: primary-color, content)
+#let red-text(content) = text(fill: error-color, content)
+
 // Specify `lang` and `font` for the theme if needed.
 #show: hkustgz-theme.with(
   // lang: "zh",
@@ -28,9 +35,9 @@
 // Extract methods
 #show strong: alert
 == Motivation
-- Developing a one-step parity check process with global pulse sequence in Rydberg atom system without multi-step movements of atoms. 
+- Developing a #red-text[one-step parity check] process with #red-text[global pulse sequence] in #red-text[Rydberg atom system] without multi-step movements of atoms. 
 
-- The errored qubit can be corrected by the ancilla qubits without measurement (Ancilla qubits acts as control qubits and errored data qubit as target qubit.)@Heu_en_2024
+- The errored qubit can be corrected by the ancilla qubits #red-text[without measurement] (Ancilla qubits acts as control qubits and errored data qubit as target qubit.@Heu_en_2024)
 
 == Model
 - Three different species.(Blue$->$data qubits; red/green$->$ancilla qubit A2/A1)
@@ -40,7 +47,7 @@
   image("threespecies.png", width: 49%),
 )
 == Effective parity-check process
-- We intend to perform effective parity-check process (with the ancilla qubit acts as control qubit and the neighboring data qubit acts as target qubit)
+- We intend to perform #red-text[effective parity-check process] (with the ancilla qubit acts as control qubit and the neighboring data qubit acts as target qubit)
 
 -- no error $->$ all qubits keep invariant after the effective pulse sequence.
 
@@ -52,7 +59,7 @@
 )
 == Problem in parity-check process
 - The one-step parity check process is not easy to implement:
--- We intend that only when the number of errored data qubits is odd, the neighboring ancilla qubit A1 will flip.
+-- We intend that only when #red-text[the number of errored data qubits is odd, the neighboring ancilla qubit A1 will flip.]
 
 - In Rydberg atom system:
 
@@ -61,27 +68,27 @@
 -- Parity check under interaction-conpensation scheme(anti-blockade effect).
 
 == Effective substitution@PhysRevA.96.052320
-- In one plaquette, we can use hardmard gates to exchange the control and target qubits. 
+- In one plaquette, we can use hardmard gates to #red-text[exchange the control and target qubits.] 
 
-- The effective parity check can be implemented with ancilla qubit as control qubit and data qubit as target qubit.
+- The effective parity check can be implemented with #red-text[ancilla qubit as control qubit and data qubit as target qubit.]
 
 #figure(
   image("effect.png", width: 46%),
 )
 
 == Problem in effective substitution
-- The entanglement after applying the Hadamard gate is not easy to control.
+- The #red-text[entanglement] after applying the Hadamard gate is not easy to control.
 
 - For example, we assume the Z-errored qubit. For larger system, there is an overlapped data qubit 5:
 #figure(
   image("overlap.png", width: 77%),
 )
 - The multi-qubit effective CNOT gate should be changed to parity gate(when both ancilla in state $|1 angle.r$, the target data qubit will be unchanged).
-- We intend to implement the step-by-step operation through one global pulse.
+- We intend to #red-text[implement the step-by-step operation through one global pulse.]
 
 
 == Effective parity-check process
-- pulse sequence to verify the effectiveness of the designed pulse sequence:
+- pulse sequence to #red-text[verify] the effectiveness of the designed pulse sequence:
 #figure(
   image("sequence.png", width: 80%),
 )
