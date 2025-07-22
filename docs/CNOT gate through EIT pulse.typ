@@ -3,7 +3,7 @@
 
 #let date = datetime.today().display("[month repr:long] [day], [year]")
 #show: template.with(
-  title: "Measurement-Free Error Correction scheme in Rydberg atoms",
+  title: "Multiqubit Rydberg gate based on Electromagnetically Induced Transparency",
   authors: (
     (name: "Han Wang", affiliation-id: 1, orcid: "0000-0000-0000-0000"),
     //(name: "Author 2",  affiliation-id: "2,*"),
@@ -16,15 +16,21 @@
   date: date,
   heading-color: rgb("#0000ff"),
   link-color: rgb("#008002"),
-  abstract: [Logical qubits can be protected from decoherence by performing quantum error correction. Naturally, the QEC algorithm requires feedback process to specific hardware platform which takes more time and cause extra error. In our sheme, we intend to develop a measurement-free error correction scheme based on surface code. With individually addressable, optically trapped, dual-species Rydberg atoms, we perform the multiqubit parity gates to map the message from data qubits to ancilla qubit and design a error-correction process without measurement feedback.],
+  abstract: [In this note, we intend to entangle one control qubit with one or more target atoms in parallel, which relies on the strong and long-ranged interaction between Rydberg atoms triggering Electromagnetically Induced Transparency (EIT) process.],
   keywords: ("measurement-free error correction", "dual species", "parity-gate", "multi-qubit gate", "etc"),
   AMS: ("65M70", "65M12", )
 )
 
-= Motivation
-1. In order to eliminate the time required for quantum error correction process, we intend to develop a parity-controlled multiqubit gate to perform one-step syndrome mapping from data qubits to ancilla qubit. 
+= Electromagnetically Induced Transparency (EIT) 
 
-2. After the syndrome mapping, there is a change in the ancilla qubit state if there is an error in data qubits. We will apply another pulse sequence to manipulate a $C_2$NOT gate to fix the error qubit. Thus, we do not need to perform measurement on the ancilla qubit, and the error correction process can be completed in one step.
+First of all, we need to understand the EIT process. For example, there is a coupling scheme shown below: 
+#figure(
+  image("EIT.png", width: 20%),
+)
+
+
+
+
 
 = Model(Overview)
 
@@ -38,39 +44,17 @@ In the model shown above, we intend to perform an effective $C_4"NOT"$ parity ga
 In this multi-qubit platform, we intend a strong dipole-dipole interaction between different atom species and weak van der Waals interaction between atoms of the same species. ($V_"dd">>V_"vdws"$), where interactions between atoms of the same species are negligible. It largely reduces the error caused by undesirable interactions between data qubits and crosstalk between data qubits and ancilla qubits.
 
 == Effective parity check and error-correction
-The effective syndrome mapping $C_4"NOT"$ gate can be implemented through H-gate and $"CNOT"_4$ gate with the ancilla qubit in the center of the plaquette acts as the control qubit and the data qubits are acting as target qubits. And a $C_2"NOT"$ gate globally performed to correct all data qubits controlled with two ancilla qubits. 
+The effective syndrome mapping $C_4"NOT"$ gate can be implemented through H-gate and $"CNOT"_4$ gate with the ancilla qubit in the center of the plaquette acts as the control qubit and the data qubits are acting as target qubits. 
+
 
 
 In our assumption, if there is no error, the data qubits and ancilla qubits should keep invariant after applying the pulse sequence. 
 
 If there is an error happens in the middle data qubit 5, different error types(X-error or Z-error) will influence different neighboring ancilla qubits. For example, if an $Z$-error happens in the data qubit 5,  the neighboring ancilla qubits $b$ and $c$ will flip their states. Then, the error-correction process will perform a $C_2"NOT"$ gate on the errored data qubit 5 with the ancilla qubits $b$ and $c$ as control qubits. If the ancilla qubits are in flipped state, the target data qubit can be corrected to the original state. If we assume that the initial state of the ancilla qubits are $|0 angle.r$, the target data qubit will be corrected if the ancilla qubits are in state $|1 angle.r$:
 
-=== Parity-check process
-Originally, the parity check process can be performed by using four $"CNOT"$-gate respectively:
-#figure(
-  image("flip.png", width: 60%),
-)
-Now, we intend to achieve an one-step parity check process with a multi-qubit gate -- $C_4"NOT"$ gate. However, the one-step $C_4"NOT"$ gate is diffcult to implement in direct. Thus, I intend to perform a Hadamard gate on the ancilla qubit first, then perform a $"CNOT"_4$ gate with the ancilla qubit as control qubit and the data qubits as target qubits. After that, we perform another Hadamard gate on the ancilla qubit to equivalently achieve the $C_4"NOT"$ gate:
-#figure(
-  image("effect.png", width: 60%),
-)
+//Problem1: How to implement the error-correcting gate?
 
-However, when we consider more than one plaquette, there exists the overlapped data qubits which controlled by two ancilla qubits simutaneously. 
-#figure(
-  image("overlapped.png", width: 100%),
-)
 
-Thus, the scheme should be modified to perform a Hadamard gate on the ancilla qubits first, then perform a $"CNOT"_4$ gate with the ancilla qubits as control qubits and the data qubits as target qubits. After that, we perform the $C_2"NOT"$ gate with two ancilla qubits acts as the control qubit and the data qubit is target qubit. Finally, we perform another Hadamard gate on the ancilla qubits to equivalently achieve the $C_4"NOT"$ gate. In order to prove the equivalence, we intend to use 8 qubits for simulation:
-#figure(
-  image("8qubits.png", width: 45%),
-)
-
-=== Simulation of the parity check process
-In the simulation of the parity-check process, the energy level of the data qubits and ancilla qubits are shown below:
-#figure(
-  image("multi-level.png", width: 50%),
-)
-The number of pulses means that the order of the pulse sequence. 
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
 == Why using different atom species?

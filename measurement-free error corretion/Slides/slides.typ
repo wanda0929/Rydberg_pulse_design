@@ -80,15 +80,17 @@
 
 - Overlapped data qubits:
 #figure(
-  image("overlapped.png", width: 80%),
+  image("overlapped.png", width: 90%),
 )
 - For global pulse sequence, we need to change the gate scheme mentioned above $=>$ #red-text[implement the operation shown in left-hand circuit through one global pulse.]
 
-== Effective parity-check process
-- pulse sequence to #red-text[verify] the effectiveness of the designed pulse sequence:
-#figure(
-  image("sequence.png", width: 80%),
-)
+
+
+// == Effective parity-check process
+// - pulse sequence to #red-text[verify] the effectiveness of the designed pulse sequence:
+// #figure(
+//   image("sequence.png", width: 80%),
+// )
 // - Effect of different pulses: 
 // -- Pulse $h_D$/$h_1$/$h_2$: act on D/A1/A2, Hadamard gate
 
@@ -99,7 +101,7 @@
 
 // -- Pulse $R_1$/$R_2$: act on A1/A2, state transition $|? angle.r arrow.r |0 angle.r$ (reset)
 
-- Based on the rules in pulse sequence, we can perform the simulaton to prove the effectiveness of the parity check process.
+// - Based on the rules in pulse sequence, we can perform the simulaton to prove the effectiveness of the parity check process.
 
 
 == Main problem:
@@ -107,13 +109,13 @@
 
  $=>$ We construct effective gate for parity check
 
-- The entanglement between data qubits and ancilla qubits after applying the Hadamard gate. 
+- Because of the interactions between data qubits and ancilla qubits, I cannot determine the minimum unit for gate-level  pulse design. 
 
 $=>$ We simulate to verify the effectiveness of the designed pulse sequence.
 
-- The direct analysis of the effective parity check process in this large system is not easy to perform. 
+//- The direct analysis of the effective parity check process in this large system is not easy to perform. 
 
-- feasibility of the designed gate scheme in large system(experimental perspective).
+- feasibility of the designed gate scheme in large system(experimental perspective)(for example, more than 2 species).
 == Appendix: Multi-qubit CNOT gate
 // - If we assume that there is only one plaquette in the system, for example, we only consider data qubits 2,3,5,6 and one ancilla qubit b. The effective parity check can be implemented through $"CNOT"_4$ gate and Hadamard gates.
 
