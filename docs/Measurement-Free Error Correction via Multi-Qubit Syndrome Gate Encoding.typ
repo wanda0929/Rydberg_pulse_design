@@ -48,11 +48,11 @@ If there is an error happens in the middle data qubit 5, different error types(X
 === Parity-check process
 Originally, the parity check process can be performed by using four $"CNOT"$-gate respectively:
 #figure(
-  image("flip.png", width: 60%),
+  image("flip.png", width: 90%),
 )
 Now, we intend to achieve an one-step parity check process with a multi-qubit gate -- $C_4"NOT"$ gate. However, the one-step $C_4"NOT"$ gate is diffcult to implement in direct. Thus, I intend to perform a Hadamard gate on the ancilla qubit first, then perform a $"CNOT"_4$ gate with the ancilla qubit as control qubit and the data qubits as target qubits. After that, we perform another Hadamard gate on the ancilla qubit to equivalently achieve the $C_4"NOT"$ gate:
 #figure(
-  image("effect.png", width: 60%),
+  image("effect.png", width: 80%),
 )
 
 However, when we consider more than one plaquette, there exists the overlapped data qubits which controlled by two ancilla qubits simutaneously. 
@@ -70,7 +70,31 @@ In the simulation of the parity-check process, the energy level of the data qubi
 #figure(
   image("multi-level.png", width: 50%),
 )
-The number of pulses means that the order of the pulse sequence. 
+The number of pulses means that the order of the pulse sequence:
+#figure(
+  image("pulse_sequence.png", width: 60%),
+)
+
+In the pulse shown above, pulse $Omega_P$ and $Omega_R$ are designed to perform the $"CNOT_4"$ gate(1-3 in energy level diagram) and the pulse $Omega_c$ and $Omega_t$ are designed to perform the $C_2"NOT"$ gate(4-6 in energy level diagram). 
+
+The simulation results are shown below:
+When all qubits in state $0$:
+#figure(
+  image("00000000.jpg", width: 80%),
+)
+
+When initial state is $|10101010>$:
+#figure(
+  image("10101010.png", width: 80%),
+)
+
+
+
+
+
+
+
+
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
 == Why using different atom species?
