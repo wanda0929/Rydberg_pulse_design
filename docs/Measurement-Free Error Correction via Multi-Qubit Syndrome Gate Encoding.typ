@@ -70,22 +70,28 @@ In the simulation of the parity-check process, the energy level of the data qubi
 #figure(
   image("multi-level.png", width: 50%),
 )
+
 The number of pulses means that the order of the pulse sequence:
 #figure(
   image("pulse_sequence.png", width: 60%),
 )
 
-In the pulse shown above, pulse $Omega_P$ and $Omega_R$ are designed to perform the $"CNOT_4"$ gate(1-3 in energy level diagram) and the pulse $Omega_c$ and $Omega_t$ are designed to perform the $C_2"NOT"$ gate(4-6 in energy level diagram). 
+In the pulse shown above, pulse $Omega_P$ and $Omega_R$ are designed to perform the $"CNOT_4"$ gate(1-3 in energy level diagram) and the pulse $Omega_c$ and $Omega_t$ are designed to perform the $C_2"NOT"$ gate(4-6 in energy level diagram).
+
+The Hamiltinian of the system is given by:
+$ H_1 = sum Omega_R (|r angle.r_c angle.l 1| + H.c) + Omega_p (|P angle.r angle.l 1| + |P angle.r angle.l 0| + H.c.) $ 
+$ H_2 = sum Omega_c (|r angle.r_c angle.l 0| + H.c) + Omega_"t1" (|R angle.r angle.l 1| +  H.c.) 
++ Omega_"t2" (|R angle.r angle.l 0| + H.c.) $
 
 The simulation results are shown below:
 When all qubits in state $0$:
 #figure(
-  image("00000000.jpg", width: 80%),
+  image("00000000.jpg", width: 70%),
 )
 
 When initial state is $|10101010>$:
 #figure(
-  image("10101010.png", width: 80%),
+  image("10101010.png", width: 70%),
 )
 
 
@@ -140,53 +146,68 @@ The pulse sequence is shown below:
   content((0.0, y2), [A1])
   content((0.0, y3), [A2])
 
-  rect((1.6 * dx, y1 + height + 0.2), (3.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-  content((2.5 * dx, y3 - 0.5), s[$"CZ"_4$ gate])
+  rect((1.3 * dx, y1 + height + 0.2), (4.2 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((2.8 * dx, y3 - 0.5), s[$"CZ"_4$ gate])
 
-  rect((4.6 * dx, y1 + height + 0.2), (6.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  rect((4.9 * dx, y1 + height + 0.2), (6.5 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
   content((5.5 * dx, y3 - 0.5), s[$C_2"NOT"$ gate]
   )
 
   // Hadamard gates
-  pulse(dx, y2, s[$h_1$], red)
+  //pulse(dx, y2, s[$h_1$], red)
 
   // EIT pulse
-  pulse(2 * dx, y1, s[$h_D$], yellow)
-  pulse(2 * dx, y2, s[$b_1$], orange)
-  pulse(2.5 * dx, y1, s[$c_D$], blue)
-  pulse(3 * dx, y2, s[$b_1$], orange)
-  pulse(3 * dx, y1, s[$h_D$], yellow)
+  pulse(1.5 * dx, y1, s[$h_D$], yellow)
+  pulse(1.5 * dx, y2, s[$b_1$], orange)
+  pulse(2 * dx, y1, s[$c_D$], blue)
+  pulse(2.5 * dx, y2, s[$b_1$], orange)
+  pulse(4 * dx, y1, s[$h_D$], yellow)
+
+  pulse(3 * dx, y2, s[$d_1$], purple)
+  pulse(3.5 * dx, y1, s[$e_D$], green)
+  pulse(4 * dx, y2, s[$d_1$], purple)
 
   // Hadamard gates
-  pulse(4 * dx, y2, s[$h_1$], red)
+  //pulse(4.5 * dx, y2, s[$h_1$], red)
 
   // C2X pulse
-  pulse(5 * dx, y2, s[$d_1$], purple)
-  pulse(5.5 * dx, y1, s[$e_D$], green)
-  pulse(6 * dx, y2, s[$d_1$], purple)
+  pulse(5.2 * dx, y2, s[$d_1$], purple)
+  pulse(5.7 * dx, y1, s[$e_D$], green)
+  pulse(6.2 * dx, y2, s[$d_1$], purple)
 
   // Reset A1
-  pulse(7 * dx, y2, s[$R_1$], gray)
+  pulse(6.8 * dx, y2, s[$R_1$], gray)
 
   set-origin((W, 0))
-  line((0.5, y1 + height + 0.3), (0.5, y3 - 0.3), stroke: (dash: "dashed"))
+  line((0.2, y1 + height + 0.3), (0.2, y3 - 0.3), stroke: (dash: "dashed"))
 
-  rect((1.6 * dx, y1 + height + 0.2), (3.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  rect((0.9 * dx, y1 + height + 0.2), (4. * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
   content((2.5 * dx, y3 - 0.5), s[$"CNOT"_4$ gate])
 
   rect((4.6 * dx, y1 + height + 0.2), (6.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
   content((5.5 * dx, y3 - 0.5), s[$C_2"Z"$ gate])
 
+// Hadamard gates
+  pulse(4.3 * dx, y1, s[$h_2$], yellow)
+
   // Hadamard gates
-  pulse(dx, y3, s[$h_2$], red.lighten(50%))
+  pulse(0.6 * dx, y1, s[$h_2$], yellow)
+
+  // Hadamard gates
+  pulse(0.6 * dx, y3, s[$h_2$], red.lighten(50%))
 
   // EIT pulse
-  pulse(2 * dx, y3, s[$b_2$], orange.lighten(50%))
-  pulse(2.5 * dx, y1, s[$c_D$], blue)
-  pulse(3 * dx, y3, s[$b_2$], orange.lighten(50%))
+  pulse(1.2 * dx, y3, s[$b_2$], orange.lighten(50%))
+  pulse(1.7 * dx, y1, s[$c_D$], blue)
+  pulse(2.2 * dx, y3, s[$b_2$], orange.lighten(50%))
+  pulse(2.7 * dx, y3, s[$d_2$], purple.lighten(50%))
+
+  pulse(3.2 * dx, y1, s[$e_D$], green)
+  pulse(3.7 * dx, y3, s[$d_2$], purple.lighten(50%))
 
   // Hadamard gates
-  pulse(4 * dx, y3, s[$h_2$], red.lighten(50%))
+  pulse(4.3 * dx, y3, s[$h_2$], red.lighten(50%))
+
 
   // C2Z pulse
   pulse(5 * dx, y1, s[$h_D$], yellow)
