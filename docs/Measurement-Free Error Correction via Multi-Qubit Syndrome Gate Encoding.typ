@@ -94,11 +94,15 @@ When initial state is $|10101010>$:
   image("10101010.png", width: 70%),
 )
 
+When initial state is $|11111111>$:
+#figure(
+  image("11111111.png", width: 70%),
+)
 
-
-
-
-
+When initial state is $|01010101>$:
+#figure(
+  image("01010101.jpg", width: 70%),
+)
 
 
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
@@ -236,10 +240,10 @@ Effect of different pulses
 
 - Pulse $R_1$/$R_2$: act on A1/A2, state transition $|? angle.r arrow.r |0 angle.r$ (reset)
 
-In the first round of parity check process, the minimum unit is shown below:
-#figure(
-  image("3species.png", width: 35%),
-)
+// In the first round of parity check process, the minimum unit is shown below:
+// #figure(
+//   image("3species.png", width: 35%),
+// )
 
 == Dual species architecture
 
