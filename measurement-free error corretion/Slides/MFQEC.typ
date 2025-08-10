@@ -39,28 +39,63 @@
 // Extract methods
 #show strong: alert
 == Necessity of quantum error correction
-- Example: Performing quantum simulation on a large neutral-atom array
--- Required gate error rate for performing useful algorithms: $10^(-10)$.
+- Example: Performing universal and large-scale quantum computation on neutral-atom array
+-- Required gate error rate for performing useful algorithms: $10^(-10)$.@Gidney_2021@reichardt2025faulttolerantquantumcomputationneutral
 
--- Physical gate error rate: $10^(-3)$. @Gidney_2021
+-- Physical gate error rate: $10^(-3)$. @Gidney_2021@reichardt2025faulttolerantquantumcomputationneutral
+//laser noise, atomic motion and Rydberg state decay
+//atom loss.
+// //These algorithms are incredibly fragile. A single bit-flip or phase-flip at the wrong time can cascade and ruin the entire computation. The only known way to run these algorithms is to use QEC to encode one perfect logical qubit into many noisy physical qubits, and constantly correct errors on the physical qubits to protect the logical information.
 
 //Aquiring extreme low physical gate error rate and sufficiently many qubits for redundancy. 
 
--- Quantum advantage will dissappear as system size grows. 
+//-- Quantum advantage will dissappear as system size grows. 
 
 -- Solution: Quantum error correction (QEC) process.@shor1997faulttolerantquantumcomputation@1996@Dennis_2002
+//add a figure()
+== How to perform quantum error correction
+- QEC process and Toric code:@Khalifa2021Digital
+
+#figure(
+  image("toriccode.png", width: 60%),
+)
+
+#figure(
+  image("errorcorrection.png", width: 60%),
+)
+//$ H = -sum_s S_s - sum_p P_p $
+//where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
+
+
+
+
+//-- Encoding the logical qubit into multiple physical qubits.  
+//-- Performing parity check process to extract the error syndrome.
+//-- Correcting the error syndrome with a recovery process.
+//- The parity check process can be performed with ancilla qubits as control qubits and data qubits as target qubits.
+//- The recovery process can be performed with ancilla qubits as control qubits and data qubits as target qubits.
+
 
 == Quantum error correction in Rydberg atom platforms
 
 - Advantage of QEC in Rydberg atom platforms@Bluvstein_2023:
--- Long range Rydberg interaction enables flexiable qubit connectivity.
 
--- Reconfigurable arrays allow implementing quantum error correction code in parallel.@cong2022hardwareefficientfaulttolerantquantumcomputation
+-- Scalability
 
+-- Dynamic Reconfigurability therefore high connectivity.@cong2022hardwareefficientfaulttolerantquantumcomputation
+
+-- High gate fidelity (over 99.9%)@Evered_2023@Xue_2024 and long coherence time(> 1s)@Bluvstein_2023@ludmir2024modelingsimulatingrydbergatom@Wintersperger_2023.
+
+//-- Long range Rydberg interaction enables flexiable qubit connectivity.
+
+//-- Reconfigurable arrays allow implementing quantum error correction code in parallel.
+== Quantum error correction in Rydberg atom platforms
 - Bottlenecks:
--- Parity-check process: Performing sequential two-qubit gates requires time-consuming atom movement steps. @science.aah3752@Bluvstein_2022@Barredo_2018
+-- Time consuming Parity-check process @science.aah3752@Bluvstein_2022@Barredo_2018
 
--- Measurement process: measurement time is much longer than other gate times and the external crosstalk error rate(due to scattering of light).@PhysRevA.92.042710
+-- Long measurement time results in external error rate.@PhysRevA.92.042710
+
+-- Laser Complexity and Crosstalk.
 
 == Parity-check process is time consuming@Barredo_2018
 - Moving to entangling zone $=>$ Gate operation $=>$ Back to storage $=>$ Repeating.
@@ -76,7 +111,7 @@
 - The long measurement time will result in external error rate.
 -- Solutions: 
 
--- mid-circuit measurements@lis2023midcircuitoperationsusingomgarchitecture@Norcia_2023@Graham_2023
+//-- mid-circuit measurements@lis2023midcircuitoperationsusingomgarchitecture@Norcia_2023@Graham_2023
 
 -- atom cooling during detection@Saffman_2016
 
