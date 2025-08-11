@@ -83,13 +83,15 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 
 == Main problem
 - Measurement and feedback is time-consuming.
+(movement-100$mu$s@Bluvstein_2022@Bluvstein_2023; illuminating and collecting-500$mu$s@Norcia_2023@Graham_2023)
 #figure(
    image("errorcorrection.png", width: 60%),
+   caption: [quantum error correction process @Khalifa2021Digital]
 )
-- Alternative: Directly prepare the Hamiltonian:
+- Alternative: self-correcting quantum code(using Hamiltonian to confine to the ground state)@Yoshida_2011
 
 == Third approach
-- Measurement-free error correction scheme: 
+- Measurement-free error correction scheme@Heu_en_2024: 
 #figure(
   image("model2.png", width: 40%),
 )
