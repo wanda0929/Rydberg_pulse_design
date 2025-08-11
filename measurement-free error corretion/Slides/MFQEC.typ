@@ -38,11 +38,26 @@
 
 // Extract methods
 #show strong: alert
-== Necessity of quantum error correction
-- Example: Performing universal and large-scale quantum computation on neutral-atom array
--- Required gate error rate for performing useful algorithms: $10^(-10)$.@Gidney_2021@reichardt2025faulttolerantquantumcomputationneutral
+== Quantum error correction and code space
+- Code space, redundancy, syndrome, error correction.
+#figure(
+  image("codespace.png", width: 30%),
+)
+== Toric code
+- Toric code Hamiltonian:
+$ H = -sum_s S_s - sum_p P_p $
+where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
+#figure(
+  image("toriccode.png", width: 60%),
+)
+- Stabilizer:
+- Stabilized: Eigenvalue of all stabilizers is $+1$.
 
--- Physical gate error rate: $10^(-3)$. @Gidney_2021@reichardt2025faulttolerantquantumcomputationneutral
+//== Necessity of quantum error correction
+//- Example: Performing universal and large-scale quantum computation on neutral-atom array
+//-- Required gate error rate for performing useful algorithms: $10^(-10)$.@Gidney_2021@reichardt2025faulttolerantquantumcomputationneutral
+
+//-- Physical gate error rate: $10^(-3)$. @Gidney_2021@reichardt2025faulttolerantquantumcomputationneutral
 //laser noise, atomic motion and Rydberg state decay
 //atom loss.
 // //These algorithms are incredibly fragile. A single bit-flip or phase-flip at the wrong time can cascade and ruin the entire computation. The only known way to run these algorithms is to use QEC to encode one perfect logical qubit into many noisy physical qubits, and constantly correct errors on the physical qubits to protect the logical information.
@@ -51,24 +66,33 @@
 
 //-- Quantum advantage will dissappear as system size grows. 
 
--- Solution: Quantum error correction (QEC) process.@shor1997faulttolerantquantumcomputation@1996@Dennis_2002
+//-- Solution: Quantum error correction (QEC) process.@shor1997faulttolerantquantumcomputation@1996@Dennis_2002
 //add a figure()
-== How to perform quantum error correction
-- QEC process and Toric code:@Khalifa2021Digital
+//== How to perform quantum error correction
+// - QEC process and Toric code:@Khalifa2021Digital
 
-#figure(
-  image("toriccode.png", width: 60%),
-)
+// #figure(
+//   image("toriccode.png", width: 60%),
+// )
 
-#figure(
-  image("errorcorrection.png", width: 60%),
-)
+// #figure(
+//   image("errorcorrection.png", width: 60%),
+// )
 //$ H = -sum_s S_s - sum_p P_p $
 //where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 
+== Main problem
+- Measurement and feedback is time-consuming.
+#figure(
+   image("errorcorrection.png", width: 60%),
+)
+- Alternative: Directly prepare the Hamiltonian:
 
-
-
+== Third approach
+- Measurement-free error correction scheme: 
+#figure(
+  image("model2.png", width: 40%),
+)
 //-- Encoding the logical qubit into multiple physical qubits.  
 //-- Performing parity check process to extract the error syndrome.
 //-- Correcting the error syndrome with a recovery process.
@@ -76,91 +100,118 @@
 //- The recovery process can be performed with ancilla qubits as control qubits and data qubits as target qubits.
 
 
-== Quantum error correction in Rydberg atom platforms
+//== Quantum error correction in Rydberg atom platforms
 
-- Advantage of QEC in Rydberg atom platforms@Bluvstein_2023:
+//- Advantage of QEC in Rydberg atom platforms@Bluvstein_2023:
 
--- Scalability
+//-- Scalability
 
--- Dynamic Reconfigurability therefore high connectivity.@cong2022hardwareefficientfaulttolerantquantumcomputation
+//-- Dynamic Reconfigurability therefore high connectivity.@cong2022hardwareefficientfaulttolerantquantumcomputation
 
--- High gate fidelity (over 99.9%)@Evered_2023@Xue_2024 and long coherence time(> 1s)@Bluvstein_2023@ludmir2024modelingsimulatingrydbergatom@Wintersperger_2023.
+//-- High gate fidelity (over 99.9%)@Evered_2023@Xue_2024 and long coherence time(> 1s)@Bluvstein_2023@ludmir2024modelingsimulatingrydbergatom@Wintersperger_2023.
 
 //-- Long range Rydberg interaction enables flexiable qubit connectivity.
 
 //-- Reconfigurable arrays allow implementing quantum error correction code in parallel.
-== Quantum error correction in Rydberg atom platforms
-- Bottlenecks:
--- Time consuming Parity-check process @science.aah3752@Bluvstein_2022@Barredo_2018
+//== Quantum error correction in Rydberg atom platforms
+//- Bottlenecks:
+//-- Time consuming Parity-check process @science.aah3752@Bluvstein_2022@Barredo_2018
 
--- Long measurement time results in external error rate.@PhysRevA.92.042710
+//-- Long measurement time results in external error rate.@PhysRevA.92.042710
 
--- Laser Complexity and Crosstalk.
+//-- Laser Complexity and Crosstalk.
 
 == Parity-check process is time consuming@Barredo_2018
 - Moving to entangling zone $=>$ Gate operation $=>$ Back to storage $=>$ Repeating.
-- The reported gate time is about 1$mu$s@Levine_2018 and the movement time is about hundreds of $mu$s.@Bluvstein_2022@Bluvstein_2023
-
 #figure(
-  image("paritycheck.png", width: 50%),
+  image("flip.png", width: 50%),
 )
+- Movement is slow! The reported gate time is about 1$mu$s@Levine_2018 and the movement time is about hundreds of $mu$s.@Bluvstein_2022@Bluvstein_2023
+//== Measurement process is time time-consuming
+//- Moving the ancilla to readout zone (100$mu$s) $=>$ illuminating with focused imaging beam(500 $mu$s) $=>$ collect image
 
-== Measurement process is time time-consuming
-- Moving the ancilla to readout zone (100$mu$s) $=>$ illuminating with focused imaging beam(500 $mu$s) $=>$ collect image
-
-- The long measurement time will result in external error rate.
--- Solutions: 
+//- The long measurement time will result in external error rate.
+//-- Solutions: 
 
 //-- mid-circuit measurements@lis2023midcircuitoperationsusingomgarchitecture@Norcia_2023@Graham_2023
 
--- atom cooling during detection@Saffman_2016
+//-- atom cooling during detection@Saffman_2016
 
--- measurement-free error correction.@Heu_en_2024@Perlin_2023
+//-- measurement-free error correction.@Heu_en_2024@Perlin_2023
 
 
 == Measurement-free error correction model
 
-- The measurement-free error correction model in Toric code space:
+- Measurement-free and movement-free: through multi-species Rydberg atom array.
 #figure(
   image("threespecies.png", width: 50%),
 )
 //Three species, interaction strengths, 
 
-== Step1: Parity-check process
-- no error occurs $=>$ all qubits keep invariant after the effective pulse sequence.
-- X-error $=>$ neighboring ancilla qubit A1(green dots) will flip.
-- Z-error $=>$ neighboring ancilla qubit A2(red dots) will flip.
+//== Step1: Parity-check process
+//- no error occurs $=>$ all qubits keep invariant after the effective pulse sequence.
+//- X-error $=>$ neighboring ancilla qubit A1(green dots) will flip.
+//- Z-error $=>$ neighboring ancilla qubit A2(red dots) will flip.
 
-#figure(
-  image("flip.png", width: 50%),
-)
+//#figure(
+//  image("flip.png", width: 50%),
+//)
 
-== Step1: Parity-check process
+== Step1: Movement-free parity-check process
 - The one-step parity check process in one plaquette:
 -- The effective parity check can be implemented with ancilla qubit as control qubit and data qubit as target qubit.
 
 #figure(
-  image("effect.png", width: 47%),
+  image("effect.png", width: 45%),
 )
 
 - The one-step parity check process in more than one plaquettes:
 #figure(
   image("overlapped.png", width: 90%),
 )
-Modifying the pulse sequence to add a $C_2$NOT gate with neighboring ancilla qubit as control qubit and data qubit as target qubit.
+Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit as control qubit and data qubit as target qubit.
 
 == Designed pulse sequence
-- Including $"CNOT"_4$ gate and $C_2$NOT gate:
+- Including $"CNOT"_4$ gate and CCNOT gate:
 #figure(
-  image("gateimpl.png", width: 100%),
+  image("gateimp.png", width: 100%),
 )
+
+== Designed pulse sequence
+- $"CNOT"_4$ gate implementation:
+#figure(
+  image("gate1.png", width: 50%),
+)
+- Control qubit in state $|1 angle.r$ $=>$ target qubit flip.
+- Control qubit in state $|0 angle.r$ $=>$ target qubit keep invariant.
+
+== Designed pulse sequence
+- CCNOT gate implementation:
+#figure(
+  image("gate2.png", width: 50%),
+)
+- Control qubits in state $|1 angle.r$ $=>$ target qubit flip.
+- One of ontrol qubit in state $|0 angle.r$ $=>$ target qubit keep invariant.
+
+== Simulation process
+- We simulate the eight-atoms unit system with x-axis means time and y-axis means the population of different states with designed julia package:
+-- Ancilla qubit and data qubit are initialized in state $|0 angle.r$.
+
+#figure(
+  image("00000000.jpg", width: 40%),
+)
+
+-- Ancilla qubit in state $|0 angle.r$ and data qubit in state $|1 angle.r$.
+
+#figure(
+  image("01010101.jpg", width: 40%),
+)
+
+
 == Bottlenecks in step1
 - The equivalence of the pulse sequence of effective parity check process cannot be guaranteed.
 
 - feasibility of the designed gate scheme in large system(experimental perspective)(for example, more than 2 species).
-
-
-
 
 == Step2: Error correcting $C_2"NOT"$ gate
 //- For example, if there is a Z-error happens on data qubit 5, the parity check will flip the neighboring red ancilla qubits b,c. Then, we can perform a $C_2"NOT"$ gate for error correction where the two flipped neighboring ancilla qubits act as control qubits and the errored data qubit acts as target qubit.
