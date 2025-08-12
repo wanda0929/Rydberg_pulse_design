@@ -16,15 +16,15 @@
   date: date,
   heading-color: rgb("#0000ff"),
   link-color: rgb("#008002"),
-  abstract: [Logical qubits can be protected from decoherence by performing quantum error correction. Naturally, the QEC algorithm requires feedback process to specific hardware platform which takes more time and cause extra error. In our sheme, we intend to develop a measurement-free error correction scheme based on surface code. With individually addressable, optically trapped, dual-species Rydberg atoms, we perform the multiqubit parity gates to map the message from data qubits to ancilla qubit and design a error-correction process without measurement feedback.],
-  keywords: ("measurement-free error correction", "dual species", "parity-gate", "multi-qubit gate", "etc"),
+  abstract: [Logical qubits can be protected from decoherence by performing quantum error correction. Naturally, the QEC algorithm requires feedback process to specific hardware platform which takes more time and cause extra error and the syndrome generation process requires movement of atoms which also takes much time. In our scheme, we intend to develop a measurement-free and movement-free error correction scheme based on Toric code space. With individually addressable, optically trapped, multi-species Rydberg atoms, we perform the multiqubit parity gates to generate syndromes and design a error-correction process without measurement feedback.],
+  keywords: ("measurement-free error correction", "multi-species array", "parity-gate", "multi-qubit gate", "etc"),
   AMS: ("65M70", "65M12", )
 )
 
 = Motivation
-1. In order to eliminate the time required for quantum error correction process, we intend to develop a parity-controlled multiqubit gate to perform one-step syndrome mapping from data qubits to ancilla qubit. 
+1. In order to eliminate the time required for quantum error correction process, we intend to develop a parity-controlled multiqubit gate to perform one-step syndrome mapping from data qubits to ancilla qubit with global pulse sequence without movement of atoms which takes much time. 
 
-2. After the syndrome mapping, there is a change in the ancilla qubit state if there is an error in data qubits. We will apply another pulse sequence to manipulate a $C_2$NOT gate to fix the error qubit. Thus, we do not need to perform measurement on the ancilla qubit, and the error correction process can be completed in one step.
+2. After the syndrome generation process, there is a state-flip in the ancilla qubit state if there is an error in data qubits. We will apply another pulse sequence to manipulate a $C_2$NOT gate to fix the error qubit. Thus, we do not need to perform measurement on the ancilla qubit.
 
 = Model(Overview)
 
@@ -32,35 +32,37 @@ The figure shown below is the measurement-free error correction model in toric c
 #figure(
   image("threespecies.png", width: 40%),
 )
-In the model shown above, we intend to perform an effective $C_4"NOT"$ parity gate. If an Z error occurs in the data qubit, the neighboring red dots will flip. If an X error occurs in the data qubit the neighboring green dots will flip. Then, we intend to perform a $C_2"NOT"$ gate where the ancilla qubits acts as control qubits, and the errored data qubit is the target qubit. The $C_2"NOT"$ gate will correct the errored qubit without measuring process. 
+In the model shown above, we intend to perform an parity gate where data qubits are control qubits and the ancilla qubit is the target qubit. If an Z error occurs in the data qubit, the ancilla qubit in corresponding plaquette(red dots) will flip. If an X error occurs in the data qubit the green dots will flip. Then, we intend to perform a $C_2"NOT"$ gate where the ancilla qubits acts as control qubits, and the errored data qubit is the target qubit. The $C_2"NOT"$ gate will correct the errored qubit without measuring process. 
 
 == Interactions between atoms
 In this multi-qubit platform, we intend a strong dipole-dipole interaction between different atom species and weak van der Waals interaction between atoms of the same species. ($V_"dd">>V_"vdws"$), where interactions between atoms of the same species are negligible. It largely reduces the error caused by undesirable interactions between data qubits and crosstalk between data qubits and ancilla qubits.
 
 == Effective parity check and error-correction
-The effective syndrome mapping $C_4"NOT"$ gate can be implemented through H-gate and $"CNOT"_4$ gate with the ancilla qubit in the center of the plaquette acts as the control qubit and the data qubits are acting as target qubits. And a $C_2"NOT"$ gate globally performed to correct all data qubits controlled with two ancilla qubits. 
-
 
 In our assumption, if there is no error, the data qubits and ancilla qubits should keep invariant after applying the pulse sequence. 
 
-If there is an error happens in the middle data qubit 5, different error types(X-error or Z-error) will influence different neighboring ancilla qubits. For example, if an $Z$-error happens in the data qubit 5,  the neighboring ancilla qubits $b$ and $c$ will flip their states. Then, the error-correction process will perform a $C_2"NOT"$ gate on the errored data qubit 5 with the ancilla qubits $b$ and $c$ as control qubits. If the ancilla qubits are in flipped state, the target data qubit can be corrected to the original state. If we assume that the initial state of the ancilla qubits are $|0 angle.r$, the target data qubit will be corrected if the ancilla qubits are in state $|1 angle.r$:
+For example, if there is an error happens in the middle data qubit 5, different error types(X-error or Z-error) will influence different neighboring ancilla qubits. For example, if an $Z$-error happens in the data qubit 5,  the neighboring ancilla qubits $b$ and $c$ will flip their states. Then, the error-correction process will perform a $C_2"NOT"$ gate on the errored data qubit 5 with the ancilla qubits $b$ and $c$ as control qubits. If the ancilla qubits are in flipped state, the target data qubit can be corrected to the original state. If we assume that the initial state of the ancilla qubits are $|0 angle.r$, the target data qubit will be corrected if the ancilla qubits are in state $|1 angle.r$:
 
 === Parity-check process
-Originally, the parity check process can be performed by using four $"CNOT"$-gate respectively:
+Originally, the parity check process can be performed by using four $"CNOT"$-gate respectively in one plaquette. For more than one plaquette, the CNOT gate will be performed in order:
 #figure(
   image("flip.png", width: 90%),
 )
-Now, we intend to achieve an one-step parity check process with a multi-qubit gate -- $C_4"NOT"$ gate. However, the one-step $C_4"NOT"$ gate is diffcult to implement in direct. Thus, I intend to perform a Hadamard gate on the ancilla qubit first, then perform a $"CNOT"_4$ gate with the ancilla qubit as control qubit and the data qubits as target qubits. After that, we perform another Hadamard gate on the ancilla qubit to equivalently achieve the $C_4"NOT"$ gate:
+Now, we intend to achieve an one-step parity check process in the whole system with a global pulse sequence applied to the whole system. where the data qubits are control qubits and the ancilla qubits are target qubits. However, the direct parity-gate implementation is hard. We intend to equivalently achieve the parity check process through Hadamard gate and multi-qubit gate where the data qubits are acts as target qubits and the ancilla qubits acts as control qubits. 
 #figure(
   image("effect.png", width: 80%),
 )
+When considering only one plaquette, the Hadamard gate can be applied to all data qubits in the beginning and in the end of the pulse sequence. Then, we perform a $"CNOT"_4$ gate with the ancilla qubits as control qubits and the data qubits as target qubits. Finally, we perform another Hadamard gate on all qubits to equivalently achieve the $C_4"NOT"$ gate.
 
-However, when we consider more than one plaquette, there exists the overlapped data qubits which controlled by two ancilla qubits simutaneously. 
+However, when we consider more than one plaquette,see the figure shown below, there exists an overlapped data qubits 5. In general syndrome generation process, the multi-qubit gate will be performed in order, which means that the overlapped data qubit 5 will be applied control qubit twice. If two ancilla b and c are in state $|1 angle.r$, the data qubit 5 will be flipped twice, which means that the data qubit 5 will be flipped back to the original state. 
 #figure(
   image("overlapped.png", width: 100%),
 )
+However, in our scheme, we intend to perform the multi-qubit gate with global pulse sequence in one step. Thus, the overlapped data qubit 5 will be controlled by two ancilla qubits at the same time. if both ancilla qubits are in state $|1 angle.r$, the data qubit 5 will be flipped once, which means that the global pulse sequence will not achieve the desired parity check process.
 
-Thus, the scheme should be modified to perform a Hadamard gate on the ancilla qubits first, then perform a $"CNOT"_4$ gate with the ancilla qubits as control qubits and the data qubits as target qubits. After that, we perform the $C_2"NOT"$ gate with two ancilla qubits acts as the control qubit and the data qubit is target qubit. Finally, we perform another Hadamard gate on the ancilla qubits to equivalently achieve the $C_4"NOT"$ gate. In order to prove the equivalence, we intend to use 8 qubits for simulation:
+In this way, we intend to flip the unflipped data qubit 5 with an external multiqubit gate followed the previous control gate with ancilla qubits as control qubits and overlapped data qubits as target qubits in parallel. 
+
+In order to prove the equivalence, we intend to use 8 qubits for simulation:
 #figure(
   image("8qubits.png", width: 45%),
 )
@@ -89,21 +91,30 @@ When all qubits in state $0$:
   image("00000000.jpg", width: 70%),
 )
 
-When initial state is $|10101010>$:
-#figure(
-  image("10101010.png", width: 70%),
-)
+// When initial state is $|10101010>$:
+// #figure(
+//   image("10101010.png", width: 70%),
+// )
 
-When initial state is $|11111111>$:
-#figure(
-  image("11111111.png", width: 70%),
-)
+// When initial state is $|11111111>$:
+// #figure(
+//   image("11111111.png", width: 70%),
+// )
 
 When initial state is $|01010101>$:
 #figure(
   image("01010101.jpg", width: 70%),
 )
+However, when we apply the Hadamard gate on all qubits, the final state cannot return to the original state. The final state is shown below:
+#figure(
+  image("hh1.png", width: 60%),
+)
 
+[Problem: How to determine the minimum simulation unit? If we assume that the minimum unit is one plaquette, the simulation is not accurate because we do not take the overlapped data qubit into consideration. 
+
+If we assume that the minimum unit is two plaquettes, the simulation requires too much time
+
+If we assume that the minimum unit is eight qubits shown above, it is hard to analyse the simulation behavior because it does not contains a whole plaquette for us to analyse the simulation behavior.]
 
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
@@ -127,125 +138,125 @@ When initial state is $|01010101>$:
 //   )
 // ) 
 
-== Pulse sequence
-The pulse sequence is shown below:
-#figure(canvas({
-  import draw: *
-  let y1 = 0.0
-  let y2 = -1.0
-  let y3 = -2.0
+// == Pulse sequence
+// The pulse sequence is shown below:
+// #figure(canvas({
+//   import draw: *
+//   let y1 = 0.0
+//   let y2 = -1.0
+//   let y3 = -2.0
 
-  let xlabel = 0.0
-  let width = 0.45
-  let height = 0.8
-  let dx = 1.0
-  let W = 7
+//   let xlabel = 0.0
+//   let width = 0.45
+//   let height = 0.8
+//   let dx = 1.0
+//   let W = 7
 
-  let s(it) = text(9pt)[#it]
-  let pulse(x, y, label, color) = {
-    rect((x - width/2, y), (x + width/2, y + height), fill: color, stroke: none)
-    content((x, y + height/2), label)
-  }
-  content((0.0, y1), [D])
-  content((0.0, y2), [A1])
-  content((0.0, y3), [A2])
+//   let s(it) = text(9pt)[#it]
+//   let pulse(x, y, label, color) = {
+//     rect((x - width/2, y), (x + width/2, y + height), fill: color, stroke: none)
+//     content((x, y + height/2), label)
+//   }
+//   content((0.0, y1), [D])
+//   content((0.0, y2), [A1])
+//   content((0.0, y3), [A2])
 
-  rect((1.3 * dx, y1 + height + 0.2), (4.2 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-  content((2.8 * dx, y3 - 0.5), s[$"CZ"_4$ gate])
+//   rect((1.3 * dx, y1 + height + 0.2), (4.2 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+//   content((2.8 * dx, y3 - 0.5), s[$"CZ"_4$ gate])
 
-  rect((4.9 * dx, y1 + height + 0.2), (6.5 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-  content((5.5 * dx, y3 - 0.5), s[$C_2"NOT"$ gate]
-  )
+//   rect((4.9 * dx, y1 + height + 0.2), (6.5 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+//   content((5.5 * dx, y3 - 0.5), s[$C_2"NOT"$ gate]
+//   )
 
-  // Hadamard gates
-  //pulse(dx, y2, s[$h_1$], red)
+//   // Hadamard gates
+//   //pulse(dx, y2, s[$h_1$], red)
 
-  // EIT pulse
-  pulse(1.5 * dx, y1, s[$h_D$], yellow)
-  pulse(1.5 * dx, y2, s[$b_1$], orange)
-  pulse(2 * dx, y1, s[$c_D$], blue)
-  pulse(2.5 * dx, y2, s[$b_1$], orange)
-  pulse(4 * dx, y1, s[$h_D$], yellow)
+//   // EIT pulse
+//   pulse(1.5 * dx, y1, s[$h_D$], yellow)
+//   pulse(1.5 * dx, y2, s[$b_1$], orange)
+//   pulse(2 * dx, y1, s[$c_D$], blue)
+//   pulse(2.5 * dx, y2, s[$b_1$], orange)
+//   pulse(4 * dx, y1, s[$h_D$], yellow)
 
-  pulse(3 * dx, y2, s[$d_1$], purple)
-  pulse(3.5 * dx, y1, s[$e_D$], green)
-  pulse(4 * dx, y2, s[$d_1$], purple)
+//   pulse(3 * dx, y2, s[$d_1$], purple)
+//   pulse(3.5 * dx, y1, s[$e_D$], green)
+//   pulse(4 * dx, y2, s[$d_1$], purple)
 
-  // Hadamard gates
-  //pulse(4.5 * dx, y2, s[$h_1$], red)
+//   // Hadamard gates
+//   //pulse(4.5 * dx, y2, s[$h_1$], red)
 
-  // C2X pulse
-  pulse(5.2 * dx, y2, s[$d_1$], purple)
-  pulse(5.7 * dx, y1, s[$e_D$], green)
-  pulse(6.2 * dx, y2, s[$d_1$], purple)
+//   // C2X pulse
+//   pulse(5.2 * dx, y2, s[$d_1$], purple)
+//   pulse(5.7 * dx, y1, s[$e_D$], green)
+//   pulse(6.2 * dx, y2, s[$d_1$], purple)
 
-  // Reset A1
-  pulse(6.8 * dx, y2, s[$R_1$], gray)
+//   // Reset A1
+//   pulse(6.8 * dx, y2, s[$R_1$], gray)
 
-  set-origin((W, 0))
-  line((0.2, y1 + height + 0.3), (0.2, y3 - 0.3), stroke: (dash: "dashed"))
+//   set-origin((W, 0))
+//   line((0.2, y1 + height + 0.3), (0.2, y3 - 0.3), stroke: (dash: "dashed"))
 
-  rect((0.9 * dx, y1 + height + 0.2), (4. * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-  content((2.5 * dx, y3 - 0.5), s[$"CNOT"_4$ gate])
+//   rect((0.9 * dx, y1 + height + 0.2), (4. * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+//   content((2.5 * dx, y3 - 0.5), s[$"CNOT"_4$ gate])
 
-  rect((4.6 * dx, y1 + height + 0.2), (6.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-  content((5.5 * dx, y3 - 0.5), s[$C_2"Z"$ gate])
+//   rect((4.6 * dx, y1 + height + 0.2), (6.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+//   content((5.5 * dx, y3 - 0.5), s[$C_2"Z"$ gate])
 
-// Hadamard gates
-  pulse(4.3 * dx, y1, s[$h_2$], yellow)
+// // Hadamard gates
+//   pulse(4.3 * dx, y1, s[$h_2$], yellow)
 
-  // Hadamard gates
-  pulse(0.6 * dx, y1, s[$h_2$], yellow)
+//   // Hadamard gates
+//   pulse(0.6 * dx, y1, s[$h_2$], yellow)
 
-  // Hadamard gates
-  pulse(0.6 * dx, y3, s[$h_2$], red.lighten(50%))
+//   // Hadamard gates
+//   pulse(0.6 * dx, y3, s[$h_2$], red.lighten(50%))
 
-  // EIT pulse
-  pulse(1.2 * dx, y3, s[$b_2$], orange.lighten(50%))
-  pulse(1.7 * dx, y1, s[$c_D$], blue)
-  pulse(2.2 * dx, y3, s[$b_2$], orange.lighten(50%))
-  pulse(2.7 * dx, y3, s[$d_2$], purple.lighten(50%))
+//   // EIT pulse
+//   pulse(1.2 * dx, y3, s[$b_2$], orange.lighten(50%))
+//   pulse(1.7 * dx, y1, s[$c_D$], blue)
+//   pulse(2.2 * dx, y3, s[$b_2$], orange.lighten(50%))
+//   pulse(2.7 * dx, y3, s[$d_2$], purple.lighten(50%))
 
-  pulse(3.2 * dx, y1, s[$e_D$], green)
-  pulse(3.7 * dx, y3, s[$d_2$], purple.lighten(50%))
+//   pulse(3.2 * dx, y1, s[$e_D$], green)
+//   pulse(3.7 * dx, y3, s[$d_2$], purple.lighten(50%))
 
-  // Hadamard gates
-  pulse(4.3 * dx, y3, s[$h_2$], red.lighten(50%))
-
-
-  // C2Z pulse
-  pulse(5 * dx, y1, s[$h_D$], yellow)
-  pulse(5 * dx, y3, s[$d_2$], purple.lighten(50%))
-  pulse(6 * dx, y1, s[$h_D$], yellow)
-  pulse(5.5 * dx, y1, s[$e_D$], green)
-  pulse(6 * dx, y3, s[$d_2$], purple.lighten(50%))
-
-  // Reset A1
-  pulse(7 * dx, y3, s[$R_2$], gray.lighten(50%))
+//   // Hadamard gates
+//   pulse(4.3 * dx, y3, s[$h_2$], red.lighten(50%))
 
 
-  // Draw lines
-  line((dx/2 - W, y1), (7.5 * dx, y1), stroke: black)
-  line((dx/2 - W, y2), (7.5 * dx, y2), stroke: black)
-  line((dx/2 - W, y3), (7.5 * dx, y3), stroke: black)
+//   // C2Z pulse
+//   pulse(5 * dx, y1, s[$h_D$], yellow)
+//   pulse(5 * dx, y3, s[$d_2$], purple.lighten(50%))
+//   pulse(6 * dx, y1, s[$h_D$], yellow)
+//   pulse(5.5 * dx, y1, s[$e_D$], green)
+//   pulse(6 * dx, y3, s[$d_2$], purple.lighten(50%))
 
-}))
+//   // Reset A1
+//   pulse(7 * dx, y3, s[$R_2$], gray.lighten(50%))
 
-Effect of different pulses
-- Pulse $h_D$/$h_1$/$h_2$: act on D/A1/A2, Hadamard gate
-- Pulse $b_1$/$b_2$: act on A1/A2, state transition $|1 angle.r arrow.l.r |r angle.r$
-- Pulse $c_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, state transition $|0 angle.r arrow.l.r |1 angle.r$, otherwise, do nothing. Note: it is a composite pulse, also known as the EIT pulse.
-- Pulse $d_1$/$d_2$: act on A1/A2, state transition $|0 angle.r arrow.l.r |r angle.r$
-- Pulse $e_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, do nothing, otherwise, state transition $|0 angle.r arrow.l.r |1 angle.r$
 
-- Pulse $R_1$/$R_2$: act on A1/A2, state transition $|? angle.r arrow.r |0 angle.r$ (reset)
+//   // Draw lines
+//   line((dx/2 - W, y1), (7.5 * dx, y1), stroke: black)
+//   line((dx/2 - W, y2), (7.5 * dx, y2), stroke: black)
+//   line((dx/2 - W, y3), (7.5 * dx, y3), stroke: black)
 
-// In the first round of parity check process, the minimum unit is shown below:
-// #figure(
-//   image("3species.png", width: 35%),
-// )
+// }))
 
-== Dual species architecture
+// Effect of different pulses
+// - Pulse $h_D$/$h_1$/$h_2$: act on D/A1/A2, Hadamard gate
+// - Pulse $b_1$/$b_2$: act on A1/A2, state transition $|1 angle.r arrow.l.r |r angle.r$
+// - Pulse $c_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, state transition $|0 angle.r arrow.l.r |1 angle.r$, otherwise, do nothing. Note: it is a composite pulse, also known as the EIT pulse.
+// - Pulse $d_1$/$d_2$: act on A1/A2, state transition $|0 angle.r arrow.l.r |r angle.r$
+// - Pulse $e_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, do nothing, otherwise, state transition $|0 angle.r arrow.l.r |1 angle.r$
+
+// - Pulse $R_1$/$R_2$: act on A1/A2, state transition $|? angle.r arrow.r |0 angle.r$ (reset)
+
+// // In the first round of parity check process, the minimum unit is shown below:
+// // #figure(
+// //   image("3species.png", width: 35%),
+// // )
+
+// == Dual species architecture
 
 The interaction hamiltonian between control qubit and target qubits is given by: 
 
