@@ -36,6 +36,10 @@ In the model shown above, we intend to perform an parity gate where data qubits 
 
 == Interactions between atoms
 In this multi-qubit platform, we intend a strong dipole-dipole interaction between different atom species and weak van der Waals interaction between atoms of the same species. ($V_"dd">>V_"vdws"$), where interactions between atoms of the same species are negligible. It largely reduces the error caused by undesirable interactions between data qubits and crosstalk between data qubits and ancilla qubits.
+== Why using different atom species?
+Based on the multi-qubit $"CNOT"_k$ gate implementation@photonics10111280, the fidelity is limited by the undesirable interaction between data qubits. Thus, choosing multi-species Rydberg atoms can overcoming these limits by using strong heteronuclear dipole-dipole interactions via Förster resonances for control and target atoms, while the target atoms are coupled by a weaker van der Waals interaction.
+
+  Also, the multi-species Rydberg array can avoid the crosstalk between data qubits and ancilla qubits.
 
 == Effective parity check and error-correction
 
@@ -68,7 +72,31 @@ In order to prove the equivalence, we intend to use 8 qubits for simulation:
 )
 
 === Simulation of the parity check process
-In the simulation of the parity-check process, the energy level of the data qubits and ancilla qubits are shown below:
+1. First gate implementation
+#figure(
+  image("gate1.png", width: 70%),
+)
+In the first gate implementation, we take one plaquette as the minimum unit. When the control qubit initially in state $|0 angle.r_c$, the Hamiltonian of target qubits is given by:
+$ H_1 = sum_j Omega_c (|r angle.r_j angle.l P| + H.c) + Omega_p (t) (|P angle.r_j angle.l 1| + |P angle.r_j angle.l 0| + H.c.) + Delta |P angle.r_j angle.l P| $ 
+
+Under the condition $Delta>>Omega_c, Omega_p$, the intermediate state $|P angle.r$ can be adiabatically eliminated. Pulse $Omega_c$ is constant and $Omega_p$ is an adiabatic pulse with $integral Omega_p (t)^2\/(2Delta) = pi$. The system contains two dark states with
+$ |D_1 angle.r = 1/sqrt(2) (|0 angle.r - |1 angle.r) $
+$ |D_2 angle.r = Omega_c\/sqrt(Omega_c^2 + 2Omega_p^2) [(|0 angle.r + |1 angle.r)/sqrt(2) - sqrt(2)Omega_p\/Omega_c |r angle.r] $ The initial state of the system is in the random states of $|Psi angle.r = alpha|D_1 angle.r + beta|D_2 angle.r$, the state will not change after the whole evolution.
+
+However, when the control qubit is in state $|1 angle.r_c$, the Hamiltonian of target qubits is given by:
+$ H_2 = H_1 + sum_j V_"dd" |r angle.r_j angle.l r| $
+because of the strong interaction between control qubit and target qubits. $V>Omega_c^2\/4Delta$ will break the EIT condition and the target qubits will go flip through Ranman $pi$-pulse.
+
+2. Second gate implementation
+#figure(
+  image("gate2.png", width: 70%),
+)
+In the second gate implementation, we take overlapped qubit and neighboring ancilla qubits as the minimum unit. When control qubit initially in state $|1 angle.r_c$, the Hamiltonian of target qubits is given by:
+$ H_t = Omega_"t1" (|R angle.r angle.l 1| +  H.c.) 
++ Omega_"t2" (|R angle.r angle.l 0| + H.c.) $ 
+There is a state flip on target qubits. However, when the control qubit is in state $|0 angle.r_c$, it will be coupled to the Rydberg state $|R angle.r_c$ and the target qubit will not flip because of the Rydberg blockade effect.
+
+3. Now comes to the simulation under the pulse sequence including gate 1 and gate 2:
 #figure(
   image("multi-level.png", width: 50%),
 )
@@ -78,17 +106,12 @@ The number of pulses means that the order of the pulse sequence:
   image("pulse_sequence.png", width: 60%),
 )
 
-In the pulse shown above, pulse $Omega_P$ and $Omega_R$ are designed to perform the $"CNOT_4"$ gate(1-3 in energy level diagram) and the pulse $Omega_c$ and $Omega_t$ are designed to perform the $C_2"NOT"$ gate(4-6 in energy level diagram).
-
-The Hamiltinian of the system is given by:
-$ H_1 = sum Omega_R (|r angle.r_c angle.l 1| + H.c) + Omega_p (|P angle.r angle.l 1| + |P angle.r angle.l 0| + H.c.) $ 
-$ H_2 = sum Omega_c (|r angle.r_c angle.l 0| + H.c) + Omega_"t1" (|R angle.r angle.l 1| +  H.c.) 
-+ Omega_"t2" (|R angle.r angle.l 0| + H.c.) $
+In the pulse shown above, pulse $Omega_P$ and $Omega_R$ are designed to perform  gate1 (1-3 in energy level diagram) and the pulse $Omega_c$ and $Omega_t$ are designed to perform the gate2(4-6 in energy level diagram).
 
 The simulation results are shown below:
 When all qubits in state $0$:
 #figure(
-  image("00000000.jpg", width: 70%),
+  image("00000000.jpg", width: 60%),
 )
 
 // When initial state is $|10101010>$:
@@ -118,11 +141,9 @@ If we assume that the minimum unit is eight qubits shown above, it is hard to an
 
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
-== Why using different atom species?
 
-  Based on the multi-qubit $"CNOT"_k$ gate implementation@photonics10111280, the fidelity is limited by the undesirable interaction between data qubits. Thus, choosing multi-species Rydberg atoms can overcoming these limits by using strong heteronuclear dipole-dipole interactions via Förster resonances for control and target atoms, while the target atoms are coupled by a weaker van der Waals interaction.
 
-  Also, the multi-species Rydberg array can avoid the crosstalk between data qubits and ancilla qubits.
+  
 
 
 
