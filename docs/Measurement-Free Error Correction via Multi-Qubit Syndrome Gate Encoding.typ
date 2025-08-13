@@ -16,7 +16,7 @@
   date: date,
   heading-color: rgb("#0000ff"),
   link-color: rgb("#008002"),
-  abstract: [Logical qubits can be protected from decoherence by performing quantum error correction. Naturally, the QEC algorithm requires feedback process to specific hardware platform which takes more time and cause extra error and the syndrome generation process requires movement of atoms which also takes much time. In our scheme, we intend to develop a measurement-free and movement-free error correction scheme based on Toric code space. With individually addressable, optically trapped, multi-species Rydberg atoms, we perform the multiqubit parity gates to generate syndromes and design a error-correction process without measurement feedback.],
+  abstract: [Logical qubits can be protected from decoherence by performing quantum error correction. Naturally, the QEC algorithm requires feedback process to specific hardware platform which takes more time and cause extra error and the syndrome generation process requires movement of atoms which also takes much time. In our scheme, we intend to develop a measurement-free and movement-free error correction scheme based on Toric code space@Khalifa2021Digital. With individually addressable, optically trapped, multi-species Rydberg atoms@Bluvstein_2023, we perform the multiqubit parity gates to generate syndromes and design a error-correction process without measurement feedback.],
   keywords: ("measurement-free error correction", "multi-species array", "parity-gate", "multi-qubit gate", "etc"),
   AMS: ("65M70", "65M12", )
 )
@@ -25,6 +25,25 @@
 1. In order to eliminate the time required for quantum error correction process, we intend to develop a parity-controlled multiqubit gate to perform one-step syndrome mapping from data qubits to ancilla qubit with global pulse sequence without movement of atoms which takes much time. 
 
 2. After the syndrome generation process, there is a state-flip in the ancilla qubit state if there is an error in data qubits. We will apply another pulse sequence to manipulate a $C_2$NOT gate to fix the error qubit. Thus, we do not need to perform measurement on the ancilla qubit.
+
+== Introduction
+=== Necessity of quantum error correction
+
+The required gate error rate for performing useful algorithms is $10^(-10)$@Gidney_2021@reichardt2025faulttolerantquantumcomputationneutral while the physical gate error rate in neutral-atom array is $10^(-3)$@Gidney_2021@reichardt2025faulttolerantquantumcomputationneutral. The physical gate error rate is much larger than the required gate error rate for performing useful algorithms. Thus, we need to perform quantum error correction@shor1997faulttolerantquantumcomputation@1996@Dennis_2002 to protect the logical information from decoherence and errors.
+
+=== Quantum error correction
+Nowadays, performing quantum error correction in neutral atom system is attracting much attention because of the scability, reconfigurability, high connectivity@cong2022hardwareefficientfaulttolerantquantumcomputation, and high gate fidelity (over 99.9%) @Evered_2023@Xue_2024 and long coherence time(> 1s)@Bluvstein_2023@ludmir2024modelingsimulatingrydbergatom@Wintersperger_2023.
+
+In quantum error correction@Khalifa2021Digital, we first encode the logical qubit into multiple physical qubits. The redundancy can protect the logical information from decoherence and errors. Then, we perform a syndrome generation process and we use a definition called stabilizer which is a set of operators that can be used to detect errors without disturbing the quantum state to generate syndromes. Then, we measure the syndrome and perform the decoding process. Finally, we perform an error-correction process to correct the errored data qubit. 
+
+However, the tradition quantum error correction process requires measurement and feedback process which is time-consuming(movement-100$mu$s@Bluvstein_2022@Bluvstein_2023; illuminating and collecting-500$mu$s@Norcia_2023@Graham_2023) and can introduce extra error(for example, measurement might result in atom loss)@PhysRevA.92.042710.
+
+According to this problem, there are many schemes like self-correcting quantum code(using Hamiltonian to confine to the ground state)@Yoshida_2011 and Measurement-free error correction scheme@Heu_en_2024. However, the measurement-free error correction scheme in ref.@Heu_en_2024 is still time-consuming because it requires moving atoms to entangling zone and perform gate operation one by one in parity check process(The reported gate time is about 1$mu$s@Levine_2018 and the movement time is about hundreds of $mu$s.@Bluvstein_2022@Bluvstein_2023).
+
+In this way, we intend to develop a measurement-free error correction scheme based on Toric code space. With individually addressable, optically trapped, multi-species Rydberg atoms, we perform the movement-free multiqubit parity gates to generate syndromes and design a error-correction process without measurement feedback.
+
+
+
 
 = Model(Overview)
 
@@ -133,11 +152,13 @@ However, when we apply the Hadamard gate on all qubits, the final state cannot r
   image("hh1.png", width: 60%),
 )
 
-[Problem: How to determine the minimum simulation unit? If we assume that the minimum unit is one plaquette, the simulation is not accurate because we do not take the overlapped data qubit into consideration. 
+#text(red)[Problem: How to determine the minimum simulation unit? If we assume that the minimum unit is one plaquette, the simulation is not accurate because we do not take the overlapped data qubit into consideration. 
 
 If we assume that the minimum unit is two plaquettes, the simulation requires too much time
 
-If we assume that the minimum unit is eight qubits shown above, it is hard to analyse the simulation behavior because it does not contains a whole plaquette for us to analyse the simulation behavior.]
+If we assume that the minimum unit is eight qubits shown above, it is hard to analyse the simulation behavior because it does not contains a whole plaquette for us to analyse the simulation behavior.
+
+It is illustrated in ref.@Heu_en_2024 that the multi-qubit gates mostly are not suffucient for performing error correction if the fidelity is lower than the threshold of certain codes.]
 
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
