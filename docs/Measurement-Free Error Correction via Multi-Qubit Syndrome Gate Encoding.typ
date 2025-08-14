@@ -160,6 +160,13 @@ If we assume that the minimum unit is eight qubits shown above, it is hard to an
 
 It is illustrated in ref.@Heu_en_2024 that the multi-qubit gates mostly are not suffucient for performing error correction if the fidelity is lower than the threshold of certain codes.]
 
+== Changing the minimum simulation unit
+
+ In this section, I changed the minimum simulation to a new unit shown below:
+ #figure(
+   image("newunit.png", width: 60%),
+ )
+
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
 
