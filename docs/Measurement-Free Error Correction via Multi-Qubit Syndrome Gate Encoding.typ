@@ -167,6 +167,36 @@ It is illustrated in ref.@Heu_en_2024 that the multi-qubit gates mostly are not 
    image("newunit.png", width: 60%),
  )
 
+If the data qubits and the ancilla qubits initially in state 0, the control pulses 1,3 are useless, the pulse2 and constanct laser $Omega_c$ will not change the state of the data qubits. After this process, pulse 4 will couple the ancilla qubit to the Rydberg state and pulse 5, 6, 7 will be useless. The state of data qubit will keep invariant. Finally, pulse 8 will bring the ancilla qubit back to the ground state 0.
+
+#figure(
+  image("all00.png", width: 60%),
+)
+
+If the data qubits in state 1 and ancilla qubits in state 0, the ancilla qubit will undergo a similar process and the data qubits will stay in state1. 
+
+#figure(
+  image("data1anc0.png", width: 60%),
+)
+
+Now, I intend to apply Hadamard gate on all qubits in the beginning and in the end of the pulse sequence to equivalently achieve the parity check process.
+
+The timesequence is shown below:
+#figure(
+  image("laser.png", width: 60%),
+)
+
+
+When we apply the Hadamard gate on all qubits, the system cannot return to the original state:
+#figure(
+  image("Hadanore.png", width: 60%),
+)
+In order to analyse the cause of the problem, we set adiabatic pulse $Omega_p$ to be zero, and the state population is:
+#figure(
+  image("noomegap.png", width: 60%),
+)
+Thus, the main problem lies in the adiabatic pulse $Omega_p$.
+
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
 
