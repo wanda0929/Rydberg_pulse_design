@@ -197,6 +197,46 @@ In order to analyse the cause of the problem, we set adiabatic pulse $Omega_p$ t
 )
 Thus, the main problem lies in the adiabatic pulse $Omega_p$.
 
+We take a step-by-step check on the pulse sequence, and we take 3-atom system as an example including two ancilla qubits and one data qubit.
+1. initially, the system is in state $|000 angle.r$, we apply Hadamard gate on all qubits and we apply the first pulse $Omega_r$:
+#figure(
+  image("hada1.png", width: 60%),
+)
+#figure(
+  image("hada2.png", width: 60%),
+)
+In this process, the ancilla qubits are converted from state $|+ angle.r$ to state $|A angle.r = (|0 angle.r - im*|r angle.r)/sqrt(2)$. 
+
+Then, we apply the second pulse $Omega_p$:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Now, we concentrate on the dark state $|D angle.r = (|0 angle.r - |1 angle.r)/sqrt(2)$. 
+The laser sequence and dynamic results are shown below:
+#figure(
+  image("laser_sequence.png", width: 60%),
+)
+
+#figure(
+  image("minusstate.png", width: 60%),
+)
+
+
 //The whole process can be divided into two steps. Frome the figure shown above, we assume that an Z-error occurs in the middle data qubit "5". The syndrome information is mapped to the ancilla qubit denoted by red points through the multi-qubit gate. After that, we perform a measurement-free error correction process with the ancilla qubit acting as a control qubit in another multiqubit gate. The error qubit can be corrected by the ancella qubit with syndrome information.
 
 
