@@ -207,8 +207,28 @@ We take a step-by-step check on the pulse sequence, and we take 3-atom system as
 )
 In this process, the ancilla qubits are converted from state $|+ angle.r$ to state $|A angle.r = (|0 angle.r - im*|r angle.r)/sqrt(2)$. 
 
-Then, we apply the second pulse $Omega_p$:
+Then, we apply the second pulse $Omega_p$ and the third pulse $Omega_r$:
+If one of the ancilla is in state $|1 angle.r$, the data qubits will achieve a state transition from $|0 angle.r => -|1 angle.r$ or $|1 angle.r => -|0 angle.r$. 
+$ 
+|0_A 0_T 0_A angle.r ->   |0_A 0_T 0_A angle.r\
+|0_A 0_T 1_A angle.r -> - |0_A 1_T 1_A angle.r\
+|0_A 1_T 0_A angle.r ->   |0_A 1_T 0_A angle.r\
+|0_A 1_T 1_A angle.r -> - |0_A 0_T 1_A angle.r\
+|1_A 0_T 0_A angle.r -> - |1_A 1_T 0_A angle.r\
+|1_A 0_T 1_A angle.r -> - |1_A 1_T 1_A angle.r\
+|1_A 1_T 0_A angle.r -> - |1_A 0_T 0_A angle.r\
+|1_A 1_T 1_A angle.r -> - |1_A 0_T 1_A angle.r
+$
 
+If the input state is $|+_A+_T+_A angle.r$, the output state will be $|-_A+_T+_A angle.r$.
+
+If the input state is $|+_A-_T+_A angle.r$, the output state will be $|+_A-_T+_A angle.r$.
+
+In the $C_2"NOT"$ gate process, the control pulse $Omega_c$ will bring a phase $-"im*r"$. The pulse on the data qubits will bring no phase accumulation. 
+
+If the input state is $|+_A-_T+_A angle.r$, the output state will be $|-_A-_T+_A angle.r$.
+
+If the input state is $|+_A+_T+_A angle.r$, the output state will be $|+_A+_T+_A angle.r$.
 
 
 
