@@ -317,9 +317,9 @@ The laser sequence and dynamic results are shown below:
 
 
 
-// The desired gate performance is :
-// //#figure(
-// //  table(
+The desired gate performance is :
+// #figure(
+//  table(
 //     columns: 9,
 //     [b], [c], [D2], [D3], [D4], [D5], [D6], [D7],[D8],
 //     [0], [0], [$0->0$], [$0->0$], [$0->0$], [$0->0$], [$0->0$], [$0->0$],[$0->0$],
@@ -329,123 +329,124 @@ The laser sequence and dynamic results are shown below:
 //   )
 // ) 
 
-// == Pulse sequence
-// The pulse sequence is shown below:
-// #figure(canvas({
-//   import draw: *
-//   let y1 = 0.0
-//   let y2 = -1.0
-//   let y3 = -2.0
+== Pulse sequence
+The pulse sequence is shown below:
+#figure(canvas({
+  import draw: *
+  let y1 = 0.0
+  let y2 = -1.0
+  let y3 = -2.0
 
-//   let xlabel = 0.0
-//   let width = 0.45
-//   let height = 0.8
-//   let dx = 1.0
-//   let W = 7
+  let xlabel = 0.0
+  let width = 0.45
+  let height = 0.8
+  let dx = 1.0
+  let W = 7
 
-//   let s(it) = text(9pt)[#it]
-//   let pulse(x, y, label, color) = {
-//     rect((x - width/2, y), (x + width/2, y + height), fill: color, stroke: none)
-//     content((x, y + height/2), label)
-//   }
-//   content((0.0, y1), [D])
-//   content((0.0, y2), [A1])
-//   content((0.0, y3), [A2])
+  let s(it) = text(9pt)[#it]
+  let pulse(x, y, label, color) = {
+    rect((x - width/2, y), (x + width/2, y + height), fill: color, stroke: none)
+    content((x, y + height/2), label)
+  }
+  content((0.0, y1), [D])
+  content((0.0, y2), [A1])
+  content((0.0, y3), [A2])
 
-//   rect((1.3 * dx, y1 + height + 0.2), (4.2 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-//   content((2.8 * dx, y3 - 0.5), s[$"CZ"_4$ gate])
+  rect((0.5 * dx, y1 + height + 0.2), (4.6 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((2.5 * dx, y3 - 0.5), s[X-error check])
 
-//   rect((4.9 * dx, y1 + height + 0.2), (6.5 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-//   content((5.5 * dx, y3 - 0.5), s[$C_2"NOT"$ gate]
-//   )
+  rect((4.7 * dx, y1 + height + 0.2), (6.3 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((5.3 * dx, y3 - 0.5), s[X-error correction]
+  )
 
-//   // Hadamard gates
-//   //pulse(dx, y2, s[$h_1$], red)
+  // Hadamard gates
+  //pulse(dx, y2, s[$h_1$], red)
 
-//   // EIT pulse
-//   pulse(1.5 * dx, y1, s[$h_D$], yellow)
-//   pulse(1.5 * dx, y2, s[$b_1$], orange)
-//   pulse(2 * dx, y1, s[$c_D$], blue)
-//   pulse(2.5 * dx, y2, s[$b_1$], orange)
-//   pulse(4 * dx, y1, s[$h_D$], yellow)
+  // EIT pulse
+  pulse(0.8 * dx, y1, s[$h_D$], yellow)
+  pulse(1.3 * dx, y2, s[$b_1$], orange)
+  pulse(1.8 * dx, y1, s[$c_D$], blue)
+  pulse(2.3 * dx, y2, s[$b_1$], orange)
+  pulse(4.3 * dx, y1, s[$h_D$], yellow)
 
-//   pulse(3 * dx, y2, s[$d_1$], purple)
-//   pulse(3.5 * dx, y1, s[$e_D$], green)
-//   pulse(4 * dx, y2, s[$d_1$], purple)
+  pulse(2.8 * dx, y2, s[$d_1$], purple)
+  pulse(3.3 * dx, y1, s[$e_D$], green)
+  pulse(3.8 * dx, y2, s[$d_1$], purple)
 
-//   // Hadamard gates
-//   //pulse(4.5 * dx, y2, s[$h_1$], red)
+  // //Hadamard gates
+  // pulse(1.0 * dx, y2, s[$h_1$], red)
+  // pulse(4.5 * dx, y2, s[$h_1$], red)
 
-//   // C2X pulse
-//   pulse(5.2 * dx, y2, s[$d_1$], purple)
-//   pulse(5.7 * dx, y1, s[$e_D$], green)
-//   pulse(6.2 * dx, y2, s[$d_1$], purple)
+  // C2X pulse
+  pulse(5.0 * dx, y2, s[$d_1$], purple)
+  pulse(5.5 * dx, y1, s[$e_D$], green)
+  pulse(6.0 * dx, y2, s[$d_1$], purple)
 
-//   // Reset A1
-//   pulse(6.8 * dx, y2, s[$R_1$], gray)
+  // Reset A1
+  pulse(6.7 * dx, y2, s[$R_1$], gray)
 
-//   set-origin((W, 0))
-//   line((0.2, y1 + height + 0.3), (0.2, y3 - 0.3), stroke: (dash: "dashed"))
+  set-origin((W, 0))
+  line((0.0, y1 + height + 0.3), (0.0, y3 - 0.3), stroke: (dash: "dashed"))
 
-//   rect((0.9 * dx, y1 + height + 0.2), (4. * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-//   content((2.5 * dx, y3 - 0.5), s[$"CNOT"_4$ gate])
+  rect((0.1 * dx, y1 + height + 0.2), (4.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((2.5 * dx, y3 - 0.5), s[Z-error check])
 
-//   rect((4.6 * dx, y1 + height + 0.2), (6.4 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
-//   content((5.5 * dx, y3 - 0.5), s[$C_2"Z"$ gate])
+  rect((4.5 * dx, y1 + height + 0.2), (6.9 * dx, y3 - 0.2), fill: gray.transparentize(60%), stroke: none, radius: 0.1)
+  content((5.7 * dx, y3 - 0.5), s[Z-error correction])
 
-// // Hadamard gates
-//   pulse(4.3 * dx, y1, s[$h_2$], yellow)
+// Hadamard gates
+  pulse(4.1 * dx, y1, s[$h_2$], yellow)
 
-//   // Hadamard gates
-//   pulse(0.6 * dx, y1, s[$h_2$], yellow)
+  // Hadamard gates
+  pulse(0.4 * dx, y1, s[$h_2$], yellow)
 
-//   // Hadamard gates
-//   pulse(0.6 * dx, y3, s[$h_2$], red.lighten(50%))
+  // Hadamard gates
+  pulse(0.4 * dx, y3, s[$h_2$], red.lighten(50%))
 
-//   // EIT pulse
-//   pulse(1.2 * dx, y3, s[$b_2$], orange.lighten(50%))
-//   pulse(1.7 * dx, y1, s[$c_D$], blue)
-//   pulse(2.2 * dx, y3, s[$b_2$], orange.lighten(50%))
-//   pulse(2.7 * dx, y3, s[$d_2$], purple.lighten(50%))
+  // EIT pulse
+  pulse(1.0 * dx, y3, s[$b_2$], orange.lighten(50%))
+  pulse(1.5 * dx, y1, s[$c_D$], blue)
+  pulse(2.0 * dx, y3, s[$b_2$], orange.lighten(50%))
+  pulse(2.5 * dx, y3, s[$d_2$], purple.lighten(50%))
 
-//   pulse(3.2 * dx, y1, s[$e_D$], green)
-//   pulse(3.7 * dx, y3, s[$d_2$], purple.lighten(50%))
+  pulse(3.0 * dx, y1, s[$e_D$], green)
+  pulse(3.5 * dx, y3, s[$d_2$], purple.lighten(50%))
 
-//   // Hadamard gates
-//   pulse(4.3 * dx, y3, s[$h_2$], red.lighten(50%))
-
-
-//   // C2Z pulse
-//   pulse(5 * dx, y1, s[$h_D$], yellow)
-//   pulse(5 * dx, y3, s[$d_2$], purple.lighten(50%))
-//   pulse(6 * dx, y1, s[$h_D$], yellow)
-//   pulse(5.5 * dx, y1, s[$e_D$], green)
-//   pulse(6 * dx, y3, s[$d_2$], purple.lighten(50%))
-
-//   // Reset A1
-//   pulse(7 * dx, y3, s[$R_2$], gray.lighten(50%))
+  // Hadamard gates
+  pulse(4.1 * dx, y3, s[$h_2$], red.lighten(50%))
 
 
-//   // Draw lines
-//   line((dx/2 - W, y1), (7.5 * dx, y1), stroke: black)
-//   line((dx/2 - W, y2), (7.5 * dx, y2), stroke: black)
-//   line((dx/2 - W, y3), (7.5 * dx, y3), stroke: black)
+  // C2Z pulse
+  pulse(4.8 * dx, y1, s[$h_D$], yellow)
+  pulse(5.3 * dx, y3, s[$d_2$], purple.lighten(50%))
+  pulse(6.65 * dx, y1, s[$h_D$], yellow)
+  pulse(5.7 * dx, y1, s[$e_D$], green)
+  pulse(6.2 * dx, y3, s[$d_2$], purple.lighten(50%))
 
-// }))
+  // Reset A1
+  pulse(7.2 * dx, y3, s[$R_2$], gray.lighten(50%))
 
-// Effect of different pulses
-// - Pulse $h_D$/$h_1$/$h_2$: act on D/A1/A2, Hadamard gate
-// - Pulse $b_1$/$b_2$: act on A1/A2, state transition $|1 angle.r arrow.l.r |r angle.r$
-// - Pulse $c_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, state transition $|0 angle.r arrow.l.r |1 angle.r$, otherwise, do nothing. Note: it is a composite pulse, also known as the EIT pulse.
-// - Pulse $d_1$/$d_2$: act on A1/A2, state transition $|0 angle.r arrow.l.r |r angle.r$
-// - Pulse $e_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, do nothing, otherwise, state transition $|0 angle.r arrow.l.r |1 angle.r$
 
-// - Pulse $R_1$/$R_2$: act on A1/A2, state transition $|? angle.r arrow.r |0 angle.r$ (reset)
+  // Draw lines
+  line((dx/2 - W, y1), (7.5 * dx, y1), stroke: black)
+  line((dx/2 - W, y2), (7.5 * dx, y2), stroke: black)
+  line((dx/2 - W, y3), (7.5 * dx, y3), stroke: black)
 
-// // In the first round of parity check process, the minimum unit is shown below:
-// // #figure(
-// //   image("3species.png", width: 35%),
-// // )
+}))
+
+Effect of different pulses
+- Pulse $h_D$/$h_1$/$h_2$: act on D/A1/A2, Hadamard gate
+- Pulse $b_1$/$b_2$: act on A1/A2, state transition $|1 angle.r arrow.l.r |r angle.r$
+- Pulse $c_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, state transition $|0 angle.r arrow.l.r |1 angle.r$, otherwise, do nothing. Note: it is a composite pulse, also known as the EIT pulse.
+- Pulse $d_1$/$d_2$: act on A1/A2, state transition $|0 angle.r arrow.l.r |r angle.r$
+- Pulse $e_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, do nothing, otherwise, state transition $|0 angle.r arrow.l.r |1 angle.r$
+
+- Pulse $R_1$/$R_2$: act on A1/A2, state transition $|? angle.r arrow.r |0 angle.r$ (reset)
+
+// In the first round of parity check process, the minimum unit is shown below:
+// #figure(
+//   image("3species.png", width: 35%),
+// )
 
 // == Dual species architecture
 
