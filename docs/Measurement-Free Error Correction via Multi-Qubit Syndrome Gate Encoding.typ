@@ -96,7 +96,11 @@ In order to prove the equivalence, we intend to use 8 qubits for simulation:
   image("gate1.png", width: 70%),
 )
 In the first gate implementation, we take one plaquette as the minimum unit. When the control qubit initially in state $|0 angle.r_c$, the Hamiltonian of target qubits is given by:
-$ H_1 = sum_j Omega_c (|r angle.r_j angle.l P| + H.c) + Omega_p (t) (|P angle.r_j angle.l 1| + |P angle.r_j angle.l 0| + H.c.) + Delta |P angle.r_j angle.l P| $ 
+$ H_1 = Omega_c (|r angle.r_j angle.l P| + H.c) + Omega_p (t) (|P angle.r_j angle.l 1| + |P angle.r_j angle.l 0| + H.c.) + Delta |P angle.r_j angle.l P| $ 
+
+$ H_c = Omega_r (|r angle.r_c angle.l 1| + H.c.) $
+
+$ H_"total"= H_1 + H_c + V_"dd"|"rR" angle.r angle.l "rR"| $
 
 Under the condition $Delta>>Omega_c, Omega_p$, the intermediate state $|P angle.r$ can be adiabatically eliminated. Pulse $Omega_c$ is constant and $Omega_p$ is an adiabatic pulse with $integral Omega_p (t)^2\/(2Delta) = pi$. The system contains two dark states with
 $ |D_1 angle.r = 1/sqrt(2) (|0 angle.r - |1 angle.r) $
@@ -200,15 +204,17 @@ Thus, the main problem lies in the adiabatic pulse $Omega_p$.
 We take a step-by-step check on the pulse sequence, and we take 3-atom system as an example including two ancilla qubits and one data qubit.
 1. initially, the system is in state $|000 angle.r$, we apply Hadamard gate on all qubits and we apply the first pulse $Omega_r$:
 #figure(
-  image("hada1.png", width: 60%),
+  image("hada1.png", width: 40%),
 )
 #figure(
-  image("hada2.png", width: 60%),
+  image("hada2.png", width: 40%),
 )
 In this process, the ancilla qubits are converted from state $|+ angle.r$ to state $|A angle.r = (|0 angle.r - im*|r angle.r)/sqrt(2)$. 
 
-Then, we apply the second pulse $Omega_p$ and the third pulse $Omega_r$:
+2. Then, we apply the second pulse $Omega_p$ and the third pulse $Omega_r$:
 If one of the ancilla is in state $|1 angle.r$, the data qubits will achieve a state transition from $|0 angle.r => -|1 angle.r$ or $|1 angle.r => -|0 angle.r$. 
+
+If the input state is $|+_A+_T+_A angle.r$, the output state will be:
 $ 
 |0_A 0_T 0_A angle.r ->   |0_A 0_T 0_A angle.r\
 |0_A 0_T 1_A angle.r -> - |0_A 1_T 1_A angle.r\
@@ -220,18 +226,60 @@ $
 |1_A 1_T 1_A angle.r -> - |1_A 0_T 1_A angle.r
 $
 
-If the input state is $|+_A+_T+_A angle.r$, the output state will be $|-_A+_T+_A angle.r$.
 
+If the input state is $|+_A-_T+_A angle.r$, the output state will be 
+$ 
+|0_A 0_T 0_A angle.r ->   |0_A 0_T 0_A angle.r\
+|0_A 0_T 1_A angle.r -> - |0_A 1_T 1_A angle.r\
+-|0_A 1_T 0_A angle.r -> - |0_A 1_T 0_A angle.r\
+-|0_A 1_T 1_A angle.r ->   |0_A 0_T 1_A angle.r\
+|1_A 0_T 0_A angle.r -> - |1_A 1_T 0_A angle.r\
+|1_A 0_T 1_A angle.r -> - |1_A 1_T 1_A angle.r\
+-|1_A 1_T 0_A angle.r ->  |1_A 0_T 0_A angle.r\
+-|1_A 1_T 1_A angle.r ->  |1_A 0_T 1_A angle.r
+$
+
+
+3. In the $C_2"NOT"$ gate process, the control pulse $Omega_c$ will bring a phase $-"im*r"$. The pulse on the data qubits will bring no phase accumulation. 
+
+If the input state is $|+_A-_T+_A angle.r$, the output state will be changed.
+$ 
+|0_A 0_T 0_A angle.r ->   |0_A 0_T 0_A angle.r ->   |0_A 0_T 0_A angle.r\
+|0_A 0_T 1_A angle.r -> - |0_A 1_T 1_A angle.r-> - |0_A 1_T 1_A angle.r\
+-|0_A 1_T 0_A angle.r -> - |0_A 1_T 0_A angle.r-> - |0_A 1_T 0_A angle.r\
+-|0_A 1_T 1_A angle.r ->   |0_A 0_T 1_A angle.r->   |0_A 0_T 1_A angle.r\
+|1_A 0_T 0_A angle.r -> - |1_A 1_T 0_A angle.r-> - |1_A 1_T 0_A angle.r\
+|1_A 0_T 1_A angle.r -> - |1_A 1_T 1_A angle.r-> - |1_A 0_T 1_A angle.r\
+-|1_A 1_T 0_A angle.r ->  |1_A 0_T 0_A angle.r ->  |1_A 0_T 0_A angle.r\
+-|1_A 1_T 1_A angle.r ->  |1_A 0_T 1_A angle.r->  |1_A 1_T 1_A angle.r
+$
+
+If the initial input state is $|+_A+_T+_A angle.r$, the output state will not change;
+$ 
+|0_A 0_T 0_A angle.r ->   |0_A 0_T 0_A angle.r->   |0_A 0_T 0_A angle.r\
+|0_A 0_T 1_A angle.r -> - |0_A 1_T 1_A angle.r-> - |0_A 1_T 1_A angle.r\
+|0_A 1_T 0_A angle.r ->   |0_A 1_T 0_A angle.r->   |0_A 1_T 0_A angle.r\
+|0_A 1_T 1_A angle.r -> - |0_A 0_T 1_A angle.r-> - |0_A 0_T 1_A angle.r\
+|1_A 0_T 0_A angle.r -> - |1_A 1_T 0_A angle.r-> - |1_A 1_T 0_A angle.r\
+|1_A 0_T 1_A angle.r -> - |1_A 1_T 1_A angle.r-> - |1_A 0_T 1_A angle.r\
+|1_A 1_T 0_A angle.r -> - |1_A 0_T 0_A angle.r-> - |1_A 0_T 0_A angle.r\
+|1_A 1_T 1_A angle.r -> - |1_A 0_T 1_A angle.r-> - |1_A 1_T 1_A angle.r
+$
+
+
+Now, I changed the pulsesequence, in the second gate process, we achieve another phase accumulation process:
+#figure(
+  image("pulase.png", width: 60%),
+)
 If the input state is $|+_A-_T+_A angle.r$, the output state will be $|+_A-_T+_A angle.r$.
+#figure(
+  image("3minus.png", width: 60%),
+)
 
-In the $C_2"NOT"$ gate process, the control pulse $Omega_c$ will bring a phase $-"im*r"$. The pulse on the data qubits will bring no phase accumulation. 
-
-If the input state is $|+_A-_T+_A angle.r$, the output state will be $|-_A-_T+_A angle.r$.
-
-If the input state is $|+_A+_T+_A angle.r$, the output state will be $|+_A+_T+_A angle.r$.
-
-
-
+If the input state is $|+_A+_T+_A angle.r$, the output state will be $|-_A+_T-_A angle.r$.
+#figure(
+  image("3plus.png", width: 60%),
+)
 
 
 
@@ -249,11 +297,15 @@ If the input state is $|+_A+_T+_A angle.r$, the output state will be $|+_A+_T+_A
 Now, we concentrate on the dark state $|D angle.r = (|0 angle.r - |1 angle.r)/sqrt(2)$. 
 The laser sequence and dynamic results are shown below:
 #figure(
-  image("laser_sequence.png", width: 60%),
+  image("laser_sequence.png", width: 50%),
 )
 
 #figure(
-  image("minusstate.png", width: 60%),
+  image("minus.png", width: 50%),
+)
+
+#figure(
+  image("plus.png", width: 50%),
 )
 
 

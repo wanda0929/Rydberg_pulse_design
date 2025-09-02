@@ -184,7 +184,7 @@ Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit 
 #figure(
   image("gate1.png", width: 50%),
 )
-- Control qubit in state $|1 angle.r$ $=>$ target qubit flip.
+- Control qubit in state $|1 angle.r$ $=>$ target qubit flip: $|0 angle.r$ $<=>$ $-|1 angle.r$.
 - Control qubit in state $|0 angle.r$ $=>$ target qubit keep invariant.
 
 == Designed pulse sequence
@@ -192,28 +192,43 @@ Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit 
 #figure(
   image("gate2.png", width: 50%),
 )
-- Control qubits in state $|1 angle.r$ $=>$ target qubit flip.
+- Control qubits in state $|1 angle.r$ $=>$ target qubit flip: $|0 angle.r$ $<=>$ $-|1 angle.r$.
 - One of ontrol qubit in state $|0 angle.r$ $=>$ target qubit keep invariant.
 
 == Simulation process
-- We simulate the eight-atoms unit system with x-axis means time and y-axis means the population of different states with designed julia package:
--- Ancilla qubit and data qubit are initialized in state $|0 angle.r$.
+- We simulate the nine-atoms unit system with x-axis means time and y-axis means the population of different states with designed julia package:
+
 
 #figure(
-  image("00000000.jpg", width: 40%),
+  image("simulation.png", width: 50%),
 )
 
--- Ancilla qubit in state $|0 angle.r$ and data qubit in state $|1 angle.r$.
-
+== Hadamard rotation:
+- All Hadamard rotation $=>$ Pulse sequence $=>$ population extraction.
+- We simulate 9-atom unit while we concentrate on the population of single 5-atom plaquette shown below:
 #figure(
-  image("01010101.jpg", width: 40%),
+  image("extraction.png", width: 35%),
 )
-
-
+== Hadamard rotation:
+- When all qubits in state $|0angle.r$, the final state is $|+++++angle.r$
+#figure(
+  image("plus.png", width: 50%),
+)
+== Hadamard rotation:
+- When data qubits in state $|1angle.r$ and ancilla qubits in state $|0angle.r$, the final state is $|++-++angle.r$.
+#figure(
+  image("minus.png", width: 50%),
+)
 == Bottlenecks in step1
-- The equivalence of the pulse sequence of effective parity check process cannot be guaranteed.
+- The phase accumulation in the gate schemes will affect the realiablility of the equvalence of parity check process.
+
+- Duration of adiabatic pulse is too long and result in gate infidelity.
 
 - feasibility of the designed gate scheme in large system(experimental perspective)(for example, more than 2 species).
+
+- Physical realization of the toric-code lattice.
+
+== Derivative Removal by Adiabatic Gate
 
 == Step2: Error correcting $C_2"NOT"$ gate
 //- For example, if there is a Z-error happens on data qubit 5, the parity check will flip the neighboring red ancilla qubits b,c. Then, we can perform a $C_2"NOT"$ gate for error correction where the two flipped neighboring ancilla qubits act as control qubits and the errored data qubit acts as target qubit.
