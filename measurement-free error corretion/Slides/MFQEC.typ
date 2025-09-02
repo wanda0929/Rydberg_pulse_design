@@ -219,7 +219,7 @@ Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit 
 == Hadamard rotation:
 - $|11011angle.r => |"--+--"angle.r =>"pulse sequence" => |"--+--"angle.r => |11011 angle.r ("final state")$
 #figure(
-  image("minus.png", width: 50%),
+  image("minus1.png", width: 50%),
 )
 // == Bottlenecks in step1
 // - The phase accumulation in the gate schemes will affect the realiablility of the equvalence of parity check process.
