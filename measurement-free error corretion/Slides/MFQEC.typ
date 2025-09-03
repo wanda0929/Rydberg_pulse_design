@@ -146,7 +146,7 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 = Model
 == Measurement-free and movement-free error correction model
 #figure(
-  image("model.png", width: 99%),
+  image("model1.png", width: 99%),
 )
 //Three species, interaction strengths, 
 
@@ -174,9 +174,9 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit as control qubit and data qubit as target qubit.
 
 = Simulation process
-== Designed pulse sequence for Z-error parity check
+== Designed pulse sequence for X-error parity check
 #figure(
-  image("model3.png", width: 80%),
+  image("model4.png", width: 80%),
 )
 - Including $"CNOT"_4$ gate and CCNOT gate:
 #figure(
@@ -199,28 +199,41 @@ Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit 
 // - Control qubits in state $|1 angle.r$ $=>$ target qubit flip: $|0 angle.r$ $<=>$ $-|1 angle.r$.
 // - One of ontrol qubit in state $|0 angle.r$ $=>$ target qubit keep invariant.
 
-== Simulation results for Z-error parity check
-// - We simulate the nine-atoms unit system with x-axis means time and y-axis means the population of different states with designed julia package:
+// == Simulation results for Z-error parity check
+// // - We simulate the nine-atoms unit system with x-axis means time and y-axis means the population of different states with designed julia package:
 
 
+// // #figure(
+// //   image("simulation.png", width: 50%),
+// // )
+// - All Hadamard rotation $=>$ Pulse sequence $=>$ All Hadamard rotation.
+// - Concentrate on the population of single 5-atom plaquette shown below:
 // #figure(
-//   image("simulation.png", width: 50%),
+//   image("extraction.png", width: 35%),
 // )
-- All Hadamard rotation $=>$ Pulse sequence $=>$ All Hadamard rotation.
-- Concentrate on the population of single 5-atom plaquette shown below:
-#figure(
-  image("extraction.png", width: 35%),
-)
-== Hadamard rotation:
+== Simulation results for X-error parity check--no error
 - $|00000angle.r => |"+++++"angle.r =>"pulse sequence" => |"+++++"angle.r => |00000 angle.r ("final state")$
 #figure(
-  image("plus1.png", width: 50%),
+  image("plus2.png", width: 50%),
 )
-== Hadamard rotation:
+== Simulation results for X-error parity check--no error
 - $|11011angle.r => |"--+--"angle.r =>"pulse sequence" => |"--+--"angle.r => |11011 angle.r ("final state")$
 #figure(
-  image("minus1.png", width: 50%),
+  image("minus2.png", width: 50%),
 )
+== Simulation results for X-error parity check--single error
+- $|10000angle.r => |"-++++"angle.r =>"pulse sequence" => |"-+-++"angle.r => |10100 angle.r ("final state")$
+#figure(
+  image("allpflip1.png", width: 50%),
+)
+
+== Simulation results for X-error parity check--single error
+- $|01011angle.r => |"+-+--"angle.r =>"pulse sequence" => |"+++++"angle.r => |00000 angle.r ("final state")$
+#figure(
+  image("allmflip1.png", width: 50%),
+)
+
+
 // == Bottlenecks in step1
 // - The phase accumulation in the gate schemes will affect the realiablility of the equvalence of parity check process.
 
@@ -232,16 +245,16 @@ Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit 
 
 == Derivative Removal by Adiabatic Gate
 - DRAG
-== Step2: Error correcting $C_2"NOT"$ gate
-//- For example, if there is a Z-error happens on data qubit 5, the parity check will flip the neighboring red ancilla qubits b,c. Then, we can perform a $C_2"NOT"$ gate for error correction where the two flipped neighboring ancilla qubits act as control qubits and the errored data qubit acts as target qubit.
+// == Step2: Error correcting $C_2"NOT"$ gate
+// //- For example, if there is a Z-error happens on data qubit 5, the parity check will flip the neighboring red ancilla qubits b,c. Then, we can perform a $C_2"NOT"$ gate for error correction where the two flipped neighboring ancilla qubits act as control qubits and the errored data qubit acts as target qubit.
 
-- Rule: Only if the ancilla qubits are both in state $|1 angle.r$, the target data qubit will be flipped.
+// - Rule: Only if the ancilla qubits are both in state $|1 angle.r$, the target data qubit will be flipped.
 
-//== Step2: Error correcting $C_2"NOT"$ gate
-- gate scheme:
-#figure(
-  image("errorco.png", width: 80%),
-)
+// //== Step2: Error correcting $C_2"NOT"$ gate
+// - gate scheme:
+// #figure(
+//   image("errorco.png", width: 80%),
+// )
 
 
 #bibliography("reference.bib")

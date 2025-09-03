@@ -364,10 +364,12 @@ The pulse sequence is shown below:
 
   // EIT pulse
   pulse(0.8 * dx, y1, s[$h_D$], yellow)
+  pulse(0.8 * dx, y2, s[$h_1$], red)
   pulse(1.3 * dx, y2, s[$b_1$], orange)
   pulse(1.8 * dx, y1, s[$c_D$], blue)
   pulse(2.3 * dx, y2, s[$b_1$], orange)
   pulse(4.3 * dx, y1, s[$h_D$], yellow)
+  pulse(4.3 * dx, y2, s[$h_1$], red)
 
   pulse(2.8 * dx, y2, s[$d_1$], purple)
   pulse(3.3 * dx, y1, s[$e_D$], green)
@@ -395,13 +397,13 @@ The pulse sequence is shown below:
   content((5.7 * dx, y3 - 0.5), s[Z-error correction])
 
 // Hadamard gates
-  pulse(4.1 * dx, y1, s[$h_2$], yellow)
+  pulse(4.1 * dx, y1, s[$h_D$], yellow)
 
   // Hadamard gates
-  pulse(0.4 * dx, y1, s[$h_2$], yellow)
+  pulse(0.4 * dx, y1, s[$h_D$], yellow)
 
   // Hadamard gates
-  pulse(0.4 * dx, y3, s[$h_2$], red.lighten(50%))
+  //pulse(0.4 * dx, y3, s[$h_2$], red.lighten(50%))
 
   // EIT pulse
   pulse(1.0 * dx, y3, s[$b_2$], orange.lighten(50%))
@@ -413,7 +415,7 @@ The pulse sequence is shown below:
   pulse(3.5 * dx, y3, s[$d_2$], purple.lighten(50%))
 
   // Hadamard gates
-  pulse(4.1 * dx, y3, s[$h_2$], red.lighten(50%))
+  //pulse(4.1 * dx, y3, s[$h_2$], red.lighten(50%))
 
 
   // C2Z pulse
