@@ -172,7 +172,10 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
   image("overlapped.png", width: 90%),
 )
 Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit as control qubit and data qubit as target qubit.
-
+== Measurement-free and movement-free error correction model
+#figure(
+  image("model1.png", width: 99%),
+)
 = Simulation process
 == Designed pulse sequence for X-error parity check
 #figure(
@@ -243,8 +246,8 @@ Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit 
 
 // - Physical realization of the toric-code lattice.
 
-== Derivative Removal by Adiabatic Gate
-- DRAG
+// == Derivative Removal by Adiabatic Gate
+// - DRAG
 // == Step2: Error correcting $C_2"NOT"$ gate
 // //- For example, if there is a Z-error happens on data qubit 5, the parity check will flip the neighboring red ancilla qubits b,c. Then, we can perform a $C_2"NOT"$ gate for error correction where the two flipped neighboring ancilla qubits act as control qubits and the errored data qubit acts as target qubit.
 
