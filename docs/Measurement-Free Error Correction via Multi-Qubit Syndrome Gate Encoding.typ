@@ -282,6 +282,11 @@ If the input state is $|+_A+_T+_A angle.r$, the output state will be $|-_A+_T-_A
 )
 
 
+#figure(
+  image("newlaser.png", width: 60%),
+)
+
+
 
 
 
