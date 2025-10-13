@@ -24,7 +24,7 @@
   //   "Source Han Sans",
   // ),
   config-info(
-    title: [Measurement-Free Error Correction in Rydberg atom array],
+    title: [Quantum Cellular Automata Simulation in Multi-species Rydberg Atom Array],
     subtitle: none, 
     author: [Han Wang],
     date: datetime.today(),
