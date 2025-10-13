@@ -93,7 +93,7 @@
 #tblock(title: [CA (cellular automata) for universal computation ])[
   Universal CA is universal for classical computation @10.5555-2, which, likes Turing machine, exhibits universality. 
 ]
-#tblock(title: [Example: Game of Life （Universal for TM）])[
+#tblock(title: [Example: Game of Life (Universal for TM)])[
   CA have been widely used in the study of complex systems, such as the Game of Life by Conway.
   
   In 2D grid, each cell has 8 neighbors.
@@ -109,10 +109,64 @@
     Game of Life by Conway
   ],
 )
+== Quantum Cellular Automata
 
+#tblock(title: [QCA])[
+  QCA is a quantum version of CA, which can perform quantum computation.
+  - cells = qubits
+  - states = quantum states
+  - local function G = unitary operator
+  - no external control (Low noise)
+]
+= QCA simulation in our system
 
+== QCA simulation in our system
 
+#figure(
+  image("model1.png", width: 110%), 
+  caption: [
+    QCA simulation in our system
+  ],
+)
 
+== QCA simulation in our system
+Effect of different pulses
+- Pulse $h_D$/$h_1$/$h_2$: act on D/A1/A2, Hadamard gate
+- Pulse $b_1$/$b_2$: act on A1/A2, state transition $|1 angle.r arrow.l.r |r angle.r$
+- Pulse $c_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, state transition $|0 angle.r arrow.l.r |1 angle.r$, otherwise, do nothing. Note: it is a composite pulse, also known as the EIT pulse.
+- Pulse $d_1$/$d_2$: act on A1/A2, state transition $|0 angle.r arrow.l.r |r angle.r$
+- Pulse $e_D$: act on D, if any neighboring A1 or A2 qubit in state $|r angle.r$, do nothing, otherwise, state transition $|0 angle.r arrow.l.r |1 angle.r$
 
+== Lattice construction
+purple points means data qubits and blue "x" means ancilla qubits.
+#figure(
+  image("lattice.jpeg", width: 50%),
+)
 
+== Local rules
+- Performing Hadamard rotation on all qubits(step1)
+- Defining and performing $pi$ pulse on ancilla qubits for X-error correction(11,13,14,16,19,21,22,24)(step2)
+- Defining and performing conditional EIT pulse on data qubits(step3).
+- Performing step 2.(step4)
+- Defining C2NOT pulse operation on data qubit and ancilla qubits(11,13,14,16,19,21,22,24) and apply it.(step5)
+- Performing Hadamard rotation on all qubits(step6)
+- Extracting the final state of the lattice(step7)
+
+== Simulation results
+- No error $=>$ The whole system keeps invariant
+
+- Initially, all qubits in system are in state $|0 angle.r$, there is a single X-error on data qubit 5. After the QCA process, the neighboring ancilla qubits 16, 19 flip to state $|1 angle.r$.
+
+- Initially, all data qubits in system are in state $|1 angle.r$, there is a single X-error on data qubit 5. After the QCA process, the neighboring ancilla qubits 13, 16, 19, 22 flip to state $|1 angle.r$.
+
+#figure(
+  image("lattice.jpeg", width: 28%),
+)
+
+== bottleneck
+- Periodic boundary condition
+
+- How to represent the state of the whole lattice with discrete steps of QCA evolution?
+
+== 111
 #bibliography("reference.bib")
