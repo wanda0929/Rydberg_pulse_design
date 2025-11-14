@@ -40,6 +40,39 @@
 #show strong: alert
 = Background
 
+== Platforms for quantum computing and simulation
+
+#figure(
+  image("platform.png", width: 100%),
+)
+== Advantage of neutral-atom array platform
+- Long Qubit Coherence Times
+- High Gate Fidelity
+- Strong, Tunable Interactions
+
+== critical bottlenecks in neutral atom quantum processors
+
+- The scalability of neutral atom arrays is hindered by preparation and operation latency
+-- Collisional blockaded effect: (50% loading efficiency). 
+
+- Requirement of rearrangement with fast and flexible dynamic control and least computation cost. 
+= Dynamic Array Generation via Automatic Differentiation
+== Dynamic Array Generation via Automatic Differentiation
+- high efficiency, better explainability and better numerical stability.
+
+- Hologram generation process:
+#figure(
+  image("difffract.png", width: 55%),
+)
+
+- Algorithm for calculating the the hologram displayed on SLM: 
+#figure(
+  image("ad_evolve.png", width: 60%),
+)
+// knowing the locations of two continuous timesteps; calculating the hologram phase pattern of the previous timestep with C_WGS; calculating the velocity of the moving dots; calculating the phase-change velocity with AD(implicit differentiation); Evolve and update the phase dynamics.
+== Dynamic Array Generation via Automatic Differentiation
+- The AD-based method treats the phase-coordinate relationship as an analytic function
+= quantum error correction on neutral-atom array
 == Quantum error correction and code space
 - Code space, redundancy, syndrome, error correction.
 #figure(
