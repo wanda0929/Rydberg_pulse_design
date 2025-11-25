@@ -24,7 +24,7 @@
   //   "Source Han Sans",
   // ),
   config-info(
-    title: [Measurement-Free Error Correction in Rydberg atom array],
+    title: [Optical Control of Rydberg Atom Array],
     subtitle: none, 
     author: [Han Wang],
     date: datetime.today(),
@@ -38,25 +38,47 @@
 
 // Extract methods
 #show strong: alert
-= Background
+= Main works
+== Main works
+- Generating an optical tweezer arrays that change smoothly over time with SLM via automatic differentiation-based strategy.
+
+Work 1: Dynamic Array Generation via Automatic Differentiation
+
 
 == Platforms for quantum computing and simulation
-
+// first slide: overview, 听完报告能得到什么 I this work， I will present two works. 第一个工作一张slide带过，第二个工作多讲一些细节。第一个slide表述我的工作内容，第一个第二个，其中第二个工作要主要讲解。着重介绍关于Rydberg pulse design in QEC。Rydberg atom array 在Rydberg atom pulse design当中有什么意义。为什么用pulse design，什么事pulse design。问题定义完整，前人的工作review完整。
+//什么是hologram generation，为什么要做这个东西，这在tweezer array generation当中有什么用，把背景部分阐述清楚。
+// 问题展示清楚，背景展示清楚，数据有逻辑性的罗列清楚 Rydberg atoms近期发展，先说做了什么，为什么error correction。error correction的必要性。
+// 为什么关注neutral atom array平台，那么我们要去产生这个large scale tweezer array，（提一下最近的Lukin等的工作）
 #figure(
   image("platform.png", width: 100%),
 )
 == Advantage of neutral-atom array platform
-- Long Qubit Coherence Times
-- High Gate Fidelity
-- Strong, Tunable Interactions
+- Scalability: offering thousand-scale atomic registers@Manetsch_2025@Chiu_2025.
+#figure(
+  image("large_array.png", width: 50%),
+)
+//SLM 生成大规模阵列的时候要防止未散射的零级光的干扰。这个时候需要spatial filter来阻挡零级光。这就不可避免的占用物理空间导致阵列当中存在间隙，1055的激光就是用于填充间隙而设计的。
+- Long Qubit Coherence Times@f8xg-w57m@semião2025resonatorassistedquantumtransductionsuperconducting.
+#figure(
+  image("coherencetime.png", width: 60%),
+)
+== Advantage of neutral-atom array platform
+- High Gate Fidelity (over ~99.5%)@Evered2023@Ma2023.
+- Strong, Tunable Interactions@RevModPhys.82.2313.
+#figure(
+  image("interaction.png", width: 60%),
+)
 
-== critical bottlenecks in neutral atom quantum processors
+== Critical bottlenecks in neutral atom quantum processors
 
-- The scalability of neutral atom arrays is hindered by preparation and operation latency
--- Collisional blockaded effect: (50% loading efficiency). 
+Hindered scalability: preparation and operation latency
+- Collisional blockaded effect: (50% loading efficiency). 
 
-- Requirement of rearrangement with fast and flexible dynamic control and least computation cost. 
-= Dynamic Array Generation via Automatic Differentiation
+-- Requirement of rearrangement with fast, flexible dynamic control and least computation cost. 
+
+- Movement and measurement of atoms during quantum operations is time-consuming: (hundreds of $mu$s).
+= Dynamic Array Generation //via Automatic Differentiation
 == Dynamic Array Generation via Automatic Differentiation
 - high efficiency, better explainability and better numerical stability.
 
