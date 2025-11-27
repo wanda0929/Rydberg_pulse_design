@@ -32,6 +32,9 @@
   ),
 )
 
+
+
+
 #title-slide()
 
 #outline-slide()
@@ -42,9 +45,8 @@
 == Main works
 - Generating an optical tweezer arrays that change smoothly over time with SLM via automatic differentiation-based strategy.
 
-Work 1: Dynamic Array Generation via Automatic Differentiation
-
-
+- Designing measurement-free and movement-free quantum error correction protocol in Rydberg atom array platform.
+= Neutral atom platform and Rydberg pulse design
 == Platforms for quantum computing and simulation
 // first slide: overview, 听完报告能得到什么 I this work， I will present two works. 第一个工作一张slide带过，第二个工作多讲一些细节。第一个slide表述我的工作内容，第一个第二个，其中第二个工作要主要讲解。着重介绍关于Rydberg pulse design in QEC。Rydberg atom array 在Rydberg atom pulse design当中有什么意义。为什么用pulse design，什么事pulse design。问题定义完整，前人的工作review完整。
 //什么是hologram generation，为什么要做这个东西，这在tweezer array generation当中有什么用，把背景部分阐述清楚。
@@ -69,7 +71,32 @@ Work 1: Dynamic Array Generation via Automatic Differentiation
 #figure(
   image("interaction.png", width: 60%),
 )
+== Requirement of large-scale neutral atom array
+- Reliable quantum computer building requires correction codes implementation.
 
+-- The Overhead: A single logical qubit with sufficient fault tolerance may require hundreds to thousands of physical qubits.
+#figure(
+  image("Logical qubit.png", width: 50%),
+)
+
+-- The Goal: We need arrays scaling from $N \sim 100$ (NISQ era) to $N > 10,000$ (Fault-Tolerant era)@Preskill_2018.
+#figure(
+  image("NISQ_.png", width: 60%),
+)
+
+// - Many-Body Physics Simulation: Simulating complex quantum phases of matter (e.g., spin liquids) requires lattice sizes that exceed the capabilities of classical supercomputers ($N > 50-100$).
+
+// - Connectivity: Large 2D and 3D arrays allow for nearest-neighbor interactions required for gate operations via Rydberg blockade.
+== Large-scale neutral atom array generation
+- Method of trapping atoms: We sculpt light using phase modulation. Generating optical tweezers($< 1 mu m$ spots) with highly focused laser beams that hold individual atoms.
+#figure(
+  image("difffract.png", width: 40%),
+)
+- Main tools: The Spatial Light Modulator (SLM), a programmable diffractive element, imprints a phase profile $phi(x,y)$ onto the laser beam.
+
+- Algorithm for hologram generation: Calculating the phase pattern $phi(x,y)$ to produce the desired intensity pattern at the focal plane.
+
+Fourier Transform: The lens performs a Fourier transform of the light reflected off the SLM. The resulting intensity pattern at the focal plane forms the atom trap array.
 == Critical bottlenecks in neutral atom quantum processors
 
 Hindered scalability: preparation and operation latency
@@ -94,7 +121,7 @@ Hindered scalability: preparation and operation latency
 // knowing the locations of two continuous timesteps; calculating the hologram phase pattern of the previous timestep with C_WGS; calculating the velocity of the moving dots; calculating the phase-change velocity with AD(implicit differentiation); Evolve and update the phase dynamics.
 == Dynamic Array Generation via Automatic Differentiation
 - The AD-based method treats the phase-coordinate relationship as an analytic function
-= quantum error correction on neutral-atom array
+= Measurement-free and movement-free error correction protocol
 == Quantum error correction and code space
 - Code space, redundancy, syndrome, error correction.
 #figure(
@@ -146,7 +173,7 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
    caption: [quantum error correction process @Khalifa2021Digital]
 )
 - Alternative: self-correcting quantum code(using Hamiltonian to confine to the ground state)@Yoshida_2011
-= Measurement-free error correction
+
 == Third approach
 - Measurement-free error correction scheme@Heu_en_2024: 
 #figure(
@@ -198,7 +225,7 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 
 //-- measurement-free error correction.@Heu_en_2024@Perlin_2023
 
-= Model
+
 == Measurement-free and movement-free error correction model
 #figure(
   image("model1.png", width: 99%),
@@ -231,7 +258,7 @@ Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit 
 #figure(
   image("model1.png", width: 99%),
 )
-= Simulation process
+
 == Designed pulse sequence for X-error parity check
 #figure(
   image("model4.png", width: 80%),
