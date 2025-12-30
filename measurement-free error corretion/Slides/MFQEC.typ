@@ -3,6 +3,7 @@
 #import "lib.typ": *
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 #import "@preview/unequivocal-ams:0.1.2": ams-article, theorem, proof
+#import "@preview/cetz:0.3.2": canvas, draw
 
 #set text(black, font: "New Computer Modern")
 #let colors = (maroon, olive, eastern)
@@ -12,6 +13,26 @@
 // 定义颜色辅助函数
 #let blue-text(content) = text(fill: primary-color, content)
 #let red-text(content) = text(fill: error-color, content)
+#let dark-blue = rgb("#1a365d")
+#let accent-gold = rgb("#b8860b")
+#let data-blue = rgb("#3b82f6")
+
+#let dark-blue = rgb("#1a365d")
+#let accent-blue = rgb("#2563eb")
+#let accent-gold = rgb("#b8860b")
+#let light-gold = rgb("#d4a84b")
+#let bg-color = rgb("#f5f5f0")
+#let data-blue = rgb("#3b82f6")
+#let ancilla-green = rgb("#22c55e")
+#let ancilla-red = rgb("#ef4444")
+#let gate-green = rgb("#4ade80")
+#let gate-blue = rgb("#60a5fa")
+#let gate-yellow = rgb("#fbbf24")
+#let gate-orange = rgb("#fb923c")
+#let gate-red = rgb("#f87171")
+#let gate-purple = rgb("#a78bfa")
+#let gate-gray = rgb("#9ca3af")
+
 
 // Specify `lang` and `font` for the theme if needed.
 #show: hkustgz-theme.with(
@@ -36,54 +57,519 @@
 
 
 
-#title-slide()
+#page[
+  #v(0.3in)
+  #align(center)[
+    #text(size: 40pt, weight: "bold", fill: primary-color)[
+      Optical Control of Rydberg Atom Array
+    ]
+    #v(0.1in)
+    #text(size: 25pt, weight: "bold", fill: accent-gold)[
+      A Measurement-Free and Movement-Free Protocol \
+      Using Multi-Species Atoms and Global Control
+    ]
+    #v(0.1in)
+    #text(size: 20pt)[
+      Han Wang
+    ]
+    #v(0.1in)
+    #text(size: 20pt)[
+      HKUST(GZ)
+    ]
+    #v(0.1in)
+    #text(size: 20pt)[
+      #datetime.today().display()
+    ]
+    #v(0.3in)
+  ]
+]
 
 #outline-slide()
 
 // Extract methods
-#show strong: alert
 = Main works
 == Main works
-- Using SLM to generate large-scale neutral atom array with automatic differentiation-based method for flexible adjustment of tweezer locations.
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Work 1: Large-scale Atom Array Generation]
+    
+    -- Using Spatial Light Modulator (SLM) with automatic differentiation-based method (AD).
+    
+  ],
+  [
+    #text(weight: "bold", fill: primary-color)[Work 2: Measurement-free and Movement-free QEC Protocol]
+    
+    -- #text(fill:error-color)[Movement & measurement-free] quantum error correction protocol in Rydberg atom platform with #text(fill:error-color)[global pulse sequence].
+    #figure(
+      image("3D_model.pdf", width: 60%),
+      )
+  ],
+)
+#show strong: alert
+
+= Neutral atom platform and Rydberg pulse design
+// == Platforms for quantum computing and simulation
+// #figure(
+//   image("platform.png", width: 100%),
+// )
+// - Atoms in optical lattice and cavity
+// - Array of trapped ions
+// - Superconducting qubits
+// - Neutral atoms in optical tweezer arrays
+// - Quantum dots
+== Advantage of neutral-atom array platform
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[1. Long Coherence Times: ] #text(weight: "bold", size: 18pt)[Neutral atom platform:] #text(size: 18pt)[12.6 s@Scholl2024]
+    
+    #text(weight: "bold", size: 18pt)[Superconducting qubits:] #text(size: 18pt)[recoreds of 1.68ms@Princeton2025]
+
+    #text(weight: "bold", fill: primary-color)[2. Exceptional Scalability:]#text(weight: "bold", size: 18pt)[Neutral atom platform:]#text(size: 18pt)[The 6,100-Qubit Milestone of Cesium atoms@Scholl2024 with 99.98% imaging fidelity]
+
+    #text(weight: "bold", size: 18pt)[Superconducting qubits:]#text(size: 18pt)[1121 physical qubits@IBM_Condor_2024]
+
+    #text(weight: "bold", size: 18pt)[Trapped ions:]#text(size: 18pt)[$~$32 - 56 physical qubits@IonQ_EQC_2025]
+    
+    // -- Qubit coherence can surpass one second, significantly longer than many competing platforms.@f8xg-w57m@semião2025resonatorassistedquantumtransductionsuperconducting
+    //   image("large_array.png", width: 50%),
+// )
+     
+  ],
+  [
+    #figure(
+      image("large_array.png", width: 100%),
+      )
+  ],
+)
+#show strong: alert
+
+== Advantage of neutral-atom array platform
+
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[3. High Gate Fidelity: ]
+    #text(weight: "bold", size: 18pt)[Neutral atoms:] 
+
+    -- #text(size: 18pt)[99.5% in large-scale parallel operations(on 60 atoms)@Evered2023_Fidelity]
+    
+    -- #text(size: 18pt)[99.9% in single-pair lab demonstrations@Tsai2025_Neutral]
+
+    #text(size: 18pt)[Comparable to Superconducting qubits (99.93%@Marxer2025_SC) and Trapped ions (99.99%@IonQ_FourNines_2025).] 
+    
+
+
+    #text(weight: "bold", fill: primary-color)[2. Strong, Tunable Interactions@RevModPhys.82.2313]
+    
+    #text(weight: "bold", size: 18pt)[Neutral atoms:] #text(size: 18pt)[Long-range ($~10mu$m) with Van der Vaals/Dipole-dipole interactions@Evered2023]
+
+    
+    
+     
+  ],
+  [
+    #text(weight: "bold", size: 18pt)[Superconducting qubits:] #text(size: 18pt)[Nearest-neighbor only@Stehlik2021]
+
+    #text(weight: "bold", size: 18pt)[Trapped ions:] #text(size: 18pt)[Coulomb Interaction, hard to adjust@Bruzewicz2019]
+    #figure(
+      image("interaction.png", width: 100%),
+      )
+    
+    // Draw atom array image representation (black background with white dots)
+      // #canvas(length: 1cm, {
+      //   import draw: *
+        
+      //   // Black background
+      //   rect((1.0, 1.0), (9, 9), fill: black, stroke: none)
+        
+      //   // Draw circular arrangement of atoms
+      //   let center-x = 5
+      //   let center-y = 5
+      //   let max-radius = 3.8
+        
+      //   // Create grid of atoms in circular pattern
+      //   for row in range(0, 28) {
+      //     for col in range(0, 28) {
+      //       let x = col * 0.5
+      //       let y = row * 0.5
+      //       let dx = x - center-x
+      //       let dy = y - center-y
+      //       let dist = calc.sqrt(dx * dx + dy * dy)
+            
+      //       if dist < max-radius and dist > 0.5 {
+      //         circle((x, y), radius: 0.08, fill: white, stroke: none)
+      //       }
+      //     }
+      //   }
+        
+        // Add some empty spots in pattern to show atom arrangement
+        // (HKUST-GZ logo area left empty as in the original)
+      // })
+    ]
+  ) 
+#show strong: alert
+
+== Large-scale neutral atom array generation
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[1. Method of generating spot arrays ]
+    
+    -- Calculating the phase pattern $phi(x,y)$ shown on the spatial light modulator.
+    #figure(
+      image("Array_generation_figure.pdf", width: 80%),
+      ) <fig-pdf>
+     
+  ],
+  [
+    #text(weight: "bold", fill: primary-color)[2. Method of trapping atoms]
+    
+    -- The optical tweezers($< 1 mu m$ spots) with highly focused laser beams will hold individual atoms.
+    #figure(
+      image("SLM.pdf", width: 61%),
+      )
+  ],
+)
+#show strong: alert
+- #text(weight: "bold")[Main tools:] The Spatial Light Modulator (SLM), a programmable diffractive element, imprints a phase profile $phi(x,y)$ onto the laser beam.
+
+== Critical bottlenecks in large array generation
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[preparation and operation latency: ]
+    
+    #text(weight: "bold", size: 18pt )[Collisional blockaded effect:] #text(size: 18pt)[(50% loading efficiency)@Fung_2015.] 
+    #figure(
+      image("collisional_blockade.png", width: 60%),
+      )
+    
+    -- #text(size: 18pt)[Requiring rearrangement with fast, flexible dynamic control and least computation cost@aah3752.] 
+  ],
+  [
+    #text(weight: "bold", fill: primary-color)[Dynamic Array Generation via AD]
+    
+    #text(weight: "bold", size: 18pt)[Algorithm for hologram calculation:] 
+    #figure(
+       image("ad_evolve.png", width: 86%),
+       )
+    -- #text(size: 18pt)[high efficiency, better explainability and better numerical stability.] 
+  ],
+)
+#show strong: alert
+
+== Quantum error correction on neutral atom array platform
+
+// Timeline labels
+#v(0.1in)
+  #grid(
+    columns: (1fr, 2fr, 3fr),
+    gutter: 0.2in,
+    align(left)[
+      #text(weight: "bold", fill: gate-yellow, size: 18pt)[Gate Operation\ ($~ 1mu s$)]
+    ],
+    align(center)[
+      #text(size: 18pt)[Measurement & Movement Process]
+    ],
+    align(center)[
+      #text(size: 18pt)[Extended Duration\ ($~$ hundreds of $mu s$)]
+    ]
+  )
+  // Draw timeline arrow
+  #canvas(length: 1cm, {
+    import draw: *
+    
+    let arrow-height = 2
+    let total-width = 26
+    
+    // Yellow segment (gate operation)
+    rect((0, 0), (0.8, arrow-height), fill: gate-yellow, stroke: none)
+    
+    // Blue segment (main process) with arrow head
+    rect((1.0, 0), (total-width - 3, arrow-height), fill: dark-blue, stroke: none)
+    
+    // Lightning bolt symbol in the middle
+    let bolt-x = 16
+    let bolt-y = arrow-height / 2
+    line((bolt-x +1, bolt-y + 1.5), (bolt-x - 0.3, bolt-y), stroke: (paint: white, thickness: 8pt))
+    line((bolt-x - 0.41, bolt-y), (bolt-x + 0.6 + 0.2, bolt-y), stroke: (paint: white, thickness: 8pt))
+    line((bolt-x + 0.7, bolt-y), (bolt-x - 1.1, bolt-y - 2.1), stroke: (paint: white, thickness: 8pt))
+    
+    // Arrow head
+    line((total-width - 3, arrow-height), (total-width, arrow-height / 2), stroke: (paint: dark-blue, thickness: 0pt))
+    line((total-width - 3, 0), (total-width, arrow-height / 2), stroke: (paint: dark-blue, thickness: 0pt))
+    // Fill arrow head
+    let pts = ((total-width - 3, -0.5), (total-width - 3, arrow-height+0.5), (total-width, arrow-height/2))
+    line(..pts, close: true, fill: dark-blue, stroke: none)
+  })
+  
+  #grid(
+    columns: (1fr, 2fr),
+    gutter: 0.5in,
+    [
+      #text(size: 19pt, weight: "bold")[Quantum Gates:]
+      #text(size: 18pt)[Operations are incredibly fast, taking approximately 1 microsecond.]
+    ],
+    [
+      #text(size: 19pt, weight: "bold")[Correction:] #text(size: 18pt)[Conventional QEC requires operations that are dramatically slower:@Bluvstein_2023@Graham_2023]
+      #list(
+        marker: text(size: 18pt)[#sym.bullet],
+        text(size: 17pt)[Mid-circuit Measurement: ~100--500 #sym.mu\s (fluorescence detection)],
+        text(size: 17pt)[Atom Shuttling/Movement: ~10--100 #sym.mu\s. @Bluvstein_2022@Norcia_2023]
+      )
+    ]
+  )
+
+  #text(size: 19pt, weight: "bold")[Consequence:] #text(size: 17pt)[The quantum state decoheres while waiting for slow measurements and movements.]
+
+= A Protocol to Eliminate Measurement Latency
+== Measurement-free and movement-free error correction protocol
+#figure(
+  image("old-new_protocol.pdf", width: 100%),
+)
+== Measurement-free and movement-free error correction protocol
+#text(size: 25pt, weight: "bold")[Measurement-Free:] #text(size: 22pt)[Replaces slow, destructive fluorescence
+measurements with fully coherent operations. Syndrome
+information is mapped to ancilla qubits, which then trigger
+corrective gates without classical feedback..]
+
+#text(size: 25pt, weight: "bold")[Movement-Free:] #text(size: 22pt)[Eliminates the need for atom shuttling. The atoms remain in a static lattice, and all interactions are mediated by precisely shaped, global laser pulses.]
+#v(0.4in)
+#text(size: 30pt, weight: "bold", fill: accent-gold)[Key Insight:] #text(size: 22pt)[By executing the entire QEC cycle -- syndrome mapping, error correction, and ancilla reset -- unitarily, we remove the primary sources of latency and decoherence.]
+
+== Background: Quantum error correction
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Code space, redundancy, syndrome, error correction.: ]
+#align(center, canvas(length:0.6cm, {
+  import draw: *
+  let s(it) = text(it, 10pt)
+  content((3.5, 4.5), s[Physical space])
+  circle((0, 0), radius: (3, 5))
+  circle((0, 3), radius: 0.1, fill: black, stroke: none, name: "A")
+  circle((0, -3), radius: 0.1, fill: black, stroke: none, name: "B")
+  content((rel: (0, -1), to: "B"), s[Code space])
+  content((rel: (0.6, 0), to: "A"), s[$|overline(0)angle.r$])
+  content((rel: (0.6, 0), to: "B"), s[$|overline(1)angle.r$])
+  line((-4, 0), (4, 0), stroke: (dash: "dashed"))
+  let p0 = (anchor: 150deg, name: "B")
+  let p1 = (rel: (-1.8, 1), to: "B")
+  let p2 = (rel: (-1.5, 1.8), to: "B")
+  line(p0, p1, mark: (end: "straight"), stroke: red)
+  line(p1, p2, mark: (end: "straight"), stroke: red)
+  line(p2, p0, mark: (end: "straight"), stroke: blue)
+  content((-1.9, -0.7), text(blue, s[QEC algorithm $arrow.r$ Hamiltonian?]))
+  content((-3.3, -2), text(red, s[Pauli error]))
+  circle(p1, radius: 0.1, fill: red, stroke: none)
+  circle(p2, radius: 0.1, fill: red, stroke: none)
+  line("A", "B", mark: (end: "straight", start: "straight"))
+  content((2.2, 1), s[Code distance: $d$])
+}))
+- #text(size: 18pt)[We require a large code distance(d), Logical qubits(k) and small physical qubits(n) to achieve fault-tolerant quantum computation.]
+     
+  ],
+  [
+    #text(weight: "bold", fill: primary-color)[Toric Code Hamiltonian:]
+$ H = -sum_s S_s - sum_p P_p $
+where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
+#figure(
+  image("toriccode.png", width: 100%),
+)
+- Stabilized: Eigenvalue of all stabilizers is $+1$.
+  ],
+)
+#show strong: alert
+== Measurement-free and movement-free error correction model
+
+#grid(
+  columns:(1.5fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Static, three species Rydberg atom array (Toric code space): ]
+
+    #text(weight: "bold",size: 18pt)[Data Qubits (Species D):]
+    #text(size: 18pt)[Encode the logical information, located at the vertices of a square lattice.]
+
+    #text(weight: "bold",size: 18pt)[Ancilla Qubits (Species A1): ]
+    #text(size: 18pt)[Used to detect Z-type errors, located at the centers of the 'X-stabilizer']
+
+    #text(weight: "bold",size: 18pt)[Ancilla Qubits (Species A2): ]
+    #text(size: 18pt)[Used to detect X-type errors, located at the centers of the 'Z-stabilizer']
+
+    #text(weight: "bold",size: 18pt)[Species-Selective Control: ]
+    #text(size: 18pt)[The distinct atomic species have well-separated transition frequencies, allowing global laser pulses to address one species without affecting the others.]
+  ],
+  [
+    #figure(
+      image("Figure_1_modify.pdf", width: 77%),
+      )
+  ],
+)
+#show strong: alert
+
+== Measurement-free and movement-free error correction model
+#text(weight: "bold",size: 20pt)[The full cycle for one error type is
+executed in two main phases:]
+
+• #text(weight: "bold",size: 20pt)[Error Check:] Parity information from four data qubits mapped onto a central ancilla.
+
+• #text(weight: "bold",size: 20pt)[Error Corection:] The resulting state of the ancillas then controls the data qubits, which conditionally flips the erroneous
+data qubit to correct the error.
+
+• #text(weight: "bold",size: 20pt)[Reset:] The ancillas are reset to $|0 angle.r$ to prepare for the next cycle. 
+#figure(
+  image("rubustsequence.pdf", width: 71%),
+)
+
+== Movement-free error-check process
+#grid(
+  columns:(1fr, 1.5fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Single plaquette situation: ]
+    
+    #figure(
+  image("stabilizer_circuit.pdf", width: 106%),
+)
+  ],
+  [
+    #text(weight: "bold", fill: primary-color)[Global pulse sequence:]
+    
+    • #text(weight: "bold",size: 20pt)[Implementation Constraint:] #text(size: 18pt)[data qubit is controlled by 2 neighboring ancilla qubits simultaneously.]
+    #figure(
+      image("circuits_for_paritycheck_err.pdf", width: 96%),
+      )
+  ],
+)
+#show strong: alert
+
+== Movement-free error-check process
+#figure(
+      image("circuits_for_paritycheck_som.pdf", width: 75%),
+      )
+- #text(weight: "bold",size: 20pt)[Effect under global sequence:] When one of the ancilla qubits is in $|1 angle.r$ state, the corresponding data qubit will experience a state flip.
+
+== Measurement-free and movement-free error correction model
+#figure(
+  image("model5.png", width: 62%),
+)
+- #text(weight: "bold",size: 20pt)[Our solution:] We add a double-controlled NOT (CCNOT) gate in the global pulse sequence to solve the above conflict.
+
+== Pulse sequence design:
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[OR-gate design: ]
+    #figure(
+      image("OR-gate.pdf", width: 83%),
+      )
+
+  ],
+  [
+    #text(weight: "bold", fill: primary-color)[$C_2$NOT-gate design: ]
+    #figure(
+      image("CCNOT.pdf", width: 83%),
+      )
+  ],
+)
+#show strong: alert
+- The Rydberg interaction $V_"dd" >> V_"Vdws"$
+
+
+= Different simulation methods(Pulse-level vs MPS)
+== Unit cell tests under pulse-level simulation
+#grid(
+  columns:(1fr, 1.5fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Unit cell: ]
+    #figure(
+      image("unitcell.pdf", width: 70%),
+      )
+  #text(weight:"bold", size: 18pt)[Red colored atoms:] #text(size: 16pt)[Ancilla qubits for X-error check.]
+
+  #text(weight:"bold", size: 18pt)[Blue colored atoms:] #text(size: 16pt)[Data qubits.]
+
+  ],
+  [
+    #text(weight: "bold", fill: primary-color)[Pulse sequence: ]
+    #figure(
+      image("figure_2_modify.pdf", width: 110%),
+      )
+  ],
+)
+#show strong: alert
+
+== Unit cell tests under pulse-level simulation
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[No-error condition: ]
+    #figure(
+      image("noerror.png", width: 60%),
+      )
+
+  ],
+  [
+    #text(weight: "bold", fill: primary-color)[Errored condition: ]
+    #figure(
+      image("error.png", width: 60%),
+      )
+  ],
+)
+#show strong: alert
+- #text(weight: "bold")[Fidelity:] Simulations confirm individual operation fidelities exceeding 99.8%
+// , limited primarily by non-adiabatic effects
+// == Simulation results for X-error parity check--single error
+// - $|00000 angle.r -> |00000 angle.r$, Fidelity = 0.9979
+// - $|10000 angle.r -> |10100 angle.r$, Fidelity = 0.9979
+// - $|01011 angle.r -> |01111 angle.r$, Fidelity = 0.9989
+// - $|11011 angle.r -> |11011 angle.r$, Fidelity = 0.9996
+
+== Bottlenecks in pulse-level simulation
+#text(weight: "bold")[The Scalability Bottleneck:] 
+
+Exponential growth of Hilbert space size with increasing atom number.
+
+#text(weight: "bold")[Solution to the Bottleneck:] 
+
+-- Tensor Networks (Matrix Product States, MPS): Simulating large-scale arrays while retaining the full quantum mechanical description of the state vector $|psi angle.r$.
+// - Using SLM to generate large-scale neutral atom array with automatic differentiation-based method for flexible adjustment of tweezer locations.
 // - Generating an optical tweezer arrays that change smoothly over time with SLM via automatic differentiation-based strategy.
 
-- Designing measurement-free and movement-free quantum error correction protocol in Rydberg atom array platform.
-= Neutral atom platform and Rydberg pulse design
-== Platforms for quantum computing and simulation
+// - Designing measurement-free and movement-free quantum error correction protocol in Rydberg atom array platform.
+
 // first slide: overview, 听完报告能得到什么 I this work， I will present two works. 第一个工作一张slide带过，第二个工作多讲一些细节。第一个slide表述我的工作内容，第一个第二个，其中第二个工作要主要讲解。着重介绍关于Rydberg pulse design in QEC。Rydberg atom array 在Rydberg atom pulse design当中有什么意义。为什么用pulse design，什么事pulse design。问题定义完整，前人的工作review完整。
 //什么是hologram generation，为什么要做这个东西，这在tweezer array generation当中有什么用，把背景部分阐述清楚。
 // 问题展示清楚，背景展示清楚，数据有逻辑性的罗列清楚 Rydberg atoms近期发展，先说做了什么，为什么error correction。error correction的必要性。
 // 为什么关注neutral atom array平台，那么我们要去产生这个large scale tweezer array，（提一下最近的Lukin等的工作）
-#figure(
-  image("platform.png", width: 100%),
-)
-== Advantage of neutral-atom array platform
 
 //SLM 生成大规模阵列的时候要防止未散射的零级光的干扰。这个时候需要spatial filter来阻挡零级光。这就不可避免的占用物理空间导致阵列当中存在间隙，1055的激光就是用于填充间隙而设计的。
-- Long Qubit Coherence Times@f8xg-w57m@semião2025resonatorassistedquantumtransductionsuperconducting.
-#figure(
-  image("coherencetime.png", width: 60%),
-)
-== Advantage of neutral-atom array platform
 
-- Strong, Tunable Interactions@RevModPhys.82.2313.
-#figure(
-  image("interaction.png", width: 60%),
-)
-- High Gate Fidelity (over ~99.5%)@Evered2023@Ma2023.
-- Scalability: offering thousand-scale atomic registers@Manetsch_2025@Chiu_2025.
-#figure(
-  image("large_array.png", width: 50%),
-)
+
+// #figure(
+//   image("large_array.png", width: 50%),
+// )
 // == Requirement of large-scale neutral atom array
 // - Quantum simulation of many-body phases and dynamics. 
-== Requirement of large-scale neutral atom array
-- Reliable quantum computer building requires correction codes implementation.
+// == Requirement of large-scale neutral atom array
+// - Reliable quantum computer building requires correction codes implementation.
 
--- The Overhead: A single logical qubit with sufficient fault tolerance may require hundreds to thousands of physical qubits.
-#figure(
-  image("Logical qubit.png", width: 50%),
-)
+// -- The Overhead: A single logical qubit with sufficient fault tolerance may require hundreds to thousands of physical qubits.
+// #figure(
+//   image("Logical qubit.png", width: 50%),
+// )
 
 // -- The Goal: We need arrays scaling from $N approx 100$ (NISQ era) to $N > 10,000$ (Fault-Tolerant era)@Preskill_2018.
 // #figure(
@@ -93,75 +579,76 @@
 // - Many-Body Physics Simulation: Simulating complex quantum phases of matter (e.g., spin liquids) requires lattice sizes that exceed the capabilities of classical supercomputers ($N > 50-100$).
 
 // - Connectivity: Large 2D and 3D arrays allow for nearest-neighbor interactions required for gate operations via Rydberg blockade.
-== Large-scale neutral atom array generation
-- Method of trapping atoms: We sculpt light using phase modulation. Generating optical tweezers($< 1 mu m$ spots) with highly focused laser beams that hold individual atoms.
-#figure(
-  image("difffract.png", width: 40%),
-)
-- Main tools: The Spatial Light Modulator (SLM), a programmable diffractive element, imprints a phase profile $phi(x,y)$ onto the laser beam.
 
-- Algorithm for hologram generation: Calculating the phase pattern $phi(x,y)$ to produce the desired intensity pattern at the focal plane.
-#figure(
-  image("array.png", width: 60%),
-)
-== Critical bottlenecks in large array generation
 
-Hindered scalability: preparation and operation latency
-- Collisional blockaded effect: (50% loading efficiency)@Fung_2015. 
-#figure(
-  image("collisional_blockade.png", width: 60%),
-)
+// - Method of trapping atoms: We sculpt light using phase modulation. Generating optical tweezers($< 1 mu m$ spots) with highly focused laser beams that hold individual atoms.
+// #figure(
+//   image("difffract.png", width: 40%),
+// )
+// - Main tools: The Spatial Light Modulator (SLM), a programmable diffractive element, imprints a phase profile $phi(x,y)$ onto the laser beam.
 
-== Requirements for large-scale neutral atom array generation
-- Requiring rearrangement with fast, flexible dynamic control and least computation cost. 
+// - Algorithm for hologram generation: Calculating the phase pattern $phi(x,y)$ to produce the desired intensity pattern at the focal plane.
+// #figure(
+//   image("array.png", width: 60%),
+// )
 
--- Previous works@aah3752: rearranging atoms with acousto-optic deflectors (AODs).
+// Hindered scalability: preparation and operation latency
+// - Collisional blockaded effect: (50% loading efficiency)@Fung_2015. 
+// #figure(
+//   image("collisional_blockade.png", width: 60%),
+// )
 
-#figure(
-  image("rearrange.png", width: 29%),
-)
+// == Requ irements for large-scale neutral atom array generation
+// - Requiring rearrangement with fast, flexible dynamic control and least computation cost. 
+
+// -- Previous works@aah3752: rearranging atoms with acousto-optic deflectors (AODs).
+
+// #figure(
+//   image("rearrange.png", width: 29%),
+// )
 
 
 // = Dynamic Array Generation //via Automatic Differentiation
-== Dynamic Array Generation via Automatic Differentiation
+// == Dynamic Array Generation via Automatic Differentiation
 //相比之前的方法，AD-based method有以下优点，包括可以更加灵活的生成想要的阵列形状，可以更加高效的计算phase pattern，并且相对neural network-based method有更好的数值稳定性和可解释性。
-- high efficiency, better explainability and better numerical stability.
-#figure(
-  image("difffract.png", width: 55%),
-)
-== Dynamic Array Generation via Automatic Differentiation
-- Algorithm for calculating the the hologram displayed on SLM: 
-#figure(
-  image("ad_evolve.png", width: 60%),
-)
+// - high efficiency, better explainability and better numerical stability.
+// #figure(
+//   image("difffract.png", width: 55%),
+// )
+// == Dynamic Array Generation via Automatic Differentiation
+// - Algorithm for calculating the the hologram displayed on SLM: 
+// #figure(
+//   image("ad_evolve.png", width: 60%),
+// )
 // knowing the locations of two continuous timesteps; calculating the hologram phase pattern of the previous timestep with C_WGS; calculating the velocity of the moving dots; calculating the phase-change velocity with AD(implicit differentiation); Evolve and update the phase dynamics.
 // == Dynamic Array Generation via Automatic Differentiation
 // - The AD-based method treats the phase-coordinate relationship as an analytic function
-== Critical bottlenecks in large array generation
-- After the preparation stage, movement and measurement of atoms during quantum operations is time-consuming: (hundreds of $mu$s)@Bluvstein_2023@Graham_2023.
-#figure(
-  image("timeconsuming.png", width: 60%),
-)
-== Measurement-free and movement-free protocol
--- Using static atoms of two species and applying global pulse sequences for implementing @Anand2024. 
-#figure(
-  image("dualspecies.png", width: 60%),
-)
-= A Protocol to Eliminate Measurement Latency
-== Quantum error correction and code space
-- Code space, redundancy, syndrome, error correction.
-#figure(
-  image("codespace.png", width: 30%),
-)
-== Toric code
-- Toric code Hamiltonian:
-$ H = -sum_s S_s - sum_p P_p $
-where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
-#figure(
-  image("toriccode.png", width: 60%),
-)
-- Stabilizer:
-- Stabilized: Eigenvalue of all stabilizers is $+1$.
+// == Critical bottlenecks in large array generation
+// - After the preparation stage, movement and measurement of atoms during quantum operations is time-consuming: (hundreds of $mu$s)@Bluvstein_2023@Graham_2023.
+// #figure(
+//   image("timeconsuming.png", width: 60%),
+// )
+// == Measurement-free and movement-free protocol
+// -- Using static atoms of two species and applying global pulse sequences for implementing @Anand2024. 
+// #figure(
+//   image("dualspecies.png", width: 60%),
+// )
+
+
+// == Quantum error correction and code space
+// - Code space, redundancy, syndrome, error correction.
+// #figure(
+//   image("codespace.png", width: 30%),
+// )
+// == Toric code
+// - Toric code Hamiltonian:
+// $ H = -sum_s S_s - sum_p P_p $
+// where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
+// #figure(
+//   image("toriccode.png", width: 60%),
+// )
+// - Stabilizer:
+// - Stabilized: Eigenvalue of all stabilizers is $+1$.
 
 //== Necessity of quantum error correction
 //- Example: Performing universal and large-scale quantum computation on neutral-atom array
@@ -191,20 +678,20 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 //$ H = -sum_s S_s - sum_p P_p $
 //where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 
-== Main problem
-- Measurement and feedback is time-consuming.
-(movement-100$mu$s@Bluvstein_2022@Bluvstein_2023; illuminating and collecting-500$mu$s@Norcia_2023@Graham_2023)
-#figure(
-   image("errorcorrection.png", width: 60%),
-   caption: [quantum error correction process @Khalifa2021Digital]
-)
-- Alternative: self-correcting quantum code(using Hamiltonian to confine to the ground state)@Yoshida_2011
+// == Main problem
+// - Measurement and feedback is time-consuming.
+// (movement-100$mu$s@Bluvstein_2022@Bluvstein_2023; illuminating and collecting-500$mu$s@Norcia_2023@Graham_2023)
+// #figure(
+//    image("errorcorrection.png", width: 60%),
+//    caption: [quantum error correction process @Khalifa2021Digital]
+// )
+// - Alternative: self-correcting quantum code(using Hamiltonian to confine to the ground state)@Yoshida_2011
 
-== Third approach
-- Measurement-free error correction scheme@Heu_en_2024: 
-#figure(
-  image("model2.png", width: 40%),
-)
+// == Measurement-free scheme model
+// - Measurement-free error correction scheme@Heu_en_2024: 
+// #figure(
+//   image("model2.png", width: 40%),
+// )
 //-- Encoding the logical qubit into multiple physical qubits.  
 //-- Performing parity check process to extract the error syndrome.
 //-- Correcting the error syndrome with a recovery process.
@@ -233,12 +720,12 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 
 //-- Laser Complexity and Crosstalk.
 
-== Parity-check process is time consuming@Barredo_2018
-- Moving to entangling zone $=>$ Gate operation $=>$ Back to storage $=>$ Repeating.
-#figure(
-  image("flip.png", width: 50%),
-)
-- Movement is slow! The reported gate time is about 1$mu$s@Levine_2018 and the movement time is about hundreds of $mu$s.@Bluvstein_2022@Bluvstein_2023
+// == Parity-check process is time consuming@Barredo_2018
+// - Moving to entangling zone $=>$ Gate operation $=>$ Back to storage $=>$ Repeating.
+// #figure(
+//   image("flip.png", width: 50%),
+// )
+// - Movement is slow! The reported gate time is about 1$mu$s@Levine_2018 and the movement time is about hundreds of $mu$s.@Bluvstein_2022@Bluvstein_2023
 //== Measurement process is time time-consuming
 //- Moving the ancilla to readout zone (100$mu$s) $=>$ illuminating with focused imaging beam(500 $mu$s) $=>$ collect image
 
@@ -252,12 +739,12 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 //-- measurement-free error correction.@Heu_en_2024@Perlin_2023
 
 
-== Measurement-free and movement-free error correction model
-- Toric code space with periodic boundary condition.
-- Neutral atom array with three different species: ancilla qubits(A1, A2) for Z/X-error check/correction and data qubits(D).
-#figure(
-  image("basic_array.png", width: 27%),
-)
+// == Measurement-free and movement-free error correction model
+// - Toric code space with periodic boundary condition.
+// - Neutral atom array with three different species: ancilla qubits(A1, A2) for Z/X-error check/correction and data qubits(D).
+// #figure(
+//   image("basic_array.png", width: 27%),
+// )
 //Three species, interaction strengths, 
 
 //== Step1: Parity-check process
@@ -269,35 +756,16 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 //  image("flip.png", width: 50%),
 //)
 
-== Movement-free parity-check process
-- The one-step parity check process in one plaquette:
--- The effective parity check can be implemented with ancilla qubit as control qubit and data qubit as target qubit.
 
-#figure(
-  image("effect.png", width: 45%),
-)
 
-- Implementation Constraint: Each data qubit is controlled by two neighboring ancilla qubits simultaneously.
-#figure(
-  image("overlapped_2.png", width: 90%),
-)
 
-Solution: Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit as control qubit and data qubit as target qubit.
 
-== Measurement-free and movement-free error correction model
-#figure(
-  image("model5.png", width: 70%),
-)
+// Solution: Modifying the pulse sequence to add a CCNOT gate with neighboring ancilla qubit as control qubit and data qubit as target qubit.
 
-== Designed pulse sequence for X-error parity check
-#figure(
-  image("model44.png", width: 70%),
-)
-- Including or-gate and CCNOT gate:
-#figure(
-  image("gateimp1.png", width: 100%),
-)
-= Different simulation methods(Pulse-level vs QCA vs MPS)
+
+
+
+
 
 // == Designed pulse sequence for Z-error check
 // - $"CNOT"_4$ gate implementation:
@@ -327,61 +795,51 @@ Solution: Modifying the pulse sequence to add a CCNOT gate with neighboring anci
 // #figure(
 //   image("extraction.png", width: 35%),
 // )
-== Simulation results for X-error parity check--no error
+
+
+// #figure(
+//   image("figure_2_modify.pdf", width: 70%),
+// )
+// #figure(
+//   image("gateimp1.png", width: 100%),
+// )
+
 // - $|00000angle.r => |"+++++"angle.r =>"pulse sequence" => |"+++++"angle.r => |00000 angle.r ("final state")$
-#figure(
-  image("noerror.png", width: 37%),
-)
+
 // == Simulation results for X-error parity check--no error
 // - $|11011angle.r => |"--+--"angle.r =>"pulse sequence" => |"--+--"angle.r => |11011 angle.r ("final state")$
 // #figure(
   // image("minus2.png", width: 50%),
 // )
-== Simulation results for X-error parity check--single error
-// - $|10000angle.r => |"-++++"angle.r =>"pulse sequence" => |"-+-++"angle.r => |10100 angle.r ("final state")$
-#figure(
-  image("error.png", width: 37%),
-)
+// == Simulation results for X-error parity check--single error
+// // - $|10000angle.r => |"-++++"angle.r =>"pulse sequence" => |"-+-++"angle.r => |10100 angle.r ("final state")$
+// #figure(
+//   image("error.png", width: 37%),
+// )
 
-== Simulation results for X-error parity check--single error
-- $|00000 angle.r -> |00000 angle.r$, Fidelity = 0.9979
-- $|10000 angle.r -> |10100 angle.r$, Fidelity = 0.9979
-- $|01011 angle.r -> |01111 angle.r$, Fidelity = 0.9989
-- $|11011 angle.r -> |11011 angle.r$, Fidelity = 0.9996
 
-== Bottlenecks in pulse-level simulation
-- The Scalability Bottleneck: Exponential growth of Hilbert space size with increasing atom number.
+// == Quantum cellular automata approach
+// - Approach: Discretization
 
-- We need scalable alternatives that preserve key physics.
-
-- Two paths to scalability:
-
--- quantum cellular automata (QCA) approach 
-
--- Tensor Networks (Matrix Product States, MPS)
-
-== Quantum cellular automata approach
-- Approach: Discretization
-
-- Abstracts continuous evolution into discrete, local update rules. Perfect for studying logical error propagation and topological thresholds on massive lattices.
-#figure(
-  image("qca.png", width: 45%),
-  caption: [Qubits are represented by the colored boxes, while the three-qubit local rules derived from pulse-level physics are represented by the black rectangles.]
-)
+// - Abstracts continuous evolution into discrete, local update rules. Perfect for studying logical error propagation and topological thresholds on massive lattices.
+// #figure(
+//   image("qca.png", width: 45%),
+//   caption: [Qubits are represented by the colored boxes, while the three-qubit local rules derived from pulse-level physics are represented by the black rectangles.]
+// )
 
 // == Discrete update rules
 // #figure(
 //   image("rules.png", width: 60%),
 //   caption: [Local update rules for the QCA model of the measurement-free error correction protocol.]
 // )
-== Bottlenecks in QCA approach
-- QCA:
--- QCA relies on simplified discrete rules rather than continuous quantum dynamics. Loss of details.
+// == Bottlenecks in QCA approach
+// - QCA:
+// -- QCA relies on simplified discrete rules rather than continuous quantum dynamics. Loss of details.
 
---  storing the dense vector ($2^N$ amplitudes)
+// --  storing the dense vector ($2^N$ amplitudes)
 
-- Tensor network: 
--- Objective: To simulate large-scale arrays while retaining the full quantum mechanical description of the state vector $|psi angle.r$.
+// - Tensor network: 
+// -- Objective: To simulate large-scale arrays while retaining the full quantum mechanical description of the state vector $|psi angle.r$.
 
 
 == Simulation results with QCA
