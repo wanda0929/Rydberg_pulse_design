@@ -19,7 +19,7 @@
 
 #let dark-blue = rgb("#1a365d")
 #let accent-blue = rgb("#2563eb")
-#let accent-gold = rgb("#b8860b")
+#let accent-gold = rgb("#ac7c01")
 #let light-gold = rgb("#d4a84b")
 #let bg-color = rgb("#f5f5f0")
 #let data-blue = rgb("#3b82f6")
@@ -32,6 +32,7 @@
 #let gate-red = rgb("#f87171")
 #let gate-purple = rgb("#a78bfa")
 #let gate-gray = rgb("#9ca3af")
+#let gate-black = rgb("#030304")
 
 
 // Specify `lang` and `font` for the theme if needed.
@@ -273,13 +274,13 @@
     columns: (1fr, 2fr, 3fr),
     gutter: 0.2in,
     align(left)[
-      #text(weight: "bold", fill: gate-yellow, size: 18pt)[Gate Operation\ ($~ 1mu s$)]
+      #text(weight: "bold", fill: accent-gold, size: 18pt)[Gate Operation\ ($~ 1mu s$)]
     ],
     align(center)[
-      #text(size: 18pt)[Measurement & Movement Process]
+      #text(weight: "bold", size: 18pt, fill: dark-blue,)[Measurement & Movement Process]
     ],
     align(center)[
-      #text(size: 18pt)[Extended Duration\ ($~$ hundreds of $mu s$)]
+      #text(weight: "bold", size: 18pt)[Extended Duration\ ($~$ hundreds of $mu s$)]
     ]
   )
   // Draw timeline arrow
@@ -290,10 +291,13 @@
     let total-width = 26
     
     // Yellow segment (gate operation)
-    rect((0, 0), (0.8, arrow-height), fill: gate-yellow, stroke: none)
+    rect((0, 0), (0.8, arrow-height), fill: accent-gold, stroke: none)
     
     // Blue segment (main process) with arrow head
     rect((1.0, 0), (total-width - 3, arrow-height), fill: dark-blue, stroke: none)
+
+    // Blue segment (main process) with arrow head
+    rect((16.3, 0), (total-width - 3, arrow-height), fill: gate-black, stroke: none)
     
     // Lightning bolt symbol in the middle
     let bolt-x = 16
@@ -303,11 +307,11 @@
     line((bolt-x + 0.7, bolt-y), (bolt-x - 1.1, bolt-y - 2.1), stroke: (paint: white, thickness: 8pt))
     
     // Arrow head
-    line((total-width - 3, arrow-height), (total-width, arrow-height / 2), stroke: (paint: dark-blue, thickness: 0pt))
-    line((total-width - 3, 0), (total-width, arrow-height / 2), stroke: (paint: dark-blue, thickness: 0pt))
+    line((total-width - 3, arrow-height), (total-width, arrow-height / 2), stroke: (paint: gate-black, thickness: 0pt))
+    line((total-width - 3, 0), (total-width, arrow-height / 2), stroke: (paint: gate-black, thickness: 0pt))
     // Fill arrow head
     let pts = ((total-width - 3, -0.5), (total-width - 3, arrow-height+0.5), (total-width, arrow-height/2))
-    line(..pts, close: true, fill: dark-blue, stroke: none)
+    line(..pts, close: true, fill: gate-black, stroke: none)
   })
   
   #grid(
@@ -330,11 +334,11 @@
   #text(size: 19pt, weight: "bold")[Consequence:] #text(size: 17pt)[The quantum state decoheres while waiting for slow measurements and movements.]
 
 = A Protocol to Eliminate Measurement Latency
-== Measurement-free and movement-free error correction protocol
+== Measurement-free and movement-free QEC protocol@Bluvstein2024_Nature
 #figure(
-  image("old-new_protocol.pdf", width: 100%),
+  image("QEC_withmeasure.pdf", width: 90%),
 )
-== Measurement-free and movement-free error correction protocol
+== Measurement-free and movement-free QEC protocol
 #text(size: 25pt, weight: "bold")[Measurement-Free:] #text(size: 22pt)[Replaces slow, destructive fluorescence
 measurements with fully coherent operations. Syndrome
 information is mapped to ancilla qubits, which then trigger
@@ -504,7 +508,7 @@ data qubit to correct the error.
   [
     #text(weight: "bold", fill: primary-color)[Pulse sequence: ]
     #figure(
-      image("figure_2_modify.pdf", width: 110%),
+      image("fig_laser_Gaussian.svg", width: 90%),
       )
   ],
 )
@@ -515,16 +519,16 @@ data qubit to correct the error.
   columns:(1fr, 1fr),
   gutter: 1em,
   [
-    #text(weight: "bold", fill: primary-color)[No-error condition: ]
+    // #text(weight: "bold", fill: primary-color)[No-error condition: ]
     #figure(
-      image("noerror.png", width: 60%),
+      image("fig_combined1.svg", width: 69%),
       )
 
   ],
   [
-    #text(weight: "bold", fill: primary-color)[Errored condition: ]
+    // #text(weight: "bold", fill: primary-color)[Errored condition: ]
     #figure(
-      image("error.png", width: 60%),
+      image("fig_combined3.svg", width: 69%),
       )
   ],
 )
@@ -544,7 +548,15 @@ Exponential growth of Hilbert space size with increasing atom number.
 
 #text(weight: "bold")[Solution to the Bottleneck:] 
 
--- Tensor Networks (Matrix Product States, MPS): Simulating large-scale arrays while retaining the full quantum mechanical description of the state vector $|psi angle.r$.
+Tensor Networks (Matrix Product States, MPS):
+
+-- Efficiently represent the quantum state, .
+
+-- Accurately captures the system's
+entanglement structure.
+
+-- Allow for
+simulations of larger arrays.
 // - Using SLM to generate large-scale neutral atom array with automatic differentiation-based method for flexible adjustment of tweezer locations.
 // - Generating an optical tweezer arrays that change smoothly over time with SLM via automatic differentiation-based strategy.
 
@@ -865,9 +877,65 @@ Exponential growth of Hilbert space size with increasing atom number.
   caption: [Mapping the 2D lattice to a 1D chain for MPS simulation.]
 )
 
--- MPO construction of the pulse sequence.
+-- Simulation: Use the time-dependent variational principle (TDVP) to evolve the MPS.
 
 -- Contraction and Truncation to control bond dimension.
+
+== Continuous error-correction simulation with MPS
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Active error correction VS no correction: ]
+
+    - #text(weight: "bold", fill: gate-orange)[With correction(orange line):] The system's probability of being in the correct ground state remains near unity.
+
+    - #text(weight: "bold", fill: gate-blue)[Without correction(blue line):] The system rapidly deviates from the ground state due to accumulating errors.
+    
+
+  ],
+  [
+    // #text(weight: "bold", fill: primary-color)[Errored condition: ]
+    #figure(
+      image("continue.pdf", width: 120%),
+      )
+  ],
+)
+#show strong: alert
+
+== Conclusion
+- We have designed and validated a measurement-free and movement-free QEC protocol
+
+- By combining a multi- species architecture with global, species-selective pulses, the scheme eliminates the primary bottlenecks of measurement latency and atom shuttling.
+
+- Pulse-level and tensor network simulations confirm the protocol's ability to coherently detect and autonomously correct errors, maintaining high fidelity over many cycles.
+
+- This approach significantly reduces QEC cycle times and simplifies experimental complexity, accelerating progress in neutral atom quantum computing.
+
+== Prospects
+#text(weight: "bold", fill: primary-color)[Key areas for future work include: ]
+
+•  #text(weight: "bold", fill: black, size:18pt)[Scaling to Larger Codes: ]
+
+Demonstrating error suppression with higher-distance toric codes.
+
+•  #text(weight: "bold", fill: black, size:18pt)[Rigorous Fault-Tolerance Analysis:]
+
+Performing a full noise threshold analysis
+under realistic experimental conditions.
+
+// •  #text(weight: "bold", fill: black, size:18pt)[Implementing Logical Gates:]
+
+// Extending
+// the framework to performs perform
+// universal logical operations on the
+// encoded qubits.
+
+•  #text(weight: "bold", fill: black, size:18pt)[Near-Term Experimental Demonstration:]
+
+Realizing the protocol in existing dual-
+species Rydberg atom arrays.
+
 // == Simulation results for X-error parity check--single error
 // - $|01011angle.r => |"+-+--"angle.r =>"pulse sequence" => |"+++++"angle.r => |00000 angle.r ("final state")$
 // #figure(
