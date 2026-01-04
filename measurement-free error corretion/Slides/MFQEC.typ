@@ -965,5 +965,38 @@ species Rydberg atom arrays.
 //   image("errorco.png", width: 80%),
 // )
 
-== bibliography
-#bibliography("reference.bib")
+#page[
+  #v(1fr)
+  #align(center)[
+    #v(1.9in)
+    #text(size: 58pt, weight: "bold", fill: primary-color)[
+      Thank You
+    ]
+    #v(-0.5in)
+    #line(length: 40%, stroke: 1pt + gray)
+    #v(0.3in)
+    #text(size: 20pt)[
+      Han Wang
+    ]
+    #v(0.1in)
+    #text(size: 16pt, fill: gray)[
+      HKUST(GZ)
+    ]
+    #v(0.1in)
+    #text(size: 14pt, fill: gray)[
+      #datetime.today().display()
+    ]
+  ]
+  #v(1fr)
+]
+
+== References
+
+#set text(size: 14pt)
+#set par(leading: 0.6em)
+
+#bibliography(
+  "reference.bib",
+  title: none,
+  style: "ieee",
+)
