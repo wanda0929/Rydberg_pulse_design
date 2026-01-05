@@ -877,10 +877,182 @@ simulations of larger arrays.
   caption: [Mapping the 2D lattice to a 1D chain for MPS simulation.]
 )
 
--- Simulation: Use the time-dependent variational principle (TDVP) to evolve the MPS.
+-- Simulation: Use the time- evolving block decimation (TEBD) to evolve the MPS.
 
 -- Contraction and Truncation to control bond dimension.
 
+== Time-Evolving Block Decimation (TEBD)
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Highly effective for circuits with limited entanglement growth and short-range interactions. ]
+
+    - #text(weight: "bold", fill: gate-orange)[Decompose:] Time-evolution operator $->$ sequence of two-qubit gates (via Trotter-Suzuki decomposition).
+
+    - #text(weight: "bold", fill: gate-blue)[Apply and truncate:] Apply gates $->$ local truncation(via Singular Value Decomposition) to keep bond dimension manageable.
+    
+
+  ],
+  [
+    // #text(weight: "bold", fill: primary-color)[Errored condition: ]
+    #figure(
+      image("TEBD.pdf", width: 83%),
+      )
+  ],
+)
+#show strong: alert
+
+== Limitations of TEBD
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Compounding local errors. : ]
+
+#figure(
+  canvas(length: 0.7cm, {
+    import draw: *
+    set-origin((-0.225, 0))      
+    // Arrow at the top with label
+    line((0, 3.2), (14, 3.2), stroke: gray + 1.5pt, mark: (end: ">", fill: gray))
+    content((7, 3.8), text(fill: gray.darken(30%), size: 0.9em)[Truncation at each step])
+
+    // Wave 1: Clean sine wave
+    let wave1 = ()
+    for i in range(0, 41) {
+      let x = i * 0.05
+      let y = calc.sin(i * 0.3) * 0.8
+      wave1.push((x, y))
+    }
+    line(..wave1, stroke: rgb("#1a365d") + 2pt)
+
+    // Wave 2: Slightly noisy sine wave
+    let wave2 = ()
+    for i in range(0, 41) {
+      let x = 2.5 + i * 0.05
+      let noise = calc.sin(i * 1.5) * 0.08
+      let y = calc.sin(i * 0.3) * 0.8 + noise
+      wave2.push((x, y))
+    }
+    line(..wave2, stroke: rgb("#1a365d") + 2pt)
+
+    // Wave 3: More noisy
+    let wave3 = ()
+    for i in range(0, 41) {
+      let x = 5 + i * 0.05
+      let noise = calc.sin(i * 2.5) * 0.15 + calc.cos(i * 1.8) * 0.1
+      let y = calc.sin(i * 0.3) * 0.8 + noise
+      wave3.push((x, y))
+    }
+    line(..wave3, stroke: rgb("#1a365d") + 2pt)
+
+    // Wave 4: Even more noisy
+    let wave4 = ()
+    for i in range(0, 41) {
+      let x = 7.5 + i * 0.05
+      let noise = calc.sin(i * 3.5) * 0.2 + calc.cos(i * 2.2) * 0.15 + calc.sin(i * 5) * 0.1
+      let y = calc.sin(i * 0.3) * 0.7 + noise
+      wave4.push((x, y))
+    }
+    line(..wave4, stroke: rgb("#1a365d") + 2pt)
+
+    // Wave 5: Very noisy (approaching random)
+    let wave5 = ()
+    for i in range(0, 41) {
+      let x = 10 + i * 0.05
+      let noise = calc.sin(i * 4.7) * 0.25 + calc.cos(i * 3.1) * 0.2 + calc.sin(i * 7.3) * 0.15 + calc.cos(i * 11) * 0.1
+      let y = calc.sin(i * 0.3) * 0.5 + noise
+      wave5.push((x, y))
+    }
+    line(..wave5, stroke: rgb("#1a365d") + 2pt)
+
+    // Wave 6: Most noisy (chaotic)
+    let wave6 = ()
+    for i in range(0, 41) {
+      let x = 12.5 + i * 0.05
+      let noise = calc.sin(i * 5.3) * 0.3 + calc.cos(i * 4.1) * 0.25 + calc.sin(i * 9.7) * 0.2 + calc.cos(i * 13) * 0.15
+      let y = calc.sin(i * 0.3) * 0.3 + noise
+      wave6.push((x, y))
+    }
+    line(..wave6, stroke: rgb("#1a365d") + 2pt)
+  }),
+) 
+- Apply gate $->$ Truncation with local information $->$ Accumulated truncation errors $->$ Requirement of increasing bond dimension.
+],
+  [
+    #text(weight: "bold", fill: primary-color)[Inefficient handling of Long-range interactions: ]
+
+    #figure(
+      image("SWAP gates.pdf", width: 60%),
+      )
+
+    - Requirement of external SWAP gates increases circuit depth and calculation expense.
+    
+
+  ],
+)
+
+== Time-Dependent Variational Principle (TDVP)
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[More accurate evolution within the MPS manifold:@Benedikter_2018 ]  
+    - #text(weight: "bold", fill: gate-blue)[Definition:] TDVP evolves the state $|Psi(A)angle.r$ within a restricted sub-manifold $cal(M)_D$ of the full Hilbert space $cal(H)$
+
+    - #text(weight: "bold", fill: gate-orange)[Advantage:] Finds the provably optimal evolution path, ensuring most efficient use of MPS's representational capacity. Avoids compounding local truncation errors.
+  ],
+  [
+    #figure(
+      canvas(length: 2cm, {
+        import draw: *
+
+        // Curved manifold surface (M) with gradient effect
+        merge-path({
+          bezier((3, 1), (6.5, 2.5), (4, 1.8), (5.5, 1.5))
+          bezier((6.5, 2.5), (2.85, 4.15), (6, 3.5), (4.5, 4.5))
+          bezier((2.85, 4.15), (0.5, 2.5), (1.5, 4), (0.8, 3.5))
+          bezier((0.5, 2.5), (3, 1), (0.5, 1.8), (1.5, 1))
+        }, close: true, fill: gradient.linear(white, gray.lighten(20%), angle: 90deg), stroke: gray)
+
+        // Tangent plane (parallelogram)
+        line((2, 2), (1, 3), (6.5, 4.1), (7.5, 3.1), close: true, fill: gray.lighten(70%), stroke: gray)
+
+        // Point u
+        circle((3.5, 3), radius: 0.08, fill: black, stroke: none)
+
+        // Arrow: exact evolution (1/i)Hu
+        line((3.5, 3), (5, 5), stroke: black + 1.5pt, mark: (end: ">", fill: black))
+
+        // Arrow: projected evolution P(u)(1/i)Hu
+        line((3.5, 3), (5, 3.3), stroke: black + 1.5pt, mark: (end: ">", fill: black))
+
+        // Dashed projection line
+        line((5, 5), (5, 3.3), stroke: (dash: "dashed", paint: black))
+
+        // Right angle marker
+        line((5, 3.5), (4.8, 3.46), stroke: black + 0.8pt)
+        line((4.8, 3.46), (4.8, 3.26), stroke: black + 0.8pt)
+
+        // Labels
+        content((5.3, 5.2), $frac(1, i) H u$)
+        content((1.3, 1.8), $T_u cal(M)$)
+        content((5.8, 3.1), text(size: 0.8em)[$P(u) frac(1, i) H u$])
+        content((3.1, 2.7), $u$)
+        content((5.5, 1.8), $cal(M)$)
+      }),
+    )
+  ]
+)
+
+== Local-TDVP algorithm
+- We intend to develop an algorithm for efficiently simulating large-scale Rydberg arrays with long-range interactions using local-TDVP algorithm@sander2025quantumcircuitsimulationlocal with Julia language.
+
+-- #text(weight: "bold", fill: gate-blue)[TDVP methods for discrite unitary gates:] Treating each gate as a discrete time evolution $g_j = e^(-i dot H_j)(delta t=1)$
+
+-- #text(weight: "bold", fill: gate-blue)[local-TDVP methods:]
+For a local gate generator H acting on qubits [k,k+q], the global TDVP projector can be approximated by a local projector acting only on the local window [k-1,k+q+1] surrounding the gate.(Computation complexity independent of system size N)
 == Continuous error-correction simulation with MPS
 #grid(
   columns:(1fr, 1fr),
