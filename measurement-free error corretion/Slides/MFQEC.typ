@@ -27,7 +27,7 @@
 #let ancilla-red = rgb("#ef4444")
 #let gate-green = rgb("#4ade80")
 #let gate-blue = rgb("#60a5fa")
-#let gate-yellow = rgb("#fbbf24")
+#let gate-yellow = rgb("#d9d02e")
 #let gate-orange = rgb("#fb923c")
 #let gate-red = rgb("#f87171")
 #let gate-purple = rgb("#a78bfa")
@@ -61,56 +61,57 @@
 #page[
   #v(0.3in)
   #align(center)[
-    #text(size: 40pt, weight: "bold", fill: primary-color)[
+    #text(size: 41pt, weight: "bold", fill: primary-color)[
       Optical Control of Rydberg Atom Array
     ]
     #v(0.1in)
-    #text(size: 25pt, weight: "bold", fill: accent-gold)[
+    #text(size: 30pt, weight: "bold", fill: accent-gold)[
       A Measurement-Free and Movement-Free Protocol \
       Using Multi-Species Atoms and Global Control
     ]
     #v(0.1in)
-    #text(size: 20pt)[
+    #text(size: 16pt)[
       Han Wang
     ]
     #v(0.1in)
-    #text(size: 20pt)[
+    #text(size: 16pt)[
       HKUST(GZ)
     ]
     #v(0.1in)
-    #text(size: 20pt)[
+    #text(size: 16pt)[
       #datetime.today().display()
     ]
-    #v(0.3in)
+    #v(-0.4in)
   ]
 ]
 
 #outline-slide()
 
 // Extract methods
-= Main works
+= Summary of Works
 == Main works
 #grid(
   columns:(1fr, 1fr),
   gutter: 1em,
   [
-    #text(weight: "bold", fill: primary-color)[Work 1: Large-scale Atom Array Generation]
+    #text(weight: "bold", fill: primary-color)[Large-scale Atom Array Generation]
     
-    -- Using Spatial Light Modulator (SLM) with automatic differentiation-based method (AD).
+    -- Using Spatial Light Modulator (SLM) with automatic differentiation-based method (AD) @6hs1-4gkw for flexible adjustment.
     
-  ],
-  [
-    #text(weight: "bold", fill: primary-color)[Work 2: Measurement-free and Movement-free QEC Protocol]
+    #text(weight: "bold", fill: primary-color)[Measurement-free and Movement-free QEC Protocol]
     
     -- #text(fill:error-color)[Movement & measurement-free] quantum error correction protocol in Rydberg atom platform with #text(fill:error-color)[global pulse sequence].
+  ],
+  [
+    
     #figure(
-      image("3D_model.pdf", width: 60%),
+      image("3D_model.pdf", width: 90%),
       )
   ],
 )
 #show strong: alert
 
-= Neutral atom platform and Rydberg pulse design
+= Hardware: Neutral atom platform
 // == Platforms for quantum computing and simulation
 // #figure(
 //   image("platform.png", width: 100%),
@@ -120,20 +121,141 @@
 // - Superconducting qubits
 // - Neutral atoms in optical tweezer arrays
 // - Quantum dots
-== Advantage of neutral-atom array platform
+// 
+
+== What is neutral atoms
+#text(weight: "bold")[Core concepts:  ]Using individual atoms (typically Rubidium or Cesium) as qubits.
 #grid(
   columns:(1fr, 1fr),
   gutter: 1em,
   [
-    #text(weight: "bold", fill: primary-color)[1. Long Coherence Times: ] #text(weight: "bold", size: 18pt)[Neutral atom platform:] #text(size: 18pt)[12.6 s@Scholl2024]
+    // #text(weight: "bold", fill: primary-color)[Mechanism: ]
+
+
+    #text(weight: "bold")[Trapping: ]"Optical tweezers" (highly focused laser beams) hold atoms in place.
+
+    #text(weight: "bold")[ Isolation:]vacuum chamber, isolated from environmental noise.
+    #figure(
+      image("SLM.pdf", width: 64%),
+      caption: [The optical setup for hologram generation. @6hs1-4gkw]
+      )
+      
+     
+  ],
+  [
+    #text(weight: "bold")[Generating spot arrays ] #text( size:18pt)[Using spatial light modulator (SLM) to create configurable arrays of optical tweezers.]
+
+   #figure(
+      image("Array_generation_figure.pdf", width: 94%),
+      caption: [Optical tweezer array generation using SLM. @Ma2025Scaling@Labuhn2016Direct]
+      ) <fig-pdf>
+    // #text(weight: "bold", size:18pt)[Main tools:] #text( size:18pt)[The Spatial Light Modulator (SLM), a programmable diffractive element, imprints a phase profile $phi(x,y)$ onto the laser beam.]
+  ],
+)
+#show strong: alert
+
+== How it works: the Rydberg state
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold")[The Qubit States:]
+    Information is stored in the atom's internal energy levels ($|0 angle.r$ , $|1 angle.r$).
+    #v(0.8in)
+    #text(weight: "bold")[The Interaction:] To make qubits "talk" to each other, we excite them to a Rydberg State because of the Rydberg blockade effect.
     
-    #text(weight: "bold", size: 18pt)[Superconducting qubits:] #text(size: 18pt)[recoreds of 1.68ms@Princeton2025]
 
-    #text(weight: "bold", fill: primary-color)[2. Exceptional Scalability:]#text(weight: "bold", size: 18pt)[Neutral atom platform:]#text(size: 18pt)[The 6,100-Qubit Milestone of Cesium atoms@Scholl2024 with 99.98% imaging fidelity]
+    
+      
+     
+  ],
+  [
 
-    #text(weight: "bold", size: 18pt)[Superconducting qubits:]#text(size: 18pt)[1121 physical qubits@IBM_Condor_2024]
+    #figure(
+      image("blockade.png", width: 99%),
+      caption: [Rydberg blockade effect between two atoms @cocchiarella2022multi]
+      )
+  ],
+)
+#show strong: alert
+// - #text(weight: "bold")[Main tools:] The Spatial Light Modulator (SLM), a programmable diffractive element, imprints a phase profile $phi(x,y)$ onto the laser beam.
 
-    #text(weight: "bold", size: 18pt)[Trapped ions:]#text(size: 18pt)[$~$32 - 56 physical qubits@IonQ_EQC_2025]
+== Why neutral atoms?
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+     #text(weight: "bold", fill: primary-color)[ 1. Strong, Tunable Interactions@RevModPhys.82.2313]
+
+ #text(weight: "bold", fill: primary-color)[ 2. Long Coherence Times:] #text(weight: "bold", size: 18pt)[ Neutral atom platform:] #text(size: 18pt)[12.6 s @Scholl2024]
+    
+    #text(weight: "bold", size: 18pt)[Superconducting qubits:] #text(size: 18pt)[  1.68 ms @Princeton2025]
+  
+#figure(
+  text(size: 16pt)[
+    #table(
+      columns: (auto, auto),
+      align: (left, right),
+      stroke: none,
+      inset: (x: 1em, y: 0.4em),
+      table.hline(stroke: 1pt),
+      [Imaging survival\*], [0.9998952(1)],
+      table.hline(stroke: 0.5pt),
+      [Imaging fidelity\*], [0.9999374(8)],
+      table.hline(stroke: 0.5pt),
+      [Vacuum lifetime], [22.9(1) min],
+      table.hline(stroke: 0.5pt),
+      table.cell(fill: gate-yellow.lighten(70%))[Coherence time ($T_2$)], table.cell(fill: gate-yellow.lighten(70%))[12.6(1) s],
+      table.hline(stroke: 0.5pt),
+      [Global single-qubit \ gate fidelity], [0.999834(2)],
+      table.hline(stroke: 1pt),
+    )
+  ],
+  caption: [Data source of 6100-atom array @Scholl2024],
+)
+],
+  [
+    #text(weight: "bold", fill: primary-color)[3. High Gate Fidelity: ]
+ #figure(
+  text(size: 15pt)[
+      #table(
+        columns: (auto, auto, auto),
+        align: (left, center, left),
+        stroke: none,
+        inset: (x: 0.9em, y: 0.5em),
+        table.hline(stroke: 1pt),
+       [Platform], [Fidelity], [Ref],
+        table.hline(stroke: 0.5pt),
+        table.cell(fill: gate-yellow.lighten(70%))[Neutral atoms], table.cell(fill: gate-yellow.lighten(70%))[99.5%], table.cell(fill: gate-yellow.lighten(70%))[60 atoms parallel gate@Evered2023_Fidelity],
+        table.hline(stroke: 0.5pt),
+        table.cell(fill: gate-yellow.lighten(70%))[Neutral atoms], table.cell(fill: gate-yellow.lighten(70%))[99.9%], table.cell(fill: gate-yellow.lighten(70%))[single-pair gate @Tsai2025_Neutral],
+        table.hline(stroke: 0.5pt),
+        [Superconducting], [99.93%], [@Marxer2025_SC],
+        table.hline(stroke: 0.5pt),
+        [Trapped ions], [99.99%], [@IonQ_FourNines_2025],
+        table.hline(stroke: 1pt),
+      )
+  ],
+  caption: [Gate fidelity comparison across platforms]
+    )
+-- #text( size: 16pt)[Surpassed #text(weight: "bold", size: 16pt)[99% threshold], the critical requirement for surface code error correction @PhysRevA.86.032324.]
+
+-- #text(weight: "bold", size: 16pt)[Exponential Improvement:] #text( size: 16pt)[from ~90% in 2018 @PhysRevLett.121.123603 to >99.5% in 2024 @Evered2023HighFidelity@Bluvstein2024Logical.]
+  ],)
+#show strong: alert
+
+== Why neutral atoms?
+
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+
+    #text(weight: "bold", fill: primary-color)[4. Exceptional Scalability:]#text(weight: "bold", size: 18pt)[Neutral atom platform:]#text(size: 18pt,weight: "bold", fill: gate-red)[ 6,100]-Qubit Milestone of Cesium atoms@Scholl2024 with 99.98% imaging survival.
+
+    #text(weight: "bold", size: 18pt)[Superconducting qubits:] #text(size: 18pt,weight: "bold", fill: gate-red)[ 1121] physical qubits @IBM_Condor_2024
+
+    #text(weight: "bold", size: 18pt)[Trapped ions:] #text(size: 18pt,weight: "bold", fill: gate-red)[ $~$32 - 56] physical qubits @IonQ_EQC_2025
     
     // -- Qubit coherence can surpass one second, significantly longer than many competing platforms.@f8xg-w57m@semião2025resonatorassistedquantumtransductionsuperconducting
     //   image("large_array.png", width: 50%),
@@ -143,130 +265,141 @@
   [
     #figure(
       image("large_array.png", width: 100%),
+      caption: [Representative single-shot and rearranged image of single cesium atoms across a 11,998-site tweezer array. Inset: magnified view of a subsection of the stochastically loaded array @Scholl2024]
       )
   ],
 )
 #show strong: alert
 
-== Advantage of neutral-atom array platform
+// == Advantage of neutral-atom array platform
+// #text(weight: "bold", fill: primary-color)[3. High Gate Fidelity: ]
+//  #figure(
+//       table(
+//         columns: (auto, auto, auto),
+//         align: (left, center, left),
+//         stroke: none,
+//         inset: (x: 0.9em, y: 0.5em),
+//         table.hline(stroke: 1pt),
+//        [Platform], [Fidelity], [Ref],
+//         table.hline(stroke: 0.5pt),
+//         table.cell(fill: gate-yellow.lighten(70%))[Neutral atoms], table.cell(fill: gate-yellow.lighten(70%))[99.5%], table.cell(fill: gate-yellow.lighten(70%))[60 atoms parallel gate@Evered2023_Fidelity],
+//         table.hline(stroke: 0.5pt),
+//         table.cell(fill: gate-yellow.lighten(70%))[Neutral atoms], table.cell(fill: gate-yellow.lighten(70%))[99.9%], table.cell(fill: gate-yellow.lighten(70%))[single-pair gate @Tsai2025_Neutral],
+//         table.hline(stroke: 0.5pt),
+//         [Superconducting], [99.93%], [@Marxer2025_SC],
+//         table.hline(stroke: 0.5pt),
+//         [Trapped ions], [99.99%], [@IonQ_FourNines_2025],
+//         table.hline(stroke: 1pt),
+//       ),
+//     )
+// -- Surpassed #text(weight: "bold", size: 18pt)[99% threshold], the critical requirement for surface code error correction @PhysRevA.86.032324.
 
+// -- #text(weight: "bold", size: 18pt)[Exponential Improvement:] from ~90% in 2018 @PhysRevLett.121.123603 to >99.5% in 2024 @Evered2023HighFidelity@Bluvstein2024Logical.
+//     == Advantage of neutral-atom array platform
+// #grid(
+//   columns: (1fr, 1fr),
+//   gutter: 1em,
+//   [
+    
+    
+//     #text(weight: "bold", fill: primary-color)[4. Strong, Tunable Interactions@RevModPhys.82.2313]
+
+//     #text(weight: "bold", size: 18pt)[Neutral atoms:] #text(size: 18pt)[Long-range ($R~10mu$m) with Van der Vaals and Dipole-dipole interactions@Evered2023]
+
+//     $ V_"dd" = C_3 \/ R^3 $ 
+//      $ V_"vdW" = C_6 \/ R^6 $
+
+//     #text(weight: "bold", size: 18pt)[Superconducting qubits:] #text(size: 18pt)[Nearest-neighbor only@Stehlik2021]
+
+//     #text(weight: "bold", size: 18pt)[Trapped ions:] #text(size: 18pt)[Coulomb Interaction, hard to adjust@Bruzewicz2019]
+//   ],
+//   [
+   
+    
+
+//     #figure(
+//       image("interaction.png", width: 110%),
+//       caption: [Two-body interaction strength for
+// ground-state Rb atoms, Rb atoms excited to the 100s level,
+// and ions. @Saffman2010Quantum]
+//     )
+//   ],
+// )
+
+
+== Quantum error correction
 #grid(
   columns:(1fr, 1fr),
   gutter: 1em,
   [
-    #text(weight: "bold", fill: primary-color)[3. High Gate Fidelity: ]
-    #text(weight: "bold", size: 18pt)[Neutral atoms:] 
-
-    -- #text(size: 18pt)[99.5% in large-scale parallel operations(on 60 atoms)@Evered2023_Fidelity]
-    
-    -- #text(size: 18pt)[99.9% in single-pair lab demonstrations@Tsai2025_Neutral]
-
-    #text(size: 18pt)[Comparable to Superconducting qubits (99.93%@Marxer2025_SC) and Trapped ions (99.99%@IonQ_FourNines_2025).] 
-    
-
-
-    #text(weight: "bold", fill: primary-color)[2. Strong, Tunable Interactions@RevModPhys.82.2313]
-    
-    #text(weight: "bold", size: 18pt)[Neutral atoms:] #text(size: 18pt)[Long-range ($~10mu$m) with Van der Vaals/Dipole-dipole interactions@Evered2023]
-
-    
-    
+    #text(weight: "bold", fill: primary-color)[Code space, redundancy, syndrome, error correction.: ]
+#align(center, canvas(length:0.82cm, {
+  import draw: *
+  let s(it) = text(it, 16pt)
+  content((3.5, 4.5), s[Physical space])
+  circle((0, 0), radius: (3, 5))
+  circle((0, 3), radius: 0.1, fill: black, stroke: none, name: "A")
+  circle((0, -3), radius: 0.1, fill: black, stroke: none, name: "B")
+  content((rel: (0, -1), to: "B"), s[Code space])
+  content((rel: (0.6, 0), to: "A"), s[$|overline(0)angle.r$])
+  content((rel: (0.6, 0), to: "B"), s[$|overline(1)angle.r$])
+  line((-4, 0), (4, 0), stroke: (dash: "dashed"))
+  let p0 = (anchor: 150deg, name: "B")
+  let p1 = (rel: (-1.8, 1), to: "B")
+  let p2 = (rel: (-1.5, 1.8), to: "B")
+  line(p0, p1, mark: (end: "straight"), stroke: red)
+  line(p1, p2, mark: (end: "straight"), stroke: red)
+  line(p2, p0, mark: (end: "straight"), stroke: blue)
+  content((-2.3, -0.7), text(blue, s[QEC algorithm //$arrow.r$ Hamiltonian?
+  ]))
+  content((-3.6, -2), text(red, s[Pauli error]))
+  circle(p1, radius: 0.1, fill: red, stroke: none)
+  circle(p2, radius: 0.1, fill: red, stroke: none)
+  line("A", "B", mark: (end: "straight", start: "straight"))
+  content((2.5, 1), s[Code distance: $d$])
+}))
+// - #text(size: 18pt)[]
      
   ],
   [
-    #text(weight: "bold", size: 18pt)[Superconducting qubits:] #text(size: 18pt)[Nearest-neighbor only@Stehlik2021]
-
-    #text(weight: "bold", size: 18pt)[Trapped ions:] #text(size: 18pt)[Coulomb Interaction, hard to adjust@Bruzewicz2019]
-    #figure(
-      image("interaction.png", width: 100%),
-      )
-    
-    // Draw atom array image representation (black background with white dots)
-      // #canvas(length: 1cm, {
-      //   import draw: *
-        
-      //   // Black background
-      //   rect((1.0, 1.0), (9, 9), fill: black, stroke: none)
-        
-      //   // Draw circular arrangement of atoms
-      //   let center-x = 5
-      //   let center-y = 5
-      //   let max-radius = 3.8
-        
-      //   // Create grid of atoms in circular pattern
-      //   for row in range(0, 28) {
-      //     for col in range(0, 28) {
-      //       let x = col * 0.5
-      //       let y = row * 0.5
-      //       let dx = x - center-x
-      //       let dy = y - center-y
-      //       let dist = calc.sqrt(dx * dx + dy * dy)
-            
-      //       if dist < max-radius and dist > 0.5 {
-      //         circle((x, y), radius: 0.08, fill: white, stroke: none)
-      //       }
-      //     }
-      //   }
-        
-        // Add some empty spots in pattern to show atom arrangement
-        // (HKUST-GZ logo area left empty as in the original)
-      // })
-    ]
-  ) 
-#show strong: alert
-
-== Large-scale neutral atom array generation
-#grid(
-  columns:(1fr, 1fr),
-  gutter: 1em,
-  [
-    #text(weight: "bold", fill: primary-color)[1. Method of generating spot arrays ]
-    
-    -- Calculating the phase pattern $phi(x,y)$ shown on the spatial light modulator.
-    #figure(
-      image("Array_generation_figure.pdf", width: 80%),
-      ) <fig-pdf>
-     
-  ],
-  [
-    #text(weight: "bold", fill: primary-color)[2. Method of trapping atoms]
-    
-    -- The optical tweezers($< 1 mu m$ spots) with highly focused laser beams will hold individual atoms.
-    #figure(
-      image("SLM.pdf", width: 61%),
-      )
+    #text(weight: "bold", fill: primary-color)[Toric Code Hamiltonian:]
+$ H = -sum_s S_s - sum_p P_p $
+where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
+#figure(
+  image("toriccode.png", width: 100%),
+)
+- Topological protected Hamiltonian.
+- Perform on rotated code lattice.
   ],
 )
 #show strong: alert
-- #text(weight: "bold")[Main tools:] The Spatial Light Modulator (SLM), a programmable diffractive element, imprints a phase profile $phi(x,y)$ onto the laser beam.
+// == Bottleneck: Collisional blockaded effect 
+// #grid(
+//   columns:(1fr, 1fr),
+//   gutter: 1em,
+//   [
+//     #text(weight: "bold", fill: primary-color)[Preparation and operation latency: ]
+    
+//     #text(weight: "bold", size: 18pt )[Collisional blockaded effect:] #text(size: 18pt)[(50% loading efficiency)@Fung_2015.] 
+//     #figure(
+//       image("collisional_blockade.png", width: 80%),
+//       )
+    
+//     -- #text(size: 18pt)[Requiring #text(weight: "bold", size: 18pt )[rearrangement] with fast, flexible dynamic control and least computation cost @aah3752.] 
+//   ],
+//   [
+//     #text(weight: "bold", fill: primary-color)[Dynamic Array Generation via AD]
+    
+//     #text(weight: "bold", size: 18pt)[Algorithm for hologram calculation:] 
+//     #figure(
+//        image("ad_evolve.png", width: 86%),
+//        )
+//     -- #text(size: 18pt)[high efficiency, better explainability and better numerical stability.] 
+//   ],
+// )
+// #show strong: alert
 
-== Critical bottlenecks in large array generation
-#grid(
-  columns:(1fr, 1fr),
-  gutter: 1em,
-  [
-    #text(weight: "bold", fill: primary-color)[preparation and operation latency: ]
-    
-    #text(weight: "bold", size: 18pt )[Collisional blockaded effect:] #text(size: 18pt)[(50% loading efficiency)@Fung_2015.] 
-    #figure(
-      image("collisional_blockade.png", width: 60%),
-      )
-    
-    -- #text(size: 18pt)[Requiring rearrangement with fast, flexible dynamic control and least computation cost@aah3752.] 
-  ],
-  [
-    #text(weight: "bold", fill: primary-color)[Dynamic Array Generation via AD]
-    
-    #text(weight: "bold", size: 18pt)[Algorithm for hologram calculation:] 
-    #figure(
-       image("ad_evolve.png", width: 86%),
-       )
-    -- #text(size: 18pt)[high efficiency, better explainability and better numerical stability.] 
-  ],
-)
-#show strong: alert
-
-== Quantum error correction on neutral atom array platform
+== Quantum Error Correction (QEC) on neutral atom array platform
 
 // Timeline labels
 #v(0.1in)
@@ -274,13 +407,13 @@
     columns: (1fr, 2fr, 3fr),
     gutter: 0.2in,
     align(left)[
-      #text(weight: "bold", fill: accent-gold, size: 18pt)[Gate Operation\ ($~ 1mu s$)]
+      #text(weight: "bold", fill: accent-gold, size: 20pt)[Gate Operation\ ($~ 1mu s$)]
     ],
     align(center)[
-      #text(weight: "bold", size: 18pt, fill: dark-blue,)[Measurement & Movement Process]
+      #text(weight: "bold", size: 24pt, fill: dark-blue,)[(Arrow shows the time scale)]
     ],
     align(center)[
-      #text(weight: "bold", size: 18pt)[Extended Duration\ ($~$ hundreds of $mu s$)]
+      #text(weight: "bold", size: 23pt)[Measurement & movement \ ($~$ hundreds of $mu s$)]
     ]
   )
   // Draw timeline arrow
@@ -313,85 +446,53 @@
     let pts = ((total-width - 3, -0.5), (total-width - 3, arrow-height+0.5), (total-width, arrow-height/2))
     line(..pts, close: true, fill: gate-black, stroke: none)
   })
-  
+  #v(-0.4in)
   #grid(
     columns: (1fr, 2fr),
     gutter: 0.5in,
     [
       #text(size: 19pt, weight: "bold")[Quantum Gates:]
-      #text(size: 18pt)[Operations are incredibly fast, taking approximately 1 microsecond.]
+      #text(size: 19pt)[Operations are incredibly fast, taking approximately #text(weight: "bold" , fill: gate-red)[1 $mu s$.]]
     ],
     [
-      #text(size: 19pt, weight: "bold")[Correction:] #text(size: 18pt)[Conventional QEC requires operations that are dramatically slower:@Bluvstein_2023@Graham_2023]
+      #text(size: 19pt, weight: "bold")[Correction:] #text(size: 19pt)[Conventional QEC requires operations that are dramatically slower:@Bluvstein_2023@Graham_2023]
       #list(
-        marker: text(size: 18pt)[#sym.bullet],
-        text(size: 17pt)[Mid-circuit Measurement: ~100--500 #sym.mu\s (fluorescence detection)],
-        text(size: 17pt)[Atom Shuttling/Movement: ~10--100 #sym.mu\s. @Bluvstein_2022@Norcia_2023]
+        marker: text(size: 19pt)[#sym.bullet],
+        text(size: 19pt, fill: gate-red)[Mid-circuit Measurement: ~100--500 #sym.mu\s (fluorescence detection)],
+        text(size: 19pt, fill: gate-red)[Atom Shuttling/Movement: ~10--100 #sym.mu\s. @Bluvstein_2022@Norcia_2023]
       )
     ]
   )
 
-  #text(size: 19pt, weight: "bold")[Consequence:] #text(size: 17pt)[The quantum state decoheres while waiting for slow measurements and movements.]
+  #text(size: 19pt, weight: "bold")[Consequence:] #text(size: 19pt)[The quantum state decoheres for long operation times]
 
-= A Protocol to Eliminate Measurement Latency
+== Question
+#text(weight: "bold", size: 22pt)[Can we design a QEC protocol that eliminates both measurement and movement, using only fast, global quantum gates?]
+#figure(
+  image("toriccode.png", width: 90%),
+)
+
+#text(weight: "bold", size: 22pt)[ ]
+
+= Error Correction Protocol
 == Measurement-free and movement-free QEC protocol@Bluvstein2024_Nature
+#set figure.caption(position: bottom)
+#show figure.caption: set align(left)
 #figure(
-  image("QEC_withmeasure.pdf", width: 90%),
+  image("QEC_withmeasure.pdf", width: 86%),
+  caption: [Schematic of the logical processor, split into three zones:\ storage, entangling and readout (see Extended Data@Saffman2010Quantum]
 )
-== Measurement-free and movement-free QEC protocol
-#text(size: 25pt, weight: "bold")[Measurement-Free:] #text(size: 22pt)[Replaces slow, destructive fluorescence
-measurements with fully coherent operations. Syndrome
-information is mapped to ancilla qubits, which then trigger
-corrective gates without classical feedback..]
+// == Measurement-free and movement-free QEC protocol
+// #text(size: 25pt, weight: "bold")[Measurement-Free:] #text(size: 22pt)[Replaces slow, destructive fluorescence
+// measurements with fully coherent operations. Syndrome
+// information is mapped to ancilla qubits, which then trigger
+// corrective gates without classical feedback..]
 
-#text(size: 25pt, weight: "bold")[Movement-Free:] #text(size: 22pt)[Eliminates the need for atom shuttling. The atoms remain in a static lattice, and all interactions are mediated by precisely shaped, global laser pulses.]
-#v(0.4in)
-#text(size: 30pt, weight: "bold", fill: accent-gold)[Key Insight:] #text(size: 22pt)[By executing the entire QEC cycle -- syndrome mapping, error correction, and ancilla reset -- unitarily, we remove the primary sources of latency and decoherence.]
+// #text(size: 25pt, weight: "bold")[Movement-Free:] #text(size: 22pt)[Eliminates the need for atom shuttling. The atoms remain in a static lattice, and all interactions are mediated by precisely shaped, global laser pulses.]
+// #v(0.4in)
+// #text(size: 30pt, weight: "bold", fill: accent-gold)[Key Insight:] #text(size: 22pt)[By executing the entire QEC cycle -- syndrome mapping, error correction, and ancilla reset -- unitarily, we remove the primary sources of latency and decoherence.]
 
-== Background: Quantum error correction
-#grid(
-  columns:(1fr, 1fr),
-  gutter: 1em,
-  [
-    #text(weight: "bold", fill: primary-color)[Code space, redundancy, syndrome, error correction.: ]
-#align(center, canvas(length:0.6cm, {
-  import draw: *
-  let s(it) = text(it, 10pt)
-  content((3.5, 4.5), s[Physical space])
-  circle((0, 0), radius: (3, 5))
-  circle((0, 3), radius: 0.1, fill: black, stroke: none, name: "A")
-  circle((0, -3), radius: 0.1, fill: black, stroke: none, name: "B")
-  content((rel: (0, -1), to: "B"), s[Code space])
-  content((rel: (0.6, 0), to: "A"), s[$|overline(0)angle.r$])
-  content((rel: (0.6, 0), to: "B"), s[$|overline(1)angle.r$])
-  line((-4, 0), (4, 0), stroke: (dash: "dashed"))
-  let p0 = (anchor: 150deg, name: "B")
-  let p1 = (rel: (-1.8, 1), to: "B")
-  let p2 = (rel: (-1.5, 1.8), to: "B")
-  line(p0, p1, mark: (end: "straight"), stroke: red)
-  line(p1, p2, mark: (end: "straight"), stroke: red)
-  line(p2, p0, mark: (end: "straight"), stroke: blue)
-  content((-1.9, -0.7), text(blue, s[QEC algorithm $arrow.r$ Hamiltonian?]))
-  content((-3.3, -2), text(red, s[Pauli error]))
-  circle(p1, radius: 0.1, fill: red, stroke: none)
-  circle(p2, radius: 0.1, fill: red, stroke: none)
-  line("A", "B", mark: (end: "straight", start: "straight"))
-  content((2.2, 1), s[Code distance: $d$])
-}))
-- #text(size: 18pt)[We require a large code distance(d), Logical qubits(k) and small physical qubits(n) to achieve fault-tolerant quantum computation.]
-     
-  ],
-  [
-    #text(weight: "bold", fill: primary-color)[Toric Code Hamiltonian:]
-$ H = -sum_s S_s - sum_p P_p $
-where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
-#figure(
-  image("toriccode.png", width: 100%),
-)
-- Stabilized: Eigenvalue of all stabilizers is $+1$.
-  ],
-)
-#show strong: alert
+
 == Measurement-free and movement-free error correction model
 
 #grid(
@@ -424,10 +525,9 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 #text(weight: "bold",size: 20pt)[The full cycle for one error type is
 executed in two main phases:]
 
-• #text(weight: "bold",size: 20pt)[Error Check:] Parity information from four data qubits mapped onto a central ancilla.
+• #text(weight: "bold",size: 20pt)[Error Check:] Information mapping, data qubits $->$ ancilla qubits.
 
-• #text(weight: "bold",size: 20pt)[Error Corection:] The resulting state of the ancillas then controls the data qubits, which conditionally flips the erroneous
-data qubit to correct the error.
+• #text(weight: "bold",size: 20pt)[Error Corection:] The ancillas controls the data qubits with conditional flip
 
 • #text(weight: "bold",size: 20pt)[Reset:] The ancillas are reset to $|0 angle.r$ to prepare for the next cycle. 
 #figure(
@@ -460,13 +560,13 @@ data qubit to correct the error.
 #figure(
       image("circuits_for_paritycheck_som.pdf", width: 75%),
       )
-- #text(weight: "bold",size: 20pt)[Effect under global sequence:] When one of the ancilla qubits is in $|1 angle.r$ state, the corresponding data qubit will experience a state flip.
+- #text(weight: "bold",size: 20pt)[Solution:] Add a double-controlled NOT (CCNOT) gate followed by OR-gate in the global pulse sequence to solve the above conflict.
 
-== Measurement-free and movement-free error correction model
-#figure(
-  image("model5.png", width: 62%),
-)
-- #text(weight: "bold",size: 20pt)[Our solution:] We add a double-controlled NOT (CCNOT) gate in the global pulse sequence to solve the above conflict.
+// == Measurement-free and movement-free error correction model
+// #figure(
+//   image("model5.png", width: 62%),
+// )
+// - #text(weight: "bold",size: 20pt)[Solution:] Add a double-controlled NOT (CCNOT) gate in the global pulse sequence to solve the above conflict.
 
 == Pulse sequence design:
 #grid(
@@ -490,7 +590,7 @@ data qubit to correct the error.
 - The Rydberg interaction $V_"dd" >> V_"Vdws"$
 
 
-= Different simulation methods(Pulse-level vs MPS)
+= Numerical Methods for Simulation 
 == Unit cell tests under pulse-level simulation
 #grid(
   columns:(1fr, 1.5fr),
@@ -542,11 +642,11 @@ data qubit to correct the error.
 // - $|11011 angle.r -> |11011 angle.r$, Fidelity = 0.9996
 
 == Bottlenecks in pulse-level simulation
-#text(weight: "bold")[The Scalability Bottleneck:] 
+#text(weight: "bold")[Scalability bottleneck:] 
 
 Exponential growth of Hilbert space size with increasing atom number.
 
-#text(weight: "bold")[Solution to the Bottleneck:] 
+#text(weight: "bold")[Solutions:] 
 
 Tensor Networks (Matrix Product States, MPS):
 
@@ -857,7 +957,7 @@ simulations of larger arrays.
 == Simulation results with QCA
 
 == Tensor Networks (MPS)
-- Approach: Compression
+// - Approach: Compression
 
 - Mechanism:
 -- Decomposes the global state into a chain of local tensors connected by virtual bonds.
@@ -877,10 +977,57 @@ simulations of larger arrays.
   caption: [Mapping the 2D lattice to a 1D chain for MPS simulation.]
 )
 
--- Simulation: Use the time- evolving block decimation (TEBD) to evolve the MPS.
+-- Simulation: Use the time- evolving block decimation (TEBD) to evolve the MPS with package `https://github.com/jcmgray/quimb.git` .
 
--- Contraction and Truncation to control bond dimension.
 
+== Continuous error-correction simulation with MPS
+#grid(
+  columns:(1fr, 1fr),
+  gutter: 1em,
+  [
+    #text(weight: "bold", fill: primary-color)[Add exactly one error between two correction rounds ]
+
+    - #text(weight: "bold", fill: gate-orange)[With correction(orange line):] The system's correction protocol is able to correct one single error.
+
+    - #text(weight: "bold", fill: gate-blue)[Without correction(blue line):] The system rapidly deviates from the ground state due to accumulating errors.
+    
+
+  ],
+  [
+    // #text(weight: "bold", fill: primary-color)[Errored condition: ]
+    #figure(
+      image("continue.pdf", width: 120%),
+      )
+  ],
+)
+#show strong: alert
+
+== Prospects
+#text(weight: "bold", fill: primary-color)[Key areas for future work include: ]
+
+•  #text(weight: "bold", fill: black, size:18pt)[Realize in Surface code: ]
+
+Demonstrating error correction in the more experimentally relevant surface code.
+
+•  #text(weight: "bold", fill: black, size:18pt)[More realistic condition:]
+Explore the performance under random errors, noise, atom loss, and other realistic imperfections.
+
+#show: appendix
+
+#slide[
+  #v(1fr)
+  #align(center)[
+    #v(1.9in)
+    #text(size: 58pt, weight: "bold", fill: primary-color)[
+      Thank You
+    ]
+    #v(-0.5in)
+    #line(length: 40%, stroke: 1pt + gray)
+  ]
+  #v(1fr)
+]
+// -- Contraction and Trunca  tion to control bond dimension.
+= Appendix
 == Time-Evolving Block Decimation (TEBD)
 #grid(
   columns:(1fr, 1fr),
@@ -902,7 +1049,6 @@ simulations of larger arrays.
   ],
 )
 #show strong: alert
-
 == Limitations of TEBD
 #grid(
   columns:(1fr, 1fr),
@@ -1047,54 +1193,23 @@ simulations of larger arrays.
 )
 
 == Local-TDVP algorithm
-- We intend to develop an algorithm for efficiently simulating large-scale Rydberg arrays with long-range interactions using local-TDVP algorithm@sander2025quantumcircuitsimulationlocal with Julia language.
+- We intend to develop an package for efficiently simulating large-scale Rydberg arrays with long-range interactions using local-TDVP algorithm@sander2025quantumcircuitsimulationlocal with Julia language.
 
 -- #text(weight: "bold", fill: gate-blue)[TDVP methods for discrite unitary gates:] Treating each gate as a discrete time evolution $g_j = e^(-i dot H_j)(delta t=1)$
 
 -- #text(weight: "bold", fill: gate-blue)[local-TDVP methods:]
 For a local gate generator H acting on qubits [k,k+q], the global TDVP projector can be approximated by a local projector acting only on the local window [k-1,k+q+1] surrounding the gate.(Computation complexity independent of system size N)
-== Continuous error-correction simulation with MPS
-#grid(
-  columns:(1fr, 1fr),
-  gutter: 1em,
-  [
-    #text(weight: "bold", fill: primary-color)[Active error correction VS no correction: ]
 
-    - #text(weight: "bold", fill: gate-orange)[With correction(orange line):] The system's probability of being in the correct ground state remains near unity.
 
-    - #text(weight: "bold", fill: gate-blue)[Without correction(blue line):] The system rapidly deviates from the ground state due to accumulating errors.
-    
+// == Conclusion
+// - We have designed and validated a measurement-free and movement-free QEC protocol
 
-  ],
-  [
-    // #text(weight: "bold", fill: primary-color)[Errored condition: ]
-    #figure(
-      image("continue.pdf", width: 120%),
-      )
-  ],
-)
-#show strong: alert
+// - By combining a multi- species architecture with global, species-selective pulses, the scheme eliminates the primary bottlenecks of measurement latency and atom shuttling.
 
-== Conclusion
-- We have designed and validated a measurement-free and movement-free QEC protocol
+// - Pulse-level and tensor network simulations confirm the protocol's ability to coherently detect and autonomously correct errors, maintaining high fidelity over many cycles.
 
-- By combining a multi- species architecture with global, species-selective pulses, the scheme eliminates the primary bottlenecks of measurement latency and atom shuttling.
+// - This approach significantly reduces QEC cycle times and simplifies experimental complexity, accelerating progress in neutral atom quantum computing.
 
-- Pulse-level and tensor network simulations confirm the protocol's ability to coherently detect and autonomously correct errors, maintaining high fidelity over many cycles.
-
-- This approach significantly reduces QEC cycle times and simplifies experimental complexity, accelerating progress in neutral atom quantum computing.
-
-== Prospects
-#text(weight: "bold", fill: primary-color)[Key areas for future work include: ]
-
-•  #text(weight: "bold", fill: black, size:18pt)[Scaling to Larger Codes: ]
-
-Demonstrating error suppression with higher-distance toric codes.
-
-•  #text(weight: "bold", fill: black, size:18pt)[Rigorous Fault-Tolerance Analysis:]
-
-Performing a full noise threshold analysis
-under realistic experimental conditions.
 
 // •  #text(weight: "bold", fill: black, size:18pt)[Implementing Logical Gates:]
 
@@ -1137,30 +1252,7 @@ species Rydberg atom arrays.
 //   image("errorco.png", width: 80%),
 // )
 
-#page[
-  #v(1fr)
-  #align(center)[
-    #v(1.9in)
-    #text(size: 58pt, weight: "bold", fill: primary-color)[
-      Thank You
-    ]
-    #v(-0.5in)
-    #line(length: 40%, stroke: 1pt + gray)
-    #v(0.3in)
-    #text(size: 20pt)[
-      Han Wang
-    ]
-    #v(0.1in)
-    #text(size: 16pt, fill: gray)[
-      HKUST(GZ)
-    ]
-    #v(0.1in)
-    #text(size: 14pt, fill: gray)[
-      #datetime.today().display()
-    ]
-  ]
-  #v(1fr)
-]
+
 
 == References
 
