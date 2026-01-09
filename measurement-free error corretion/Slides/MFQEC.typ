@@ -66,7 +66,7 @@
     ]
     #v(0.1in)
     #text(size: 30pt, weight: "bold", fill: accent-gold)[
-      A Measurement-Free and Movement-Free Protocol \
+      A Measurement-Free and Movement-Free \ Error Correction Protocol \
       Using Multi-Species Atoms and Global Control
     ]
     #v(0.1in)
@@ -366,9 +366,8 @@
 $ H = -sum_s S_s - sum_p P_p $
 where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 #figure(
-  image("toriccode.png", width: 100%),
+  image("toriccode.png", width: 120%),
 )
-- Topological protected Hamiltonian.
 - Perform on rotated code lattice.
   ],
 )
@@ -467,7 +466,7 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
   #text(size: 19pt, weight: "bold")[Consequence:] #text(size: 19pt)[The quantum state decoheres for long operation times]
 
 == Question
-#text(weight: "bold", size: 22pt)[Can we design a QEC protocol that eliminates both measurement and movement, using only fast, global quantum gates?]
+#text(weight: "bold", size: 22pt)[Can we design a QEC protocol that eliminates both measurement and movement, using only fast, global pulse sequence?]
 #figure(
   image("toriccode.png", width: 90%),
 )
@@ -523,7 +522,7 @@ where $S_s = product_(i in s)Z_i, P_p=product_(j in p) X_j $
 
 == Measurement-free and movement-free error correction model
 #text(weight: "bold",size: 20pt)[The full cycle for one error type is
-executed in two main phases:]
+executed in three main phases:]
 
 • #text(weight: "bold",size: 20pt)[Error Check:] Information mapping, data qubits $->$ ancilla qubits.
 
@@ -1011,6 +1010,9 @@ Demonstrating error correction in the more experimentally relevant surface code.
 
 •  #text(weight: "bold", fill: black, size:18pt)[More realistic condition:]
 Explore the performance under random errors, noise, atom loss, and other realistic imperfections.
+
+•  #text(weight: "bold", fill: black, size:18pt)[Simulation with TDVP method:]
+For higher accuracy and efficiency, use the local time-dependent variational principle (TDVP) method for MPS evolution with Julia language.
 
 #show: appendix
 
