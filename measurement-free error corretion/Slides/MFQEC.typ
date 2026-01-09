@@ -1009,9 +1009,11 @@ simulations of larger arrays.
 Demonstrating error correction in the more experimentally relevant surface code.
 
 •  #text(weight: "bold", fill: black, size:18pt)[More realistic condition:]
+
 Explore the performance under random errors, noise, atom loss, and other realistic imperfections.
 
 •  #text(weight: "bold", fill: black, size:18pt)[Simulation with TDVP method:]
+
 For higher accuracy and efficiency, use the local time-dependent variational principle (TDVP) method for MPS evolution with Julia language.
 
 #show: appendix
@@ -1037,7 +1039,7 @@ For higher accuracy and efficiency, use the local time-dependent variational pri
   [
     #text(weight: "bold", fill: primary-color)[Highly effective for circuits with limited entanglement growth and short-range interactions. ]
 
-    - #text(weight: "bold", fill: gate-orange)[Decompose:] Time-evolution operator $->$ sequence of two-qubit gates (via Trotter-Suzuki decomposition).
+    - #text(weight: "bold", fill: gate-orange)[Decompose:] Time-evolution operator $->$ sequence of two-qubit MPO (via Trotter-Suzuki decomposition).
 
     - #text(weight: "bold", fill: gate-blue)[Apply and truncate:] Apply gates $->$ local truncation(via Singular Value Decomposition) to keep bond dimension manageable.
     
