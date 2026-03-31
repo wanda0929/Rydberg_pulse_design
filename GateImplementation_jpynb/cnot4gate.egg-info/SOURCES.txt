@@ -1,0 +1,15 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+setup.py
+cnot4gate/__init__.py
+cnot4gate/core.py
+cnot4gate/visualization.py
+cnot4gate.egg-info/PKG-INFO
+cnot4gate.egg-info/SOURCES.txt
+cnot4gate.egg-info/dependency_links.txt
+cnot4gate.egg-info/requires.txt
+cnot4gate.egg-info/top_level.txt
+tests/__init__.py
+tests/test_core.py
